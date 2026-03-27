@@ -1,0 +1,528 @@
+/* ================ 全局变量（统一管理，一改全改） ================ */
+:root {
+  --pageWidth: 430px;
+  --pagePading: 16px;
+  --brand-primary: #5fe0b3;
+  --brand-primary-hover: #7be8c1;
+  --brand-primary-active: #43c89d;
+  --brand-primary-soft: rgba(95, 224, 179, 0.14);
+  --brand-primary-border: rgba(95, 224, 179, 0.24);
+
+  --surface-page: #0d1117;
+  --surface-panel: #131a22;
+  --surface-card: #18212b;
+  --surface-card-soft: #1d2834;
+  --surface-elevated: #243140;
+
+  --text-primary: #f3f7fb;
+  --text-secondary: #a8b3c2;
+  --text-muted: #738091;
+  --text-placeholder: #5d6978;
+  --text-inverse: #0d1117;
+
+  --color-up: #18c37e;
+  --color-down: #f04452;
+  --color-warning: #f4b740;
+  --color-info: #67b7ff;
+
+  --border-soft: rgba(255, 255, 255, 0.06);
+  --border-default: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(95, 224, 179, 0.22);
+
+  --radius-s: 12px;
+  --radius-m: 18px;
+  --radius-l: 24px;
+
+  --shadow-card: 0 18px 48px rgba(0, 0, 0, 0.28);
+  --shadow-float: 0 18px 60px rgba(0, 0, 0, 0.36);
+
+  --gradient-brand: linear-gradient(135deg, #5fe0b3 0%, #9cf3d3 100%);
+  --gradient-panel: linear-gradient(180deg, #1a2430 0%, #131a22 100%);
+  --gradient-hero:
+    radial-gradient(circle at top left, rgba(95, 224, 179, 0.18), transparent 36%),
+    radial-gradient(circle at top right, rgba(103, 183, 255, 0.12), transparent 24%),
+    linear-gradient(180deg, #18212b 0%, #0d1117 100%);
+
+  // 兼容旧变量，逐步迁移时不打断现有页面
+  --mainColor: var(--brand-primary);
+  --btnColor: var(--brand-primary);
+  --greenTextColor: var(--brand-primary);
+  --colorUp: var(--color-down);
+  --colorDown: var(--color-up);
+  --colorUp2: var(--color-up);
+  --colorDown2: var(--color-down);
+
+  --bodyBgColor: var(--surface-page);
+  --secondBoxBg: var(--surface-panel);
+  --thirdBoxBg: var(--surface-card);
+
+  --textMain: var(--text-primary);
+  --textSecond: var(--text-secondary);
+  --textThird: var(--text-muted);
+  --textDark: var(--text-primary);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+
+.langIconEl{
+  background: url('~/assets/images/icon/langIcon.png') no-repeat 100%/100%;
+}
+.topStickyEl{
+  background: rgba(13, 17, 23, 0.86);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border-soft);
+}
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--textMain);
+  background:
+    radial-gradient(circle at top, rgba(95, 224, 179, 0.08), transparent 24%),
+    linear-gradient(180deg, #111823 0%, var(--bodyBgColor) 16%, var(--bodyBgColor) 100%);
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+  font-family: "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+  --van-back-top-background:var(--mainColor);
+  --van-text-color: var(--text-primary);
+  --van-primary-color: var(--brand-primary);
+  --van-tabbar-background: rgba(19, 26, 34, 0.94);
+  --van-tabbar-item-text-color: var(--text-muted);
+  --van-tabbar-item-active-color: var(--brand-primary);
+  --van-border-color: var(--border-soft);
+  --van-overlay-background: rgba(4, 7, 12, 0.72);
+  --van-popup-background: var(--surface-card);
+  --van-picker-background: transparent;
+  --van-picker-mask-color: linear-gradient(180deg, rgba(24, 33, 43, 0.92), rgba(24, 33, 43, 0.56)),
+    linear-gradient(0deg, rgba(24, 33, 43, 0.92), rgba(24, 33, 43, 0.56));
+  --van-picker-option-text-color: var(--text-secondary);
+  --van-picker-option-selected-text-color: var(--text-primary);
+  --van-picker-confirm-action-color: var(--brand-primary);
+  --van-picker-cancel-action-color: var(--text-secondary);
+  --van-text-color-2: var(--text-secondary);
+  --van-text-color-3: var(--text-muted);
+
+.depositPage,.loginPage{
+// input 错误提示颜色 边框， 文字color
+--ui-error:#FFDA1C !important;
+}
+}
+
+
+.shadow-none{
+  --ui-border-accented:0 0 transparent
+}
+
+.inp-shadow{
+  box-shadow: 0px 0px 6px 0px rgba(2, 26, 123, 0.14);
+}
+
+.van-popup--bottom {
+  overflow: hidden;
+  border-radius: 24px 24px 0 0 !important;
+  background:
+    radial-gradient(circle at top left, rgba(95, 224, 179, 0.12), transparent 24%),
+    linear-gradient(180deg, #1a2430 0%, #131a22 100%) !important;
+  border-top: 1px solid var(--border-soft);
+  box-shadow: 0 -18px 48px rgba(0, 0, 0, 0.36);
+}
+
+.van-popup--bottom .van-picker {
+  background: transparent !important;
+  color: var(--text-primary);
+}
+
+.van-popup--bottom .van-picker__toolbar {
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.van-popup--bottom .van-picker__cancel,
+.van-popup--bottom .van-picker__confirm {
+  min-width: 72px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.van-popup--bottom .van-picker__cancel {
+  color: var(--text-secondary);
+}
+
+.van-popup--bottom .van-picker__confirm {
+  color: var(--brand-primary);
+}
+
+.van-popup--bottom .van-picker__columns {
+  padding: 8px 0 calc(env(safe-area-inset-bottom, 0px) + 14px);
+}
+
+.van-popup--bottom .van-picker-column__item {
+  color: var(--text-secondary);
+  font-size: 16px;
+}
+
+.van-popup--bottom .van-picker-column__item--selected {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.van-popup--bottom .van-picker__frame {
+  left: 12px !important;
+  right: 12px !important;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* 带背景色的文字标签默认具备防溢出能力，避免非独占一行时撑破布局 */
+.codeBadge,
+.identityChip,
+.memberBadge,
+.typeBadge,
+.featuredType,
+.newsType,
+.heroBadge,
+.changeBadge,
+.loadingBadge,
+.realModalBadge,
+.statusBadge,
+.statusPill {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  line-height: 1.35;
+}
+
+/* ================ 常用文本颜色类 ================ */
+.greenText   { color: var(--greenTextColor); }
+.mainText    { color: var(--mainColor); }
+.colorUp     { color: var(--colorUp); }
+.colorDown   { color: var(--colorDown); }
+.colorUp2    { color: var(--colorUp2); }
+.colorDown2  { color: var(--colorDown2); }
+.colorSecond { color: var(--textSecond); }
+.mainTextColor{color:var(--mainColor)}
+.color999    { color: #999; }
+.color666    { color: #666; }
+.colorfff    { color: #fff; }
+.color000    { color: #000; }
+
+/* ================ 页面主容器 ================ */
+.pageContent {
+  max-width: var(--pageWidth);
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+.pageShell {
+  position: relative;
+  min-height: 100vh;
+  background: var(--surface-page);
+  color: var(--text-primary);
+}
+
+.pageShell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(95, 224, 179, 0.08), transparent 24%),
+    radial-gradient(circle at 100% 0%, rgba(103, 183, 255, 0.08), transparent 20%);
+  pointer-events: none;
+}
+
+.sectionCard {
+  background: var(--gradient-panel);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-m);
+  box-shadow: var(--shadow-card);
+  padding: 18px;
+}
+
+.glassPanel {
+  background: rgba(29, 40, 52, 0.72);
+  border: 1px solid var(--border-soft);
+  backdrop-filter: blur(18px);
+}
+
+.iconFrame {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: rgba(95, 224, 179, 0.12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brand-primary);
+  flex-shrink: 0;
+}
+
+.iconFrame--small {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+}
+
+.sectionHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.35;
+}
+
+.sectionSubtext {
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+
+
+.hasNormalBg{
+  background:
+    radial-gradient(circle at top left, rgba(95, 224, 179, 0.16), transparent 28%),
+    radial-gradient(circle at top right, rgba(103, 183, 255, 0.14), transparent 24%),
+    linear-gradient(180deg, #18212b 0%, #111823 18%, var(--surface-page) 100%);
+  min-height: 100vh;
+  .tabbarPageTopNav{
+    height: 60px;
+  }
+}
+.minePage{
+  background:
+    radial-gradient(circle at top left, rgba(95, 224, 179, 0.16), transparent 26%),
+    radial-gradient(circle at 85% 10%, rgba(103, 183, 255, 0.14), transparent 20%),
+    linear-gradient(180deg, #1a2430 0%, #111823 24%, var(--surface-page) 100%);
+
+}
+/* ================ 通用卡片组件（你原来的 pageBoxEl） ================ */
+.pageBoxEl {
+  background: var(--gradient-panel);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-m);
+  padding: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+
+  .boxContentEl {
+    background: var(--thirdBoxBg);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-s);
+    padding: 16px;
+    color: var(--text-primary);
+
+    .c_title {
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+  }
+}
+
+/* ================ 底部固定按钮（最常用） ================ */
+.fixedBotBtn {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: var(--pageWidth);
+  background: rgba(13, 17, 23, 0.95);
+  padding: 15px var(--pagePading) 20px;
+  z-index: 999;
+  border-top: 1px solid var(--border-soft);
+  backdrop-filter: blur(18px);
+
+  .gridBox2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    place-items: center;
+
+    div {
+      height: 44px;
+      line-height: 44px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .buyBtn  { background: var(--color-up);  color: #fff; }
+    .sellBtn { background: var(--color-down); color: #fff; }
+  }
+}
+
+/* ================ 交易记录项 ================ */
+.recordPage {
+  .recordItem {
+    background: var(--surface-card);
+    padding: 12px 16px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: var(--text-primary);
+    border: 1px solid var(--border-soft);
+
+    .between div:nth-child(1) {
+      color: var(--textThird);
+    }
+  }
+
+  .colorUp   { color: var(--colorUp2); }
+  .colorDown { color: var(--colorDown2); }
+}
+
+/* ================ 输入框美化（完美替代你原来的 inpBoxEl） ================ */
+.inpBoxEl {
+  height: 50px;
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.04);
+
+  input {
+    flex: 1;
+    height: 100%;
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 16px;
+
+    &::placeholder {
+      color: var(--text-placeholder);
+    }
+  }
+
+  .leftBox {
+    flex: 1;
+    white-space: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
+  }
+}
+
+/* ================ 空状态图 ================ */
+.nullData {
+  position: relative;
+  width: 188px;
+  height: 156px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 28px;
+  border: 1px solid var(--border-soft);
+  background:
+    radial-gradient(circle at 24% 22%, rgba(95, 224, 179, 0.18), transparent 22%),
+    radial-gradient(circle at 78% 18%, rgba(103, 183, 255, 0.16), transparent 20%),
+    linear-gradient(180deg, rgba(29, 40, 52, 0.92) 0%, rgba(19, 26, 34, 0.96) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), var(--shadow-card);
+  overflow: hidden;
+}
+
+.nullData::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 28px;
+  transform: translateX(-50%);
+  width: 72px;
+  height: 72px;
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(95, 224, 179, 0.16) 0%, rgba(95, 224, 179, 0.04) 100%);
+  border: 1px solid rgba(95, 224, 179, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.nullData::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  width: 96px;
+  height: 34px;
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
+  box-shadow:
+    0 -46px 0 -10px rgba(255,255,255,0.06),
+    0 -24px 0 -12px rgba(255,255,255,0.04);
+}
+
+/* ================ 其他小组件 ================ */
+.contentBtn {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 0 16px;
+  background: var(--gradient-brand);
+  color: var(--text-inverse);
+  text-align: center;
+  border-radius: 16px;
+  height: 48px;
+  line-height: 1.2;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  box-shadow: 0 10px 24px rgba(95, 224, 179, 0.18);
+  white-space: nowrap;
+
+  &:active { opacity: 0.8; }
+}
+.disAbledBtn{
+  background: rgba(255,255,255,0.16);
+  color: var(--text-muted);
+  box-shadow: none;
+}
+.borderContentBtn{
+  border:1px solid var(--border-default);
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 0 16px;
+  background: rgba(255,255,255,0.03);
+  color: var(--text-primary);
+  text-align: center;
+  border-radius: 16px;
+  height: 48px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+
+  &:active { opacity: 0.8; }
+}
+.cancelBtn {
+  background: #cad0db;
+  color: #fff;
+  border-radius: 50px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  line-height: 1.2;
+  text-align: center;
+  transition: background 0.3s;
+
+  &:active { background: #666; }
+}
