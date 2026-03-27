@@ -108,7 +108,6 @@ onMounted(() => {
         </div>
         <div class="heroCopy">
           <div class="sectionSubtext">{{ $t('theme.bankDetails') }}</div>
-          <div class="heroTitle">{{ $t('setting.s15') }}</div>
         </div>
       </div>
 
@@ -192,13 +191,6 @@ onMounted(() => {
   justify-content: center;
   background: rgba(95, 224, 179, 0.14);
   color: var(--brand-primary);
-}
-
-.heroTitle {
-  margin-top: 6px;
-  color: var(--text-primary);
-  font-size: 22px;
-  font-weight: 800;
 }
 
 .formCard {

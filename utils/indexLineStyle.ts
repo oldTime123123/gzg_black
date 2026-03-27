@@ -1,29 +1,31 @@
 
 
-const LineOption = {
-  chart: {
-    sparkline: { enabled: true }, // ★ 开启迷你图模式，隐藏所有轴
-    toolbar: { show: false },
-  },
-  stroke: { curve: "straight", width: 2 },
-  fill: { opacity: 0.3 },
-  colors: ["#ff4d4f"],
-  tooltip: {
-    enabled: false,
-  },
-  states: {
-    hover: {
-      filter: {
-        type: "none", // 没有任何滤镜效果
+const LineOption = (rise) => {
+  return {
+    chart: {
+      sparkline: { enabled: true }, // ★ 开启迷你图模式，隐藏所有轴
+      toolbar: { show: false },
+    },
+    stroke: { curve: "straight", width: 2 },
+    fill: { opacity: 0.3 },
+    colors: rise>1 ? ["#ff4d4f"] : ["#52c41a"],
+    tooltip: {
+      enabled: false,
+    },
+    states: {
+      hover: {
+        filter: {
+          type: "none", // 没有任何滤镜效果
+        },
+      },
+      active: {
+        allowMultipleDataPointsSelection: false,
+        filter: {
+          type: "none",
+        },
       },
     },
-    active: {
-      allowMultipleDataPointsSelection: false,
-      filter: {
-        type: "none",
-      },
-    },
-  },
+  };
 };
 
 

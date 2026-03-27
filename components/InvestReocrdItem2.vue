@@ -28,19 +28,19 @@ const goDetails = () => {
       <div class="quoteStrip" :class="getBlockBgClass(true, data.product.is_rise)">
         <div class="quoteMain">
           <div class="quoteLabel">{{ $t("comm.c26") }}</div>
-          <div class="quotePriceRow" :class="data.product?.is_rise > 1 ? 'colorDown' : 'colorUp'">
+          <div class="quotePriceRow" :class="data.product?.is_rise > 1 ? 'colorUp' : 'colorDown'">
             <div class="valueText">{{ UseExchangeNumber(data.product.price) }}</div>
             <Icon
               :name="
                 data.product?.is_rise > 1
                   ? 'solar:arrow-to-top-left-linear'
-                  : 'solar:arrow-to-bottom-right-linear'
+                  : 'solar:arrow-to-down-left-linear'
               "
               class="trendIcon"
             />
           </div>
         </div>
-        <div class="quoteDelta text-[11px]">
+        <div class="quoteDelta text-[11px]" :class="getNumberClass(true, data.product?.is_rise)">
           <div class="trendLine">
             {{ getNumberType(true, data.product?.is_rise) + UseExchangeNumber(data.product?.rise) }}
           </div>
@@ -189,6 +189,7 @@ const goDetails = () => {
   text-align: right;
   font-size: 12px;
   font-weight: 700;
+  color: currentColor;
 }
 
 .trendLine {
@@ -200,6 +201,7 @@ const goDetails = () => {
   width: 14px;
   height: 14px;
   flex-shrink: 0;
+  color: currentColor;
 }
 
 .summaryGrid {

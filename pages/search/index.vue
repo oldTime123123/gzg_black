@@ -101,8 +101,17 @@ onMounted(() => {
                 <div class="resultCode">{{ item.pro_code }}</div>
               </div>
               <div class="resultPrice">
-                <div class="priceTop">
-                  <Icon :name="item.is_rise > 1 ? 'solar:arrow-to-top-left-linear' : 'solar:arrow-to-bottom-right-linear'" class="trendIcon" />
+                <div class="priceTop" :class="item.is_rise > 1 ? 'isUp' : 'isDown'">
+                  <Icon
+                    v-if="item.is_rise > 1"
+                    name="solar:arrow-to-top-left-linear"
+                    class="trendIcon"
+                  />
+                  <Icon
+                    v-else
+                    name="solar:arrow-to-bottom-right-linear"
+                    class="trendIcon"
+                  />
                   {{ UseExchangeNumber(item.price) }}
                 </div>
                 <div class="priceDelta" :class="item.is_rise > 1 ? 'down' : 'up'">
@@ -285,9 +294,18 @@ onMounted(() => {
   font-weight: 700;
 }
 
+.priceTop.isUp {
+  color: var(--color-down);
+}
+
+.priceTop.isDown {
+  color: var(--color-up);
+}
+
 .trendIcon {
   width: 14px;
   height: 14px;
+  flex-shrink: 0;
 }
 
 .priceDelta {

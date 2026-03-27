@@ -40,6 +40,11 @@ const onBankConfirm = (...args: any[]) => {
   showBankPicker.value = false;
 };
 
+const selectBankHandle = (item: any) => {
+  state.bank = item.id;
+  showBankPicker.value = false;
+};
+
 const withdrawInfo = ref({
   balance_max: 0,
   min: 0,
@@ -170,13 +175,31 @@ onBeforeMount(() => {
                 @click="showBankPicker = true"
               />
               <van-popup v-model:show="showBankPicker" position="bottom" round>
-                <van-picker
-                  :confirm-button-text="$t('mine.m10')"
-                  :cancel-button-text="$t('mine.m11')"
-                  :columns="bankColumns"
-                  @confirm="onBankConfirm"
-                  @cancel="showBankPicker = false"
-                />
+                <div class="bankPickerPanel">
+                  <div class="bankPickerToolbar">
+                    <button type="button" class="bankPickerAction bankPickerAction--cancel" @click="showBankPicker = false">
+                      {{ $t('mine.m11') }}
+                    </button>
+                    <div class="bankPickerTitle">{{ $t('pay.p17') }}</div>
+                    <button type="button" class="bankPickerAction bankPickerAction--confirm" @click="showBankPicker = false">
+                      {{ $t('mine.m10') }}
+                    </button>
+                  </div>
+
+                  <div class="bankPickerList">
+                    <button
+                      v-for="item in bankList"
+                      :key="item.id"
+                      type="button"
+                      class="bankPickerItem"
+                      :class="{ isActive: item.id == state.bank }"
+                      @click="selectBankHandle(item)"
+                    >
+                      <div class="bankPickerName">{{ item.bank_name }}</div>
+                      <div v-if="item.bank_num" class="bankPickerCode">{{ item.bank_num }}</div>
+                    </button>
+                  </div>
+                </div>
               </van-popup>
             </div>
 
@@ -317,5 +340,110 @@ onBeforeMount(() => {
   position: sticky;
   bottom: 12px;
   margin-top: 18px;
+}
+
+.bankPickerPanel {
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 14px);
+}
+
+.bankPickerToolbar {
+  display: grid;
+  grid-template-columns: 72px 1fr 72px;
+  align-items: center;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.bankPickerTitle {
+  text-align: center;
+  color: var(--text-primary);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.bankPickerAction {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.bankPickerAction--cancel {
+  color: var(--text-secondary);
+  text-align: left;
+}
+
+.bankPickerAction--confirm {
+  color: var(--brand-primary);
+  text-align: right;
+}
+
+.bankPickerList {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  max-height: min(52vh, 420px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.bankPickerItem {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--border-soft);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  text-align: center;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.bankPickerItem.isActive {
+  background:
+    radial-gradient(circle at top left, rgba(95, 224, 179, 0.12), transparent 42%),
+    rgba(255, 255, 255, 0.06);
+  border-color: rgba(95, 224, 179, 0.34);
+  box-shadow:
+    inset 0 0 0 1px rgba(95, 224, 179, 0.14),
+    0 8px 24px rgba(95, 224, 179, 0.12);
+  transform: translateY(-1px);
+}
+
+.bankPickerItem.isActive::after {
+  content: "";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--brand-primary);
+  box-shadow: 0 0 0 4px rgba(95, 224, 179, 0.14);
+}
+
+.bankPickerName {
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.bankPickerItem.isActive .bankPickerName {
+  color: var(--brand-primary);
+}
+
+.bankPickerCode {
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.bankPickerItem.isActive .bankPickerCode {
+  color: var(--text-primary);
 }
 </style>

@@ -20,8 +20,8 @@
   --text-placeholder: #5d6978;
   --text-inverse: #0d1117;
 
-  --color-up: #18c37e;
-  --color-down: #f04452;
+  --color-up: #f04452;
+  --color-down: #18c37e;
   --color-warning: #f4b740;
   --color-info: #67b7ff;
 
@@ -47,8 +47,8 @@
   --mainColor: var(--brand-primary);
   --btnColor: var(--brand-primary);
   --greenTextColor: var(--brand-primary);
-  --colorUp: var(--color-down);
-  --colorDown: var(--color-up);
+  --colorUp: var(--color-up);
+  --colorDown: var(--color-down);
   --colorUp2: var(--color-up);
   --colorDown2: var(--color-down);
 
@@ -161,8 +161,14 @@ body {
 }
 
 .van-popup--bottom .van-picker-column__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
   color: var(--text-secondary);
   font-size: 16px;
+  line-height: 1.35;
 }
 
 .van-popup--bottom .van-picker-column__item--selected {
@@ -195,14 +201,13 @@ body {
   white-space: normal;
   word-break: break-word;
   overflow-wrap: anywhere;
-  line-height: 1.35;
 }
 
 /* ================ 常用文本颜色类 ================ */
 .greenText   { color: var(--greenTextColor); }
 .mainText    { color: var(--mainColor); }
-.colorUp     { color: var(--colorUp); }
-.colorDown   { color: var(--colorDown); }
+.colorUp     { color: var(--colorUp) !important; }
+.colorDown   { color: var(--colorDown) !important; }
 .colorUp2    { color: var(--colorUp2); }
 .colorDown2  { color: var(--colorDown2); }
 .colorSecond { color: var(--textSecond); }

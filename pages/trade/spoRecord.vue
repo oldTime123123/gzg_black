@@ -263,32 +263,38 @@ onMounted(() => {
         <div class="overlayWrap">
           <div class="dialogCard" @click.stop>
             <div class="dialogHead">
-              <div class="dialogTitle">{{ selectData.product?.pro_name }}</div>
-              <div class="dialogCode">({{ selectData.product?.pro_code }})</div>
               <div class="closeBtn" @click="showPop = false">
                 <Icon name="solar:close-circle-linear" size="20" />
               </div>
+              <div class="dialogTitle">{{ selectData.product?.pro_name }}</div>
+              <div class="dialogCode">({{ selectData.product?.pro_code }})</div>
             </div>
             <div class="dialogBody">
-              <div class="detailRow">
-                <span>{{ $t('trade.t105') }}</span>
-                <strong>{{ selectData.price }}</strong>
+              <div class="dialogSummary">
+                <div class="dialogStatCard">
+                  <span class="dialogStatLabel">{{ $t('trade.t105') }}</span>
+                  <strong class="dialogStatValue">{{ selectData.price }}</strong>
+                </div>
+                <div class="dialogStatCard">
+                  <span class="dialogStatLabel">{{ $t('trade.t106') }}</span>
+                  <strong class="dialogStatValue">{{ selectData.price * buyNum }}</strong>
+                </div>
               </div>
-              <div class="detailRow mt-2">
-                <span>{{ $t('trade.t106') }}</span>
-                <strong>{{ selectData.price * buyNum }}</strong>
+              <div class="fieldGroup">
+                <div class="fieldLabel">{{ $t('trade.t107') }}</div>
+                <van-field
+                  type="digit"
+                  v-model="buyNum"
+                  :disabled="selectData.number_type > 1"
+                  class="authInput mt-2"
+                  :placeholder="$t('trade.t107')"
+                  :border="false"
+                  input-align="left"
+                />
               </div>
-              <div class="fieldLabel mt-4">{{ $t('trade.t107') }}</div>
-              <van-field
-                type="digit"
-                v-model="buyNum"
-                :disabled="selectData.number_type > 1"
-                class="authInput mt-2"
-                :placeholder="$t('trade.t107')"
-                :border="false"
-                input-align="left"
-              />
-              <div class="contentBtn mt-4" @click="confirmBuyHandle">{{ $t('trade.t109') }}</div>
+              <div class="dialogFooter">
+                <div class="contentBtn dialogSubmitBtn" @click="confirmBuyHandle">{{ $t('trade.t109') }}</div>
+              </div>
             </div>
           </div>
         </div>
@@ -435,51 +441,129 @@ onMounted(() => {
   padding: 16px;
 }
 .dialogCard {
-  width: min(350px, 100%);
-  border-radius: 24px;
+  width: min(100%, 400px);
+  border-radius: 30px;
   background:
-    radial-gradient(circle at top right, rgba(95, 224, 179, 0.12), transparent 30%),
-    linear-gradient(180deg, rgba(24, 33, 43, 0.98), rgba(13, 17, 23, 0.98));
+    radial-gradient(circle at top, rgba(95, 224, 179, 0.14), transparent 42%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)),
+    linear-gradient(180deg, #17212c 0%, #121922 100%);
   border: 1px solid var(--border-soft);
-  box-shadow: var(--shadow-float);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.48);
 }
 .dialogHead {
   position: relative;
-  padding: 18px 18px 10px;
+  padding: 22px 22px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 .dialogTitle {
   color: var(--text-primary);
-  font-size: 20px;
+  padding-right: 34px;
+  font-size: 24px;
   font-weight: 800;
+  line-height: 1.25;
 }
 .dialogCode {
-  margin-top: 4px;
+  margin-top: 8px;
   color: var(--text-secondary);
-  font-size: 12px;
+  font-size: 13px;
 }
 .closeBtn {
   position: absolute;
-  right: 14px;
-  top: 14px;
+  right: 16px;
+  top: 16px;
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
   color: var(--text-secondary);
 }
 .dialogBody {
-  padding: 0 18px 18px;
+  padding: 18px 22px 22px;
+}
+.dialogSummary {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+.dialogStatCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+.dialogStatLabel {
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.dialogStatValue {
+  color: var(--text-primary);
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: right;
+}
+.fieldGroup {
+  margin-top: 18px;
 }
 .fieldLabel {
   color: var(--text-primary);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
 }
 .authInput {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.045);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 18px;
+  border-radius: 20px;
 }
 .authInput :deep(.van-field__body) {
-  min-height: 48px;
+  min-height: 56px;
+  padding: 0 2px;
 }
 .authInput :deep(.van-field__control) {
   color: var(--text-primary);
+  font-size: 16px;
+}
+.dialogFooter {
+  margin-top: 20px;
+}
+.dialogSubmitBtn {
+  margin-top: 0 !important;
+}
+@media (max-width: 420px) {
+  .overlayWrap {
+    padding: 14px;
+  }
+
+  .dialogCard {
+    width: 100%;
+  }
+
+  .dialogHead {
+    padding: 20px 18px 12px;
+  }
+
+  .dialogTitle {
+    font-size: 21px;
+  }
+
+  .dialogBody {
+    padding: 16px 18px 18px;
+  }
+
+  .dialogStatCard {
+    padding: 14px 15px;
+  }
+
+  .dialogStatValue {
+    font-size: 16px;
+  }
 }
 </style>

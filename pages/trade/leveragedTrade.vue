@@ -197,27 +197,31 @@ const statusEnum = {
       <div class="overlayWrap">
         <div class="dialogCard" @click.stop>
           <div class="dialogHead">
-            <div class="dialogTitle">{{ selectPopObj.stock?.pro_name }}</div>
-            <div class="dialogCode">{{ "(" + selectPopObj.stock?.pro_code + ")" }}</div>
             <div class="closeBtn" @click="showPop = false">
               <Icon name="solar:close-circle-linear" size="20" />
             </div>
+            <div class="dialogTitle">{{ selectPopObj.stock?.pro_name }}</div>
+            <div class="dialogCode">{{ "(" + selectPopObj.stock?.pro_code + ")" }}</div>
           </div>
 
           <div class="dialogBody">
-            <div class="detailRow">
-              <span>{{ $t('trade.t32') }}</span>
-              <strong>{{ UseExchangeNumber(selectPopObj.buy_price) }}</strong>
-            </div>
-            <div class="detailRow">
-              <span>{{ $t('trade.t33') }}</span>
-              <strong>{{ UseExchangeNumber(selectPopObj.buy_price * buyNum) }}</strong>
+            <div class="dialogSummary">
+              <div class="dialogStatCard">
+                <span class="dialogStatLabel">{{ $t('trade.t32') }}</span>
+                <strong class="dialogStatValue">{{ UseExchangeNumber(selectPopObj.buy_price) }}</strong>
+              </div>
+              <div class="dialogStatCard">
+                <span class="dialogStatLabel">{{ $t('trade.t33') }}</span>
+                <strong class="dialogStatValue">{{ UseExchangeNumber(selectPopObj.buy_price * buyNum) }}</strong>
+              </div>
             </div>
 
-            <div class="fieldLabel mt-4">{{ $t('trade.t34') }}</div>
-            <van-field type="digit" v-model="buyNum" class="authInput mt-2" :placeholder="$t('trade.t38')" :maxlength="10" :border="false" input-align="left" />
+            <div class="fieldGroup">
+              <div class="fieldLabel">{{ $t('trade.t34') }}</div>
+              <van-field type="digit" v-model="buyNum" class="authInput mt-2" :placeholder="$t('trade.t38')" :maxlength="10" :border="false" input-align="left" />
+            </div>
 
-            <div class="mt-4" :class="selectPopObj.need_sn > 0 ? '' : 'invisible'">
+            <div class="fieldGroup" v-if="selectPopObj.need_sn > 0">
               <div class="fieldLabel">{{ $t('trade.t35') }}</div>
               <van-field :type="showPwd ? 'text' : 'password'" v-model="fundPwd" class="authInput mt-2" :placeholder="$t('trade.t36')" :border="false" input-align="left">
                 <template #right-icon>
@@ -228,7 +232,9 @@ const statusEnum = {
               </van-field>
             </div>
 
-            <div class="contentBtn mt-5" @click="confirmHandle">{{ $t('trade.t37') }}</div>
+            <div class="dialogFooter">
+              <div class="contentBtn dialogSubmitBtn" @click="confirmHandle">{{ $t('trade.t37') }}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -371,52 +377,95 @@ const statusEnum = {
   padding: 16px;
 }
 .dialogCard {
-  width: min(350px, 100%);
-  border-radius: 24px;
+  width: min(100%, 400px);
+  border-radius: 30px;
   background:
-    radial-gradient(circle at top right, rgba(95, 224, 179, 0.12), transparent 30%),
-    linear-gradient(180deg, rgba(24, 33, 43, 0.98), rgba(13, 17, 23, 0.98));
+    radial-gradient(circle at top, rgba(95, 224, 179, 0.14), transparent 42%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)),
+    linear-gradient(180deg, #17212c 0%, #121922 100%);
   border: 1px solid var(--border-soft);
-  box-shadow: var(--shadow-float);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.48);
 }
 .dialogHead {
   position: relative;
-  padding: 18px 18px 10px;
+  padding: 22px 22px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 .dialogTitle {
   color: var(--text-primary);
-  font-size: 20px;
+  padding-right: 34px;
+  font-size: 24px;
+  line-height: 1.25;
   font-weight: 800;
 }
 .dialogCode {
-  margin-top: 4px;
+  margin-top: 8px;
   color: var(--text-secondary);
-  font-size: 12px;
+  font-size: 13px;
 }
 .closeBtn {
   position: absolute;
-  right: 14px;
-  top: 14px;
+  right: 16px;
+  top: 16px;
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
   color: var(--text-secondary);
 }
 .dialogBody {
-  padding: 0 18px 18px;
+  padding: 18px 22px 22px;
+}
+.dialogSummary {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+.dialogStatCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+.dialogStatLabel {
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.dialogStatValue {
+  color: var(--text-primary);
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: right;
+}
+.fieldGroup {
+  margin-top: 18px;
 }
 .fieldLabel {
   color: var(--text-primary);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
 }
 .authInput {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.045);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 18px;
+  border-radius: 20px;
 }
 .authInput :deep(.van-field__body) {
-  min-height: 48px;
+  min-height: 56px;
+  padding: 0 2px;
 }
 .authInput :deep(.van-field__control) {
   color: var(--text-primary);
+  font-size: 16px;
 }
 .fieldAction {
   width: 32px;
@@ -425,5 +474,40 @@ const statusEnum = {
   align-items: center;
   justify-content: center;
   color: var(--text-secondary);
+}
+.dialogFooter {
+  margin-top: 20px;
+}
+.dialogSubmitBtn {
+  margin-top: 0 !important;
+}
+@media (max-width: 420px) {
+  .overlayWrap {
+    padding: 14px;
+  }
+
+  .dialogCard {
+    width: 100%;
+  }
+
+  .dialogHead {
+    padding: 20px 18px 12px;
+  }
+
+  .dialogTitle {
+    font-size: 21px;
+  }
+
+  .dialogBody {
+    padding: 16px 18px 18px;
+  }
+
+  .dialogStatCard {
+    padding: 14px 15px;
+  }
+
+  .dialogStatValue {
+    font-size: 16px;
+  }
 }
 </style>

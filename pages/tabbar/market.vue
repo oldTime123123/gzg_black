@@ -71,9 +71,9 @@ const changeDataType = (type: number) => {
                 <div class="indexName">{{ item.exchange_name }}</div>
                 <div class="indexPrice">{{ item.price }}</div>
               </div>
-              <div class="indexChange" :class="item.is_rise == 2 ? 'isUp' : 'isDown'">
+              <div class="indexChange" :class="item.is_rise == 2 ? 'colorUp' : 'colorDown'">
                 <div class="changeRow">
-                  <Icon :name="item.is_rise == 2 ? 'solar:arrow-to-top-left-linear' : 'solar:arrow-to-bottom-right-linear'" class="trendIcon" />
+                  <Icon :name="item.is_rise == 2 ? 'solar:arrow-to-top-left-linear' : 'solar:arrow-to-down-left-linear'" class="trendIcon" />
                   {{ getNumberType(true, item.is_rise) + UseExchangeNumber(item.chart?.rise) }}
                 </div>
                 <div class="changeBadge">
@@ -84,7 +84,7 @@ const changeDataType = (type: number) => {
 
             <div class="indexChart">
               <ClientOnly>
-                <apexchart width="100%" height="72" type="area" :options="LineOption" :series="[
+                <apexchart width="100%" height="72" type="area" :options="LineOption(item.is_rise)" :series="[
                     {
                       data: changeLineTypeData(item.chart.indicators.quote[0].close),
                     },
@@ -175,14 +175,6 @@ const changeDataType = (type: number) => {
 
 .indexChange {
   text-align: right;
-
-  &.isUp {
-    color: var(--color-up);
-  }
-
-  &.isDown {
-    color: var(--color-down);
-  }
 }
 
 .changeRow {

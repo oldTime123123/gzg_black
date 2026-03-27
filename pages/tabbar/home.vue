@@ -205,7 +205,7 @@ onMounted(() => {
               </div>
 
               <div class="marketMeta">
-                <div class="marketPriceBlock" :class="selectStockInfo.is_rise > 1 ? 'colorDown' : 'colorUp'">
+                <div class="marketPriceBlock" :class="selectStockInfo.is_rise > 1 ? 'colorUp' : 'colorDown'">
                   <div class="marketPrice">{{ UseExchangeNumber(selectStockInfo.price) }}</div>
                   <div class="marketChange">
                     <span>{{ getNumberType(true, selectStockInfo.is_rise) + UseExchangeNumber(selectStockInfo.chart.rise) }}</span>
@@ -269,7 +269,7 @@ onMounted(() => {
                       </div>
                       <div class="productPriceBlock">
                         <div class="productPrice">{{ item.price }}</div>
-                        <div class="productBottom" :class="item.is_rise > 1 ? 'colorDown' : 'colorUp'">
+                        <div class="productBottom" :class="item.is_rise > 1 ? 'colorUp' : 'colorDown'">
                           <span>{{ getNumberType(true, item.is_rise) + item.rise }}</span>
                           <span class="productPercent">{{ getNumberType(true, item.is_rise) + item.rise_rate }}%</span>
                           <Icon
@@ -462,13 +462,7 @@ onMounted(() => {
   font-size: 13px;
   font-weight: 700;
 
-  &.isUp {
-    color: var(--color-up);
-  }
 
-  &.isDown {
-    color: var(--color-down);
-  }
 }
 
 .actionRail {

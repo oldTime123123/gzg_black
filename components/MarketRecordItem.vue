@@ -33,7 +33,7 @@ const goTrade = item => {
                     <div class="font-black itemTitle">{{ data.pro_name }}</div>
                     <div class="ml-1 flex items-center" :class="data.is_rise == 2 ? 'colorUp' : 'colorDown'">
                         {{ data.pro_code }}
-                        <Icon :name="data.is_rise == 2 ? 'solar:arrow-to-top-left-linear' : 'solar:arrow-to-bottom-right-linear'" class="trendIcon" />
+                        <Icon :name="data.is_rise == 2 ? 'solar:arrow-to-top-left-linear' : 'solar:arrow-to-down-left-linear'" class="trendIcon" />
                     </div>
 
                 </div>

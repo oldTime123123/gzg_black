@@ -48,9 +48,9 @@ const goTrade = data => {
             </div>
         </div>
         <div class="mt-3 priceBox rounded-[14px] p-2 text-center">
-            <div class="text-lg font-bold " :class="data.stock.is_rise == 2 ? 'colorUp' : 'colorDown'">
+            <div class="text-lg font-bold  flex items-center" :class="data.stock.is_rise == 2 ? 'colorUp' : 'colorDown'">
                 {{ data.stock.price }}
-                <Icon :name="data.stock.is_rise == 2 ? 'solar:arrow-to-top-left-linear' : 'solar:arrow-to-bottom-right-linear'" class="trendIcon" />
+                <Icon :name="data.stock.is_rise == 2 ? 'solar:arrow-to-top-left-linear' : 'solar:arrow-to-down-left-linear'" class="trendIcon" />
             </div>
             <div v-if="data.stock.is_rise == 2" class="text-sm mt-1 rounded-md colorUp2">
                 +{{ UseExchangeNumber(data.stock.rise) }}(+{{ UseExchangeNumber(data.stock.rise_rate) }}%)
@@ -81,14 +81,14 @@ const goTrade = data => {
 
     .colorUp2 {
         background: rgba(240, 68, 82, 0.12);
-        color: var(--color-down);
+        color: var(--color-up);
         border-radius: 999px;
         padding: 4px 8px;
     }
 
     .colorDown2 {
         background: rgba(24, 195, 126, 0.12);
-        color: var(--color-up);
+        color: var(--color-down);
         border-radius: 999px;
         padding: 4px 8px;
     }

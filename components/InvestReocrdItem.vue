@@ -48,10 +48,10 @@ const confirmClosePositionHandle = () => {
       <div class="quoteStrip" :class="getBlockBgClass(true, data.product.is_rise)">
         <div class="quoteMain">
           <div class="quoteLabel">{{ $t("comm.c41") }}</div>
-          <div class="quotePriceRow" :class="data.product?.is_rise > 1 ? 'colorDown' : 'colorUp'">
+          <div class="quotePriceRow" :class="data.product?.is_rise > 1 ? 'colorUp' : 'colorDown'">
             <div class="valueText">{{ UseExchangeNumber(data.product.price) }}</div>
             <Icon
-              :name="data.product?.is_rise > 1 ? 'solar:arrow-to-top-left-linear' : 'solar:arrow-to-bottom-right-linear'"
+              :name="data.product?.is_rise > 1 ? 'solar:arrow-to-top-left-linear' : 'solar:arrow-to-down-left-linear'"
               class="trendIcon"
             />
           </div>
