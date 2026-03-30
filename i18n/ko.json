@@ -87,7 +87,8 @@
         "marketHeroCopy": "검색하고, 흐름을 살피고, 원하는 시장 보기로 전환하세요.",
         "openContact": "연락처 열기",
         "insiderTradeCopy": "더 정돈된 거래 작업 공간에서 진행 중인 신청과 제출된 기록을 관리합니다.",
-        "idLabel": "ID"
+        "idLabel": "ID",
+        "collapse": "접기"
     },
     "fund": {
         "a1": "복사 성공",

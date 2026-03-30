@@ -156,10 +156,4 @@ onBeforeMount(() => {
 .dialogBody{padding:0 20px 20px}.detailRow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.03);color:var(--text-secondary);font-size:13px}.detailRow strong{color:var(--text-primary)}
 .fieldLabel{color:var(--text-primary);font-size:15px;font-weight:700;line-height:1.4}.authInput{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px}.authInput :deep(.van-field__body){min-height:52px}.authInput :deep(.van-field__control){color:var(--text-primary)}
 .dialogActions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.disBtn{background:#6b7280!important;color:#d1d5db!important}
-
-@media (max-width: 380px) {
-  .featureGrid {
-    grid-template-columns: 1fr;
-  }
-}
 </style>

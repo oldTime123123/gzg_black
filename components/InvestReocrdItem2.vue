@@ -102,6 +102,10 @@ const goDetails = () => {
           <div>{{ $t("comm.c36") }}</div>
           <div class="rowValue">{{ data.close_time }}</div>
         </div>
+        <div class="expandToggle" @click="data.showMore = false">
+          {{ $t("theme.collapse") }}
+          <Icon name="solar:alt-arrow-up-bold" size="20" />
+        </div>
       </div>
 
       <div class="contentBtn mt-2" @click="goDetails">
@@ -262,7 +266,6 @@ const goDetails = () => {
   font-weight: 600;
 }
 
-@media (max-width: 430px) {
   .quoteStrip {
     padding: 12px 14px;
   }
@@ -284,5 +287,5 @@ const goDetails = () => {
     max-width: 44%;
     font-size: 13px;
   }
-}
+ 
 </style>

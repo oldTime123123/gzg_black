@@ -307,7 +307,7 @@ onBeforeMount(() => {
 
 .tabRail {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
   padding: 6px;
   border-radius: 24px;
@@ -344,26 +344,5 @@ onBeforeMount(() => {
   min-height: 48px;
   height: auto;
   padding: 12px 16px;
-}
-
-@media (max-width: 380px) {
-  .portfolioHeader {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .metricItem {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .metricValue {
-    width: 100%;
-    text-align: left;
-  }
-
-  .tabChip {
-    font-size: 12px;
-  }
 }
 </style>

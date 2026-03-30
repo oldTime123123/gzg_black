@@ -106,6 +106,10 @@ const confirmClosePositionHandle = () => {
           <div>{{ $t("comm.c49") }}</div>
           <div class="rowValue">{{ UseExchangeNumber(data.product?.price * data.number) }}</div>
         </div>
+        <div class="expandToggle" @click="data.showMore = false">
+          {{ $t("theme.collapse") }}
+          <Icon name="solar:alt-arrow-up-bold" size="20" />
+        </div>
       </div>
       <div class="grid grid-cols-2 gap-2">
         <div class="mt-3 contentBtn" @click="goDetails">{{ $t("comm.c50") }}</div>
@@ -330,7 +334,6 @@ const confirmClosePositionHandle = () => {
   gap: 10px;
 }
 
-@media (max-width: 430px) {
   .quoteStrip {
     padding: 12px 14px;
   }
@@ -352,5 +355,4 @@ const confirmClosePositionHandle = () => {
   .dialogActions {
     grid-template-columns: 1fr;
   }
-}
 </style>

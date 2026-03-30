@@ -199,7 +199,6 @@ const isRiseClass: any = {
     color: currentColor;
 }
 
-@media (max-width: 430px) {
     .cardHeader {
         gap: 10px;
     }
@@ -221,5 +220,4 @@ const isRiseClass: any = {
         max-width: 44%;
         font-size: 13px;
     }
-}
 </style>

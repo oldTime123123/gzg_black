@@ -111,7 +111,6 @@ onMounted(() => {
               <van-checkbox v-model="rememberPwd" icon-size="18" class="rememberCheck" />
               <span>{{ $t('login.l11') }}</span>
             </div>
-            <div class="textLink" @click="changePage('/auth/forgot-password')">{{ $t('theme.forgotPassword') }}</div>
           </div>
 
           <button native-type="submit" class="contentBtn" :class="!showBtnStatus ? 'disAbledBtn' : ''">

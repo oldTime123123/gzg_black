@@ -87,7 +87,8 @@
         "marketHeroCopy": "搜索、查看动量，并切换到你偏好的市场视图。",
         "openContact": "打开联系方式",
         "insiderTradeCopy": "在更清晰的交易工作区中管理进行中的申请和已提交记录。",
-        "idLabel": "ID"
+        "idLabel": "ID",
+        "collapse": "收起"
     },
     "fund": {
         "a1": "复制成功",

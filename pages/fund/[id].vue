@@ -152,19 +152,4 @@ onMounted(() => {
 .detailRow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.03);color:var(--text-secondary);font-size:13px}
 .detailRow strong{color:var(--text-primary);text-align:right}
 .sectionTitle{color:var(--text-primary);font-size:18px;font-weight:800}.richCard{padding:18px;border-radius:20px;background:rgba(255,255,255,.03);color:var(--text-secondary);line-height:1.8}
-
-@media (max-width: 380px) {
-  .heroStats,
-  .rangeGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .contentSection {
-    padding: 18px;
-  }
-
-  .heroCard {
-    padding: 18px;
-  }
-}
 </style>

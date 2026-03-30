@@ -132,15 +132,4 @@ onBeforeMount(() => {
 .metaRow strong{color:var(--text-primary);line-height:1.35}
 .richCard{padding:18px;border-radius:20px;background:rgba(255,255,255,.03);color:var(--text-secondary);line-height:1.8}
 .disBtn{background:#6b7280!important;color:#d1d5db!important}
-
-@media (max-width: 380px) {
-  .heroCard,
-  .sectionBody {
-    padding: 18px;
-  }
-
-  .metricGrid {
-    grid-template-columns: 1fr;
-  }
-}
 </style>

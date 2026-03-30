@@ -109,12 +109,12 @@ onMounted(() => {
                   />
                   <Icon
                     v-else
-                    name="solar:arrow-to-bottom-right-linear"
+                    name="solar:arrow-to-down-left-linear"
                     class="trendIcon"
                   />
                   {{ UseExchangeNumber(item.price) }}
                 </div>
-                <div class="priceDelta" :class="item.is_rise > 1 ? 'down' : 'up'">
+                <div class="priceDelta" :class="item.is_rise > 1 ? 'up' : 'down'">
                   {{ item.is_rise > 1 ? '+' : '-' }} {{ item.rise_rate1 }}%
                 </div>
               </div>
@@ -252,8 +252,8 @@ onMounted(() => {
 }
 
 .rankBadge {
-  width: 38px;
-  height: 48px;
+  width: 42px;
+  height: 42px;
   border-radius: 14px;
   display: flex;
   align-items: center;
@@ -295,11 +295,11 @@ onMounted(() => {
 }
 
 .priceTop.isUp {
-  color: var(--color-down);
+  color: var(--color-up);
 }
 
 .priceTop.isDown {
-  color: var(--color-up);
+  color: var(--color-down);
 }
 
 .trendIcon {
@@ -314,13 +314,13 @@ onMounted(() => {
   border-radius: 999px;
 }
 
-.priceDelta.down {
+.priceDelta.up {
   background: rgba(240, 68, 82, 0.12);
-  color: var(--color-down);
+  color: var(--color-up);
 }
 
-.priceDelta.up {
+.priceDelta.down {
   background: rgba(24, 195, 126, 0.12);
-  color: var(--color-up);
+  color: var(--color-down);
 }
 </style>

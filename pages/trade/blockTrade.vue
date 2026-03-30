@@ -481,33 +481,4 @@ const statusEnum = {
 .dialogSubmitBtn {
   margin-top: 0 !important;
 }
-@media (max-width: 420px) {
-  .overlayWrap {
-    padding: 14px;
-  }
-
-  .dialogCard {
-    width: 100%;
-  }
-
-  .dialogHead {
-    padding: 20px 18px 12px;
-  }
-
-  .dialogTitle {
-    font-size: 21px;
-  }
-
-  .dialogBody {
-    padding: 16px 18px 18px;
-  }
-
-  .dialogStatCard {
-    padding: 14px 15px;
-  }
-
-  .dialogStatValue {
-    font-size: 16px;
-  }
-}
 </style>

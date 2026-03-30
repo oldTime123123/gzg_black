@@ -320,27 +320,4 @@ const getBodyHeight = (index: number) => {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(140%); }
 }
-
-@media (max-width: 430px) {
-  .klineLoading {
-    min-height: 228px;
-    padding: 14px;
-    border-radius: 20px;
-  }
-
-  .klineLoading__chart {
-    min-height: 158px;
-    padding: 14px 30px 24px 10px;
-    border-radius: 18px;
-  }
-
-  .klineLoading__candles {
-    inset: 20px 34px 30px 14px;
-    gap: 4px;
-  }
-
-  .klineLoading__axis--bottom span {
-    width: 22px;
-  }
-}
 </style>

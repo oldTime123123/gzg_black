@@ -155,11 +155,4 @@ const goLanguage = () => {
   box-shadow: 0 18px 60px rgba(0, 0, 0, 0.34);
   backdrop-filter: blur(18px);
 }
-
-@media (min-width: 430px) {
-  .authWrap {
-    padding-left: 24px;
-    padding-right: 24px;
-  }
-}
 </style>

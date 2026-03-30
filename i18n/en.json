@@ -87,7 +87,8 @@
         "marketHeroCopy": "Search, scan momentum and switch into your preferred market view.",
         "openContact": "Open contact",
         "insiderTradeCopy": "Manage active applications and submitted records inside one cleaner trading workspace.",
-        "idLabel": "ID"
+        "idLabel": "ID",
+        "collapse": "Collapse"
     },
     "fund": {
         "a1": "Copy Success",

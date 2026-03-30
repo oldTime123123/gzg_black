@@ -266,14 +266,4 @@ onBeforeMount(() => {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border-soft);
 }
-
-@media (max-width: 380px) {
-  .newsTime {
-    gap: 8px;
-  }
-
-  .newsTitle {
-    font-size: 14px;
-  }
-}
 </style>

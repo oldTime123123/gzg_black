@@ -506,10 +506,4 @@ onMounted(() => {
   color: var(--text-secondary);
   text-align: center;
 }
-
-@media (max-width: 430px) {
-  .dialogActions {
-    grid-template-columns: 1fr;
-  }
-}
 </style>

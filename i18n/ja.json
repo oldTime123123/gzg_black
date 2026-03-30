@@ -87,7 +87,8 @@
         "marketHeroCopy": "検索し、モメンタムを確認し、好みのマーケット表示へ切り替えます。",
         "openContact": "連絡先を開く",
         "insiderTradeCopy": "進行中の申請と提出済み記録を、より整理された取引ワークスペースで管理します。",
-        "idLabel": "ID"
+        "idLabel": "ID",
+        "collapse": "折りたたむ"
     },
     "fund": {
         "a1": "复制成功",

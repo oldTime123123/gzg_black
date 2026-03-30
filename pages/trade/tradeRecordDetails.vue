@@ -202,27 +202,4 @@ onBeforeMount(() => {
   max-width: 56%;
   word-break: break-word;
 }
-
-@media (max-width: 430px) {
-  .heroTop {
-    flex-wrap: wrap;
-  }
-
-  .heroBadge {
-    margin-top: 4px;
-  }
-
-  .profitGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .detailRow {
-    align-items: flex-start;
-  }
-
-  .detailRow strong {
-    max-width: 52%;
-    font-size: 13px;
-  }
-}
 </style>
