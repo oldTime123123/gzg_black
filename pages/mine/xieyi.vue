@@ -19,10 +19,6 @@ onMounted(() => {
     <SecondPageNavBar :title="$t('x.a12')" />
 
     <div class="pageWrap px-3 pb-6">
-      <div class="heroCard">
-        <div class="sectionSubtext">{{ $t('theme.agreement') }}</div>
-        <div class="heroDesc">{{ $t('theme.agreementCopy') }}</div>
-      </div>
 
       <div class="pdfCard mt-4">
         <ClientOnly>
