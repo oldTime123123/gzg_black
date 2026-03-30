@@ -26,38 +26,32 @@ const goTrade = item => {
 </script>
 
 <template>
-    <div>
-        <div class="mb-3 recordItemEl p-3 rounded-[18px]" @click="goTrade(data)">
-            <div class="flex items-center text-sm justify-between">
-                <div class="flex items-center text-sm">
-                    <div class="font-black itemTitle">{{ data.pro_name }}</div>
-                    <div class="ml-1 flex items-center" :class="data.is_rise == 2 ? 'colorUp' : 'colorDown'">
-                        {{ data.pro_code }}
-                        <Icon :name="data.is_rise == 2 ? 'solar:arrow-to-top-left-linear' : 'solar:arrow-to-down-left-linear'" class="trendIcon" />
-                    </div>
-
-                </div>
-                <div>
-                    <Icon name="tabler:star-filled" size="20"
-                        :class="data.isCollect ? ' text-[var(--brand-primary)]' : 'text-[var(--text-muted)]'" @click.stop="collectHandle" />
-
-                </div>
+    <div class="mb-3 recordItemEl p-4 rounded-[22px]" @click="goTrade(data)">
+        <div class="headerRow">
+            <div class="titleWrap">
+                <div class="font-black itemTitle">{{ data.pro_name }}</div>
+                <div class="codeBadge">{{ data.pro_code }}</div>
             </div>
+            <button class="bookmarkBtn" type="button" @click.stop="collectHandle">
+                <Icon name="tabler:star-filled" size="18"
+                    :class="data.isCollect ? ' text-[var(--brand-primary)]' : 'text-[var(--text-muted)]'" />
+            </button>
+        </div>
 
-            <div class="mt-3 infoGrid">
-                <div class="infoRow">
-                    <span>{{$t('comm.c68')}}</span>
-                    <span class="valueText">{{ data.price }}</span>
+        <div class="quoteRow" :class="data.is_rise == 2 ? 'colorUp' : 'colorDown'">
+            <div class="quoteMain">
+                <div class="valueText">{{ data.price }}</div>
+                <Icon :name="data.is_rise == 2 ? 'solar:alt-arrow-up-bold' : 'solar:alt-arrow-down-bold'"
+                    class="trendIcon" />
+            </div>
+            <div class="quoteMeta">
+                <div class="deltaText">
+                    <span v-if="data.is_rise == 2">+{{ UseExchangeNumber(data.rise) }}</span>
+                    <span v-else>-{{ UseExchangeNumber(data.rise) }}</span>
                 </div>
-                <div class="infoRow">
-                    <span>{{$t('comm.c69')}}</span>
-                    <span v-if="data.is_rise == 2" class="colorUp">+{{ UseExchangeNumber(data.rise) }}</span>
-                    <span v-else class="colorDown">-{{ UseExchangeNumber(data.rise) }}</span>
-                </div>
-                <div class="infoRow">
-                    <span>{{$t('comm.c70')}}</span>
-                    <span v-if="data.is_rise == 2" class="colorUp">+{{ data.rise_rate }}%</span>
-                    <span v-else class="colorDown">-{{ data.rise_rate }}%</span>
+                <div class="rateBadge">
+                    <span v-if="data.is_rise == 2">+{{ data.rise_rate }}%</span>
+                    <span v-else>-{{ data.rise_rate }}%</span>
                 </div>
             </div>
         </div>
@@ -66,37 +60,122 @@ const goTrade = item => {
 
 <style lang="less" scoped>
 .recordItemEl {
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.025);
     border: 1px solid var(--border-soft);
-    box-shadow: var(--shadow-card);
     color: var(--text-secondary);
+    min-height: 136px;
+    display: grid;
+    gap: 12px;
+}
+
+.headerRow {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.titleWrap {
+    min-width: 0;
+    flex: 1;
 }
 
 .itemTitle {
     color: var(--text-primary);
+    font-size: 15px;
+    line-height: 1.35;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
 }
 
-.infoGrid {
-    display: grid;
-    gap: 8px;
+.codeBadge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 24px;
+    margin-top: 6px;
+    padding: 0 11px;
+    border-radius: 999px;
+    background: var(--brand-primary-soft);
+    color: var(--brand-primary);
+    font-size: 12px;
+    font-weight: 700;
 }
 
-.infoRow {
+.bookmarkBtn {
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.03);
+    flex-shrink: 0;
+}
+
+.quoteRow {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    font-size: 13px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.quoteMain {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    flex: 1;
 }
 
 .valueText {
-    color: var(--text-primary);
+    font-size: 24px;
+    font-weight: 800;
+    color: currentColor;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    word-break: break-word;
+}
+
+.quoteMeta {
+    display: grid;
+    justify-items: end;
+    gap: 5px;
+    flex: 0 0 auto;
+    text-align: right;
+    font-size: 12px;
     font-weight: 700;
+    line-height: 1.35;
+    word-break: break-word;
 }
 
 .trendIcon {
-    width: 14px;
-    height: 14px;
-    margin-left: 6px;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    color: currentColor;
+    opacity: 1;
+    transform: translateY(-1px);
+}
+
+.deltaText {
+    white-space: nowrap;
+}
+
+.rateBadge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 26px;
+    padding: 0 9px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.045);
+    color: inherit;
+    white-space: nowrap;
 }
 </style>

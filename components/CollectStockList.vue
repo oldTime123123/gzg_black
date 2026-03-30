@@ -70,11 +70,9 @@ const changeDataType = () => {
       </van-list>
     </div>
 
-    <div class="contentBtn mt-3">
-      <div class="flex items-center justify-center w-full" @click="changeDataType">
-        <span> {{ $t('comm.c5') }}</span>
-        <Icon name="material-symbols:add-circle-rounded" size="20" class="text-amber-300 ml-1" />
-      </div>
+    <div class="contentBtn addBtn mt-3" @click="changeDataType">
+      <span>{{ $t('comm.c5') }}</span>
+      <Icon name="material-symbols:add-circle-rounded" size="20" class="addBtnIcon" />
     </div>
   </div>
 </template>
@@ -87,5 +85,21 @@ const changeDataType = () => {
 .listSkeleton {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border-soft);
+}
+
+.addBtn {
+  min-height: 50px;
+  height: auto;
+  padding: 12px 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 700;
+}
+
+.addBtnIcon {
+  color: rgba(255, 247, 220, 0.92);
+  flex-shrink: 0;
 }
 </style>

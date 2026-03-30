@@ -94,8 +94,9 @@ onMounted(() => {
       </div>
 
       <div class="actionDock">
-        <div class="contentBtn" @click="changePage('./editBank')">
-          {{ $t('setting.s6') }}
+        <div class="contentBtn addBtn" @click="changePage('./editBank')">
+          <span>{{ $t('setting.s6') }}</span>
+          <Icon name="material-symbols:add-circle-rounded" size="20" class="addBtnIcon" />
         </div>
       </div>
     </div>
@@ -176,6 +177,22 @@ onMounted(() => {
   background: var(--gradient-panel);
   border: 1px solid var(--border-soft);
   box-shadow: var(--shadow-card);
+}
+
+.addBtn {
+  min-height: 50px;
+  height: auto;
+  padding: 12px 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 700;
+}
+
+.addBtnIcon {
+  color: rgba(255, 247, 220, 0.92);
+  flex-shrink: 0;
 }
 
 .bankCardMain {

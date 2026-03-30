@@ -157,7 +157,8 @@ onBeforeMount(() => {
               </div>
 
               <div class="contentBtn addBtn" v-if="actRecordType == 3" @click="changePage('/trade/spoRecord')">
-                {{ $t('comm.c5') }}
+                <span>{{ $t('comm.c5') }}</span>
+                <Icon name="material-symbols:add-circle-rounded" size="20" class="addBtnIcon" />
               </div>
             </div>
 

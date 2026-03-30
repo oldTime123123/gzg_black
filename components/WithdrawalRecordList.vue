@@ -40,8 +40,8 @@ const fetchItemsList = () => {
           <div class="detailRow" v-if="item.arrive_time !== '--' && !item.arrive_time"><span>{{ $t('comm.c95') }}</span><strong>{{ item.arrive_time }}</strong></div>
           <div class="detailRow"><span>{{ $t('trade.t69') }}</span><strong>{{ item.fee }}</strong></div>
           <div class="detailRow" v-if="item.remark"><span>{{ $t('x.a23') }}</span><strong>{{ item.remark }}</strong></div>
-          <div class="detailRow"><span>{{ $t('comm.c96') }}</span><strong :class="{ 'colorUp': item.status == 1, 'text-orange-400': item.status == 2, 'colorDown': item.status > 2 }">{{ statusText[item.status] }}</strong></div>
-          <div class="detailRow"><span>{{ $t('comm.c97') }}</span><strong :class="{ 'colorUp': item.pay_status == 1, 'text-orange-400': item.pay_status == 2, 'colorDown': item.pay_status > 2 }">{{ payStatusText[item.pay_status] }}</strong></div>
+          <div class="detailRow"><span>{{ $t('comm.c96') }}</span><strong :class="{ 'statusWarning': item.status < 3, 'statusDanger': item.status > 2 }">{{ statusText[item.status] }}</strong></div>
+          <div class="detailRow"><span>{{ $t('comm.c97') }}</span><strong :class="{ 'statusSuccess': item.pay_status == 1, 'statusWarning': item.pay_status == 2, 'statusDanger': item.pay_status > 2 }">{{ payStatusText[item.pay_status] }}</strong></div>
         </div>
       </div>
     </van-list>
@@ -51,4 +51,5 @@ const fetchItemsList = () => {
 <style scoped>
 .emptyText{margin-top:10px;text-align:center;color:var(--text-secondary)}.historyCard{padding:14px;border-radius:18px;background:rgba(255,255,255,.03);border:1px solid var(--border-soft)}.historyCard + .historyCard{margin-top:12px}
 .detailList{display:grid;gap:8px}.detailRow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.03);color:var(--text-secondary);font-size:13px}.detailRow strong{text-align:right;color:var(--text-primary)}
+.detailRow strong.statusSuccess{color:#18c37e}.detailRow strong.statusWarning{color:#f4b740}.detailRow strong.statusDanger{color:#f04452}
 </style>

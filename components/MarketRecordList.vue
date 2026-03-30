@@ -38,7 +38,7 @@ onMounted(() => {
       </div>
     </div>
     <div v-if="showSkeleton">
-        <div class="listSkeleton h-[130px] rounded-[18px] mb-2" v-for="(item, index) in 4" :key="index">
+        <div class="listSkeleton h-[112px] rounded-[18px] mb-2" v-for="(item, index) in 4" :key="index">
         </div>
     </div>
     <van-list  v-model:loading="loading" v-model:error="error" :finished="finished" @load="fetchItemsList">
