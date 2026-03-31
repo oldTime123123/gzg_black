@@ -1,0 +1,91 @@
+<script setup lang="ts">
+const pub = usePublicStore();
+const { locales, setLocale, locale } = useI18n();
+
+const handleSetLocale = async (code: string) => {
+  await setLocale(code);
+  pub.setLang = true;
+};
+
+onMounted(() => {
+  pub.showLoading = false;
+});
+</script>
+
+<template>
+  <div class="pageShell">
+    <SecondPageNavBar :title="$t('mine.m21')" />
+
+    <div class="pageWrap px-3 pb-6">
+      <div class="sectionCard listCard mt-4">
+        <div
+          v-for="lang in locales"
+          :key="lang.name"
+          class="langItem"
+          :class="lang.code == locale ? 'isActive' : ''"
+          @click="handleSetLocale(lang.code)"
+        >
+          <div class="langInfo">
+            <div class="langName">{{ lang.name }}</div>
+            <div class="langCode">{{ lang.code.toUpperCase() }}</div>
+          </div>
+          <Icon
+            :name="lang.code == locale ? 'solar:check-circle-bold' : 'solar:alt-arrow-right-linear'"
+            size="18"
+            class="langIcon"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.pageWrap {
+  min-height: calc(100vh - 60px);
+}
+
+.listCard {
+  padding: 12px;
+}
+
+.langItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--border-soft);
+  cursor: pointer;
+}
+
+.langItem + .langItem {
+  margin-top: 10px;
+}
+
+.langItem.isActive {
+  background: var(--brand-primary-soft);
+  border-color: var(--brand-primary-border);
+}
+
+.langName {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.langCode {
+  margin-top: 4px;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.langIcon {
+  color: var(--text-secondary);
+}
+
+.langItem.isActive .langIcon {
+  color: var(--brand-primary);
+}
+</style>
