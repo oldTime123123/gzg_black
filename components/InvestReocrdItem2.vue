@@ -4,7 +4,27 @@ import { defineProps } from "vue";
 import { UseExchangeNumber } from "../utils";
 
 const props = defineProps<{
-  data: Record<string, any>;
+  data: {
+    id: number | string;
+    showMore?: boolean;
+    price: number | string;
+    number: number | string;
+    deal_time: string;
+    close_money: number | string;
+    close_number: number | string;
+    close_time: string;
+    profit_type: number;
+    expected_profit: number | string;
+    expected_profit_rate: number | string;
+    product: {
+      pro_name: string;
+      pro_code: string;
+      is_rise: number;
+      price: number | string;
+      rise: number | string;
+      rise_rate: number | string;
+    };
+  };
 }>();
 const data = props.data;
 
@@ -80,10 +100,10 @@ const goDetails = () => {
         <div class="rowValue">{{ UseExchangeNumber(data.price * data.number) }}</div>
       </div>
 
-      <div class="expandToggle" v-if="!data.showMore" @click="data.showMore = true">
+      <button type="button" class="expandToggle" v-if="!data.showMore" @click="data.showMore = true">
         {{ $t("comm.c29") }}
         <Icon name="solar:alt-arrow-down-bold" size="20" />
-      </div>
+      </button>
 
       <div class="space-y-2" v-else>
         <div class="detailRow">
@@ -102,15 +122,15 @@ const goDetails = () => {
           <div>{{ $t("comm.c36") }}</div>
           <div class="rowValue">{{ data.close_time }}</div>
         </div>
-        <div class="collapseToggle" @click="data.showMore = false">
+        <button type="button" class="collapseToggle" @click="data.showMore = false">
           {{ $t("theme.collapse") }}
           <Icon name="solar:alt-arrow-up-bold" size="20" />
-        </div>
+        </button>
       </div>
 
-      <div class="contentBtn mt-2" @click="goDetails">
+      <button type="button" class="contentBtn mt-2" @click="goDetails">
         {{ $t("comm.c37") }}
-      </div>
+      </button>
     </div>
   </div>
 </template>
@@ -269,6 +289,11 @@ const goDetails = () => {
   width: 100%;
   color: var(--brand-primary);
   font-weight: 600;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
 }
 
 .collapseToggle {
@@ -279,6 +304,11 @@ const goDetails = () => {
   width: 100%;
   color: var(--brand-primary);
   font-weight: 600;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
 }
 
 </style>

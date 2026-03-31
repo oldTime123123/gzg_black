@@ -2,6 +2,9 @@
 :root {
   --pageWidth: 430px;
   --pagePading: 16px;
+  --focus-ring: 0 0 0 3px rgba(212, 154, 58, 0.18);
+  --motion-fast: 160ms;
+  --motion-base: 220ms;
   --brand-primary: #d49a3a;
   --brand-primary-hover: #e1ad58;
   --brand-primary-active: #bf8426;
@@ -20,6 +23,33 @@
   --text-placeholder: #5d6978;
   --text-inverse: #0d1117;
 
+  --font-family-sans: "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Noto Sans JP", "Noto Sans KR", "Helvetica Neue", sans-serif;
+  --font-family-display: "SF Pro Display", "PingFang SC", "Hiragino Sans GB", "Noto Sans JP", "Noto Sans KR", "Helvetica Neue", sans-serif;
+  --font-family-mono: "SF Mono", "JetBrains Mono", "Roboto Mono", monospace;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-heavy: 800;
+
+  --text-caption: 0.75rem;
+  --text-label: 0.8125rem;
+  --text-body: 1rem;
+  --text-body-compact: 0.9375rem;
+  --text-title: 1.125rem;
+  --text-heading: 1.5rem;
+  --text-display: 1.875rem;
+
+  --leading-tight: 1.12;
+  --leading-heading: 1.26;
+  --leading-body: 1.62;
+  --leading-relaxed: 1.76;
+
+  --tracking-tight: -0.02em;
+  --tracking-dense: -0.01em;
+  --tracking-eyebrow: 0.08em;
+
   --color-up: #f04452;
   --color-down: #18c37e;
   --color-warning: #f4b740;
@@ -32,6 +62,13 @@
   --radius-s: 12px;
   --radius-m: 18px;
   --radius-l: 24px;
+
+  --space-2xs: 8px;
+  --space-xs: 12px;
+  --space-s: 16px;
+  --space-m: clamp(18px, 4vw, 22px);
+  --space-l: clamp(24px, 5vw, 30px);
+  --space-xl: clamp(32px, 7vw, 40px);
 
   --shadow-card: 0 18px 48px rgba(0, 0, 0, 0.28);
   --shadow-float: 0 18px 60px rgba(0, 0, 0, 0.36);
@@ -86,7 +123,14 @@ body {
     linear-gradient(180deg, #111823 0%, var(--bodyBgColor) 16%, var(--bodyBgColor) 100%);
   overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
-  font-family: "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+  font-family: var(--font-family-sans);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  text-rendering: optimizeLegibility;
+  font-kerning: normal;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   --van-back-top-background:var(--mainColor);
   --van-text-color: var(--text-primary);
   --van-primary-color: var(--brand-primary);
@@ -110,6 +154,37 @@ body {
 // input 错误提示颜色 边框， 文字color
 --ui-error:#FFDA1C !important;
 }
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: inherit;
+}
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+a,
+button,
+input,
+textarea,
+select,
+[tabindex]:not([tabindex="-1"]) {
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
 }
 
 
@@ -258,7 +333,34 @@ body {
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-m);
   box-shadow: var(--shadow-card);
-  padding: 18px;
+  padding: var(--space-m);
+}
+
+.pageStack {
+  display: grid;
+  gap: var(--space-l);
+}
+
+.sectionStack {
+  display: grid;
+  gap: var(--space-m);
+}
+
+.stackTight {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.renderBudget {
+  content-visibility: auto;
+  contain: layout paint style;
+  contain-intrinsic-size: 1px 320px;
+}
+
+.renderBudgetDense {
+  content-visibility: auto;
+  contain: layout paint style;
+  contain-intrinsic-size: 1px 180px;
 }
 
 .glassPanel {
@@ -277,6 +379,11 @@ body {
   justify-content: center;
   color: var(--brand-primary);
   flex-shrink: 0;
+  transition:
+    transform var(--motion-fast) ease,
+    background-color var(--motion-fast) ease,
+    color var(--motion-fast) ease,
+    box-shadow var(--motion-fast) ease;
 }
 
 .iconFrame--small {
@@ -289,20 +396,40 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: var(--space-xs);
 }
 
 .sectionTitle {
-  font-size: 18px;
-  font-weight: 700;
+  font-family: var(--font-family-display);
+  font-size: var(--text-title);
+  font-weight: var(--weight-bold);
   color: var(--text-primary);
-  line-height: 1.35;
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-dense);
 }
 
 .sectionSubtext {
   color: var(--text-secondary);
-  font-size: 12px;
-  line-height: 1.4;
+  font-size: var(--text-label);
+  line-height: 1.5;
+}
+
+.marketPrice,
+.marketChange,
+.stagePrice,
+.briefValue,
+.portfolioHeadline,
+.metricValue,
+.productPrice,
+.valueText,
+.priceValue,
+.quoteMeta,
+.rateBadge,
+.deltaText,
+.statItem strong,
+.metaRow strong {
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
 }
 
 
@@ -493,20 +620,31 @@ body {
   color: var(--text-inverse);
   text-align: center;
   border-radius: 16px;
-  height: 48px;
+  min-height: 48px;
   line-height: 1.2;
   font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.01em;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition:
+    opacity var(--motion-fast) ease,
+    transform var(--motion-fast) ease,
+    box-shadow var(--motion-fast) ease,
+    filter var(--motion-fast) ease;
   box-shadow: 0 12px 28px rgba(212, 154, 58, 0.2);
   white-space: nowrap;
+  user-select: none;
 
-  &:active { opacity: 0.8; }
+  &:active {
+    opacity: 0.92;
+    transform: translateY(1px) scale(0.995);
+  }
 }
 .disAbledBtn{
   background: rgba(255,255,255,0.16);
   color: var(--text-muted);
   box-shadow: none;
+  pointer-events: none;
 }
 .borderContentBtn{
   border:1px solid var(--border-default);
@@ -520,13 +658,23 @@ body {
   color: var(--text-primary);
   text-align: center;
   border-radius: 16px;
-  height: 48px;
+  min-height: 48px;
   line-height: 1.2;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition:
+    opacity var(--motion-fast) ease,
+    transform var(--motion-fast) ease,
+    border-color var(--motion-fast) ease,
+    background-color var(--motion-fast) ease;
   white-space: nowrap;
+  user-select: none;
 
-  &:active { opacity: 0.8; }
+  &:active {
+    opacity: 0.92;
+    transform: translateY(1px) scale(0.995);
+  }
 }
 .cancelBtn {
   background: #cad0db;
@@ -555,4 +703,27 @@ body {
 .priceFall,
 .trendFall {
   color: var(--color-down) !important;
+}
+
+@media (hover: hover) {
+  .contentBtn:hover {
+    filter: brightness(1.03);
+    box-shadow: 0 14px 30px rgba(212, 154, 58, 0.24);
+  }
+
+  .borderContentBtn:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255, 255, 255, 0.14);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

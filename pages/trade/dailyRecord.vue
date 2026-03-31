@@ -16,7 +16,18 @@ const pages = ref({
 });
 
 const showPwd = ref(false);
-const recordList = ref<any[]>([]);
+type TradeRecordItem = {
+  id: number | string;
+  buy_min_num: number | string;
+  status?: number;
+  stock?: {
+    pro_name?: string;
+    pro_code?: string;
+  };
+  [key: string]: unknown;
+};
+
+const recordList = ref<TradeRecordItem[]>([]);
 const loading = ref(true);
 const finished = ref(false);
 const totalSize = ref(0);
@@ -77,7 +88,7 @@ const changeActType = (type: number) => {
   getRecordList();
 };
 
-const selectPopObj = ref<any>({});
+const selectPopObj = ref<TradeRecordItem | null>(null);
 const buyNum = ref(0);
 const openTradePop = () => {
   buyNum.value = recordList.value[actApplyInd.value].buy_min_num;
@@ -93,7 +104,7 @@ const confirmHandle = () => {
   publicStore.showLoading = true;
   showPop.value = false;
   subTradeHandle({
-    id: selectPopObj.value.id,
+    id: selectPopObj.value?.id,
     num: buyNum.value,
     sn: fundPwd.value,
   }).then(() => {
@@ -122,15 +133,17 @@ const statusEnum = {
 
       <div class="sectionCard mt-4 contentCard">
         <div class="tabRail">
-          <div
+          <button
+            type="button"
             class="tabChip"
             v-for="(tab, index) in recordTypeTabs"
             :class="tab.type == actRecordType ? 'active' : ''"
             :key="index"
+            :aria-pressed="tab.type == actRecordType"
             @click="changeActType(tab.type)"
           >
             {{ tab.text }}
-          </div>
+          </button>
         </div>
 
         <div class="mt-4" v-if="recordList.length == 0">
@@ -171,7 +184,8 @@ const statusEnum = {
 
             <template v-else>
               <div class="applyGrid">
-                <div
+                <button
+                  type="button"
                   class="applyCard"
                   :class="actApplyInd == index ? 'active' : ''"
                   v-for="(item, index) in recordList"
@@ -181,12 +195,12 @@ const statusEnum = {
                   <div class="itemTitle">{{ item.stock?.pro_name }}</div>
                   <div class="itemCode">{{ item.stock?.pro_code }}</div>
                   <div class="applyPrice">{{ UseExchangeNumber(item.buy_price) }}</div>
-                </div>
+                </button>
               </div>
 
-              <div class="contentBtn mt-4" @click="openTradePop">
+              <button type="button" class="contentBtn mt-4" @click="openTradePop">
                 {{ $t('trade.t12') }}
-              </div>
+              </button>
             </template>
           </van-list>
         </div>
@@ -199,9 +213,9 @@ const statusEnum = {
           <div class="dialogHead">
             <div class="dialogTitle">{{ selectPopObj.stock?.pro_name }}</div>
             <div class="dialogCode">{{ "(" + selectPopObj.stock?.pro_code + ")" }}</div>
-            <div class="closeBtn" @click="showPop = false">
+            <button type="button" class="closeBtn" @click="showPop = false" :aria-label="$t('comm.c56') || 'Close dialog'">
               <Icon name="solar:close-circle-linear" size="20" />
-            </div>
+            </button>
           </div>
 
           <div class="dialogBody">
@@ -221,14 +235,14 @@ const statusEnum = {
               <div class="fieldLabel">{{ $t('trade.t35') }}</div>
               <van-field :type="showPwd ? 'text' : 'password'" v-model="fundPwd" class="authInput mt-2" :placeholder="$t('trade.t36')" :border="false" input-align="left">
                 <template #right-icon>
-                  <div class="fieldAction" @click="showPwd = !showPwd">
+                  <button type="button" class="fieldAction" @click="showPwd = !showPwd" :aria-pressed="showPwd">
                     <Icon :name="showPwd ? 'solar:eye-linear' : 'solar:eye-closed-linear'" size="18" />
-                  </div>
+                  </button>
                 </template>
               </van-field>
             </div>
 
-            <div class="contentBtn mt-5" @click="confirmHandle">{{ $t('trade.t37') }}</div>
+            <button type="button" class="contentBtn mt-5" @click="confirmHandle">{{ $t('trade.t37') }}</button>
           </div>
         </div>
       </div>
@@ -257,7 +271,8 @@ const statusEnum = {
   background: rgba(255, 255, 255, 0.025);
 }
 .tabChip {
-  min-height: 38px;
+  appearance: none;
+  min-height: 44px;
   padding: 0 16px;
   border-radius: 999px;
   display: inline-flex;
@@ -265,6 +280,10 @@ const statusEnum = {
   justify-content: center;
   color: var(--text-secondary);
   font-size: 13px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transition: transform var(--motion-fast), background-color var(--motion-fast), color var(--motion-fast);
 }
 .tabChip.active {
   background: var(--brand-primary-soft);
@@ -334,11 +353,15 @@ const statusEnum = {
   gap: 10px;
 }
 .applyCard {
+  appearance: none;
   padding: 14px 10px;
+  width: 100%;
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.025);
   border: 1px solid var(--border-soft);
   text-align: center;
+  cursor: pointer;
+  transition: transform var(--motion-fast), border-color var(--motion-fast), background-color var(--motion-fast);
 }
 .applyCard.active {
   background: var(--brand-primary-soft);
@@ -384,7 +407,17 @@ const statusEnum = {
   position: absolute;
   right: 14px;
   top: 14px;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   color: var(--text-secondary);
+  cursor: pointer;
+  transition: transform var(--motion-fast), border-color var(--motion-fast), background-color var(--motion-fast);
 }
 .dialogBody {
   padding: 0 18px 18px;
@@ -406,11 +439,23 @@ const statusEnum = {
   color: var(--text-primary);
 }
 .fieldAction {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
+  appearance: none;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--text-secondary);
+  background: transparent;
+  border: 0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform var(--motion-fast), color var(--motion-fast), background-color var(--motion-fast);
+}
+.tabChip:active,
+.applyCard:active,
+.closeBtn:active,
+.fieldAction:active {
+  transform: scale(0.98);
 }
 </style>

@@ -18,20 +18,47 @@ const recordTypeList = ref([
   t('trade.t75'),
 ]);
 
-const pages = ref<any>({
+type RecordPageState = {
+  page: number;
+  size: number;
+  type: number;
+  status?: number;
+};
+
+type IpoRecordItem = {
+  id: number | string;
+  number_type?: number;
+  stock?: number | string;
+  min_number?: number | string;
+  number?: number | string;
+  exchange_name?: string;
+  start_time_format?: string;
+  product?: {
+    pro_name?: string;
+  };
+  pro_code?: string;
+  [key: string]: unknown;
+};
+
+type PaginatedResponse<T> = {
+  data: T[];
+  total: number;
+};
+
+const pages = ref<RecordPageState>({
   page: 1,
   size: 10,
   type: 1,
 });
 
-const recordList = ref<any[]>([]);
+const recordList = ref<IpoRecordItem[]>([]);
 const loading = ref(true);
 const finished = ref(false);
 const totalSize = ref(0);
 
 const getRecordList = () => {
   if (actRecordType.value < 1) {
-    getIpoRecordList(pages.value).then((res) => {
+    getIpoRecordList(pages.value).then((res: PaginatedResponse<IpoRecordItem>) => {
       totalSize.value = res.total;
       recordList.value = recordList.value.concat(res.data);
     }).finally(() => {
@@ -47,7 +74,7 @@ const getRecordList = () => {
     if (actRecordType.value > 1) {
       data.status = 1;
     }
-    ipoApplyDataApi(data).then((res) => {
+    ipoApplyDataApi(data).then((res: PaginatedResponse<IpoRecordItem>) => {
       totalSize.value = res.total;
       recordList.value = recordList.value.concat(res.data);
     }).finally(() => {
@@ -63,13 +90,13 @@ const getRecordList = () => {
 
 const buyNum = ref(1);
 const showPop = ref(false);
-const selectData = ref<any>({});
-const openSelectHandle = (item: any) => {
+const selectData = ref<IpoRecordItem | null>(null);
+const openSelectHandle = (item: IpoRecordItem) => {
   selectData.value = item;
   if (item.number_type > 1) {
-    buyNum.value = item.stock;
+    buyNum.value = Number(item.stock || 0);
   } else {
-    buyNum.value = item.min_number;
+    buyNum.value = Number(item.min_number || 0);
   }
   showPop.value = true;
 };
@@ -104,7 +131,7 @@ const confirmBuyHandle = () => {
   });
 };
 
-const payHandle = (item: any) => {
+const payHandle = (item: IpoRecordItem) => {
   ipoApplyPayApi({
     applyId: item.id,
   }).then(() => {
@@ -122,9 +149,9 @@ onMounted(() => {
   <div class="pageShell">
     <ClientOnly>
       <SecondPageNavBar :title="$t('trade.t78')">
-        <div class="navActionIcon" @click="rightClickHandle">
+        <button type="button" class="navActionIcon" @click="rightClickHandle" :aria-label="$t('record.r33') || 'Open IPO records'">
           <Icon name="solar:bill-list-linear" size="18" />
-        </div>
+        </button>
       </SecondPageNavBar>
 
       <div class="pageWrap px-3 pb-6">
@@ -135,15 +162,17 @@ onMounted(() => {
 
         <div class="sectionCard mt-4 contentCard">
           <div class="tabRail tabRailWide">
-            <div
+            <button
+              type="button"
               v-for="(item, index) in recordTypeList"
               class="tabChip flex-1"
               :class="index == actRecordType ? 'active' : ''"
               :key="index"
+              :aria-pressed="index == actRecordType"
               @click="changeRecordTypeHandle(index)"
             >
               {{ item }}
-            </div>
+            </button>
           </div>
 
           <div class="mt-4" v-if="recordList.length == 0">
@@ -187,7 +216,7 @@ onMounted(() => {
                     <span>{{ $t('trade.t86') }}</span>
                     <strong>{{ item.show_time_format }}</strong>
                   </div>
-                  <div class="contentBtn mt-4" @click="openSelectHandle(item)">{{ $t('trade.t87') }}</div>
+                  <button type="button" class="contentBtn mt-4" @click="openSelectHandle(item)">{{ $t('trade.t87') }}</button>
                 </div>
 
                 <div v-if="actRecordType == 1" class="detailList">
@@ -250,9 +279,9 @@ onMounted(() => {
                     <span>{{ $t('trade.t102') }}</span>
                     <strong>{{ item.paid_time }}</strong>
                   </div>
-                  <div class="contentBtn mt-4" v-if="item.pay_type == 1 && item.status == 1" @click="payHandle(item)">
+                  <button type="button" class="contentBtn mt-4" v-if="item.pay_type == 1 && item.status == 1" @click="payHandle(item)">
                     {{ $t('trade.t103') }}
-                  </div>
+                  </button>
                 </div>
               </div>
             </van-list>
@@ -264,9 +293,9 @@ onMounted(() => {
         <div class="overlayWrap">
           <div class="dialogCard" @click.stop>
             <div class="dialogHead">
-              <div class="closeBtn" @click="showPop = false">
+              <button type="button" class="closeBtn" @click="showPop = false" :aria-label="$t('comm.c56') || 'Close dialog'">
                 <Icon name="solar:close-circle-linear" size="20" />
-              </div>
+              </button>
               <div class="dialogTitle">{{ selectData.product?.pro_name }}</div>
               <div class="dialogCode">({{ selectData.product?.pro_code }})</div>
             </div>
@@ -294,7 +323,7 @@ onMounted(() => {
                 />
               </div>
               <div class="dialogFooter">
-                <div class="contentBtn dialogSubmitBtn" @click="confirmBuyHandle">{{ $t('trade.t109') }}</div>
+                <button type="button" class="contentBtn dialogSubmitBtn" @click="confirmBuyHandle">{{ $t('trade.t109') }}</button>
               </div>
             </div>
           </div>
@@ -309,8 +338,9 @@ onMounted(() => {
   min-height: calc(100vh - 60px);
 }
 .navActionIcon {
-  width: 36px;
-  height: 36px;
+  appearance: none;
+  width: 40px;
+  height: 40px;
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -318,6 +348,8 @@ onMounted(() => {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border-soft);
   color: var(--text-primary);
+  cursor: pointer;
+  transition: transform var(--motion-fast), border-color var(--motion-fast), background-color var(--motion-fast);
 }
 .heroEyebrow {
   color: var(--brand-primary);
@@ -346,7 +378,8 @@ onMounted(() => {
   width: 100%;
 }
 .tabChip {
-  min-height: 38px;
+  appearance: none;
+  min-height: 44px;
   padding: 0 16px;
   border-radius: 999px;
   display: inline-flex;
@@ -355,6 +388,10 @@ onMounted(() => {
   color: var(--text-secondary);
   font-size: 13px;
   text-align: center;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transition: transform var(--motion-fast), background-color var(--motion-fast), color var(--motion-fast);
 }
 .tabChip.active {
   background: var(--brand-primary-soft);
@@ -466,14 +503,17 @@ onMounted(() => {
   position: absolute;
   right: 16px;
   top: 16px;
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.05);
   color: var(--text-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  transition: transform var(--motion-fast), border-color var(--motion-fast), background-color var(--motion-fast);
 }
 .dialogBody {
   padding: 18px 22px 22px;
@@ -531,5 +571,10 @@ onMounted(() => {
 }
 .dialogSubmitBtn {
   margin-top: 0 !important;
+}
+.navActionIcon:active,
+.tabChip:active,
+.closeBtn:active {
+  transform: scale(0.98);
 }
 </style>

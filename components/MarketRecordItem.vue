@@ -3,7 +3,16 @@ import { stockCollect } from '~/api/home/home';
 import { showToast } from 'vant';
 const { t, locale } = useI18n()
 const props = defineProps<{
-    data: Record<string, any>
+    data: {
+        id: number | string;
+        pro_name: string;
+        pro_code: string;
+        isCollect: boolean;
+        is_rise: number;
+        price: number | string;
+        rise: number | string;
+        rise_rate: number | string;
+    }
 }>();
 const data = props.data
 
@@ -19,14 +28,15 @@ const collectHandle = () => {
 
 const router = useRouter()
 const useSocketStore = socketStore()
-const goTrade = item => {
+const goTrade = (item: typeof data) => {
   useSocketStore.currentCoin = item
   router.push('/trade')
 }
 </script>
 
 <template>
-    <div class="mb-3 recordItemEl p-4 rounded-[22px]" @click="goTrade(data)">
+    <div class="mb-3 recordItemEl p-4 rounded-[22px]" role="button" tabindex="0" @click="goTrade(data)"
+        @keydown.enter.prevent="goTrade(data)" @keydown.space.prevent="goTrade(data)">
         <div class="headerRow">
             <div class="titleWrap">
                 <div class="font-black itemTitle">{{ data.pro_name }}</div>
@@ -66,6 +76,11 @@ const goTrade = item => {
     min-height: 152px;
     display: grid;
     gap: 14px;
+    cursor: pointer;
+    transition:
+        transform var(--motion-fast),
+        border-color var(--motion-fast),
+        background-color var(--motion-fast);
 }
 
 .headerRow {
@@ -107,14 +122,19 @@ const goTrade = item => {
 }
 
 .bookmarkBtn {
-    width: 34px;
-    height: 34px;
+    width: 40px;
+    height: 40px;
     border-radius: 999px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     background: rgba(255, 255, 255, 0.03);
     flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition:
+        transform var(--motion-fast),
+        border-color var(--motion-fast),
+        background-color var(--motion-fast);
 }
 
 .quoteRow {
@@ -178,5 +198,15 @@ const goTrade = item => {
     background: rgba(255, 255, 255, 0.045);
     color: inherit;
     white-space: nowrap;
+}
+
+.recordItemEl:hover {
+    background: rgba(255, 255, 255, 0.035);
+    border-color: rgba(212, 154, 58, 0.18);
+}
+
+.recordItemEl:active,
+.bookmarkBtn:active {
+    transform: scale(0.98);
 }
 </style>

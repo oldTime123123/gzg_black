@@ -12,13 +12,10 @@ onMounted(() => {
 
 <template>
   <AuthShell :show-back="false" :eyebrow="$t('theme.access')" :title="$t('login.l1')"
-    :subtitle="$t('theme.entryExperienceCopy')">
+    >
     <template #hero>
       <div class="heroPanel">
-        <div class="heroLine">
-          <span class="heroDot"></span>
-          <span>{{ $t('theme.brandBadge') }}</span>
-        </div>
+
         <div class="heroMeta">
           <div class="heroMetaItem">
             <span>{{ $t('theme.tradingAccess') }}</span>
@@ -33,14 +30,14 @@ onMounted(() => {
     </template>
 
     <div class="ctaStack">
-      <div class="ctaPrimary contentBtn" @click="changePage('/auth/login')">{{ $t('login.l1') }}</div>
+      <button type="button" class="ctaPrimary contentBtn" @click="changePage('/auth/login')">{{ $t('login.l1') }}</button>
 
       <div class="secondaryPanel">
         <div class="secondaryTitle">{{ $t('login.l2') }}</div>
-        <div class="secondaryAction" @click="changePage('/auth/register')">
+        <button type="button" class="secondaryAction" @click="changePage('/auth/register')">
           <span>{{ $t('login.l3') }}</span>
           <Icon name="solar:alt-arrow-right-linear" size="18" />
-        </div>
+        </button>
       </div>
 
     </div>
@@ -136,6 +133,10 @@ onMounted(() => {
   gap: 6px;
   color: var(--brand-primary);
   font-weight: 700;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
 }
 
 .helpPanel {

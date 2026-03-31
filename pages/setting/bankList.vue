@@ -7,14 +7,21 @@ const changePage = (url: string) => {
   router.push(url);
 };
 
+type BankCardItem = {
+  id: number | string;
+  bank_name: string;
+  bank_num: string;
+  other_param_2?: string;
+};
+
 const showSkeleton = ref(true);
 const pub = usePublicStore();
-const items = ref(new Array());
+const items = ref<BankCardItem[]>([]);
 
 const fetchItemData = () => {
   pub.showLoading = true;
   getUserBankcardList()
-    .then((list: any) => {
+    .then((list: BankCardItem[]) => {
       items.value = list;
     })
     .finally(() => {
@@ -24,8 +31,8 @@ const fetchItemData = () => {
 };
 
 const showPop = ref(false);
-const delId = ref(0);
-const openPop = (id) => {
+const delId = ref<number | string>(0);
+const openPop = (id: number | string) => {
   delId.value = id;
   showPop.value = true;
 };
@@ -70,7 +77,7 @@ onMounted(() => {
       <div v-else class="cardGrid mt-4">
         <div class="bankCard" v-for="(item, index) in items" :key="index">
           <div class="bankHead">
-            <div class="bankTop" @click="changePage(`./editBank?bankId=${item.id}`)">
+            <button type="button" class="bankTop" @click="changePage(`./editBank?bankId=${item.id}`)">
               <div class="bankBadge">
                 <Icon name="solar:card-2-linear" size="18" />
               </div>
@@ -78,30 +85,30 @@ onMounted(() => {
                 <div class="bankName">{{ item.bank_name }}</div>
                 <div class="bankSub">{{ item.other_param_2 }}</div>
               </div>
-            </div>
+            </button>
 
             <div class="bankActions">
-              <div class="smallAction" @click="changePage(`./editBank?bankId=${item.id}`)">
+              <button type="button" class="smallAction" @click="changePage(`./editBank?bankId=${item.id}`)">
                 <Icon name="solar:pen-linear" size="18" />
-              </div>
-              <div class="smallAction danger" @click="openPop(item.id)">
+              </button>
+              <button type="button" class="smallAction danger" @click="openPop(item.id)">
                 <Icon name="solar:trash-bin-trash-linear" size="18" />
-              </div>
+              </button>
             </div>
           </div>
 
-          <div class="bankNumberStrip" @click="changePage(`./editBank?bankId=${item.id}`)">
+          <button type="button" class="bankNumberStrip" @click="changePage(`./editBank?bankId=${item.id}`)">
             <div class="bankNumberLabel">{{ $t('theme.bankDetails') }}</div>
             <div class="bankNumber">**** **** **** {{ item.bank_num }}</div>
-          </div>
+          </button>
         </div>
       </div>
 
       <div class="actionDock">
-        <div class="contentBtn addBtn" @click="changePage('./editBank')">
+        <button type="button" class="contentBtn addBtn" @click="changePage('./editBank')">
           <span>{{ $t('setting.s6') }}</span>
           <Icon name="material-symbols:add-circle-rounded" size="20" class="addBtnIcon" />
-        </div>
+        </button>
       </div>
     </div>
 
@@ -113,10 +120,10 @@ onMounted(() => {
             <span class="font-bold">{{ t('setting.s4') }}</span>
           </div>
           <div class="dialogActions mt-4 grid grid-cols-2 gap-2">
-            <div class="borderContentBtn" @click="showPop = false">{{ $t('comm.c56') }}</div>
-            <div class="contentBtn" @click="handleDelItem">
+            <button type="button" class="borderContentBtn" @click="showPop = false">{{ $t('comm.c56') }}</button>
+            <button type="button" class="contentBtn" @click="handleDelItem">
               {{ t('setting.s2') }}
-            </div>
+            </button>
           </div>
         </div>
       </div>
@@ -201,12 +208,16 @@ onMounted(() => {
 }
 
 .bankTop {
+  appearance: none;
   display: flex;
   align-items: center;
   gap: 12px;
   min-width: 0;
   flex: 1;
   cursor: pointer;
+  text-align: left;
+  background: transparent;
+  border: 0;
 }
 
 .bankBadge {
@@ -237,6 +248,7 @@ onMounted(() => {
 }
 
 .bankNumberStrip {
+  appearance: none;
   margin-top: 16px;
   padding: 14px 16px;
   border-radius: 18px;
@@ -244,6 +256,9 @@ onMounted(() => {
   border: 0;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: transform var(--motion-fast), border-color var(--motion-fast);
 }
 
 .addBtn {
@@ -282,8 +297,9 @@ onMounted(() => {
 }
 
 .smallAction {
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
+  appearance: none;
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -291,6 +307,8 @@ onMounted(() => {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border-soft);
   color: var(--text-primary);
+  cursor: pointer;
+  transition: transform var(--motion-fast), border-color var(--motion-fast), background-color var(--motion-fast);
 }
 
 .smallAction.danger {
@@ -334,5 +352,11 @@ onMounted(() => {
   border: 1px solid var(--border-soft);
   text-align: center;
   color: var(--text-secondary);
+}
+.smallAction:active,
+.bankTop:active,
+.bankNumberStrip:active,
+.addBtn:active {
+  transform: scale(0.98);
 }
 </style>

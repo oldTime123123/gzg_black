@@ -1,4 +1,27 @@
-const localStorage = window ? window.localStorage : persistedState.localStorage;
+const memoryStorage = (() => {
+  const store = new Map<string, string>();
+  return {
+    getItem(name: string) {
+      return store.has(name) ? store.get(name)! : null;
+    },
+    setItem(name: string, value: string) {
+      store.set(name, value);
+    },
+    removeItem(name: string) {
+      store.delete(name);
+    },
+    clear() {
+      store.clear();
+    },
+  };
+})();
+
+function getStorage() {
+  if (import.meta.client && typeof window !== "undefined") {
+    return window.localStorage;
+  }
+  return memoryStorage;
+}
 
 function key(name: string): string {
   // @ts-ignore
@@ -11,11 +34,11 @@ export const storage = {
   // 设置永久缓存
   set<T>(name: string, value: T) {
     let raw = JSON.stringify(value);
-    localStorage.setItem(key(name), raw);
+    getStorage().setItem(key(name), raw);
   },
   // 获取永久缓存
   get<T>(name: string, defaultValue?: T): T {
-    let raw = localStorage.getItem(key(name));
+    let raw = getStorage().getItem(key(name));
     if (raw == null) {
       return defaultValue as T;
     }
@@ -23,16 +46,17 @@ export const storage = {
   },
   // 移除永久缓存
   remove(...names: string[]) {
-    names.forEach((name) => localStorage.removeItem(key(name)));
+    const currentStorage = getStorage();
+    names.forEach((name) => currentStorage.removeItem(key(name)));
   },
   // 移除全部永久缓存
   clear() {
-    localStorage.clear();
+    getStorage().clear();
   },
   getItem(name: string) {
-    return localStorage.getItem(key(name));
+    return getStorage().getItem(key(name));
   },
   setItem(name: string, value: string) {
-    return localStorage.setItem(key(name), value);
+    return getStorage().setItem(key(name), value);
   },
 };

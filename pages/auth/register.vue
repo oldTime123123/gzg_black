@@ -89,9 +89,9 @@ const handleSubmit = async () => {
                   <Icon name="solar:lock-password-linear" size="18" class="fieldIcon" />
                 </template>
                 <template #right-icon>
-                  <div class="fieldAction" @click="showPwd = !showPwd">
+                  <button type="button" class="fieldAction" :aria-pressed="showPwd" @click="showPwd = !showPwd">
                     <Icon :name="showPwd ? 'solar:eye-linear' : 'solar:eye-closed-linear'" size="18" />
-                  </div>
+                  </button>
                 </template>
               </van-field>
             </div>
@@ -108,9 +108,9 @@ const handleSubmit = async () => {
                   <Icon name="solar:shield-keyhole-linear" size="18" class="fieldIcon" />
                 </template>
                 <template #right-icon>
-                  <div class="fieldAction" @click="showFundPwd = !showFundPwd">
+                  <button type="button" class="fieldAction" :aria-pressed="showFundPwd" @click="showFundPwd = !showFundPwd">
                     <Icon :name="showFundPwd ? 'solar:eye-linear' : 'solar:eye-closed-linear'" size="18" />
-                  </div>
+                  </button>
                 </template>
               </van-field>
             </div>
@@ -136,7 +136,7 @@ const handleSubmit = async () => {
               <van-checkbox v-model="rememberPwd" icon-size="18" class="rememberCheck shrink-0" />
               <div class="text-[13px] leading-[1.55] text-[var(--text-secondary)]">
                 {{ $t('login.l25') }}
-                <span class="textLink" @click="changePage('/mine/xieyi')">{{ $t('login.l26') }}</span>
+                <button type="button" class="textLink" @click="changePage('/mine/xieyi')">{{ $t('login.l26') }}</button>
                 {{ $t('login.l27') }}
               </div>
             </div>
@@ -148,7 +148,7 @@ const handleSubmit = async () => {
 
           <div class="flex items-center justify-center gap-1.5 text-[13px] text-[var(--text-secondary)]">
             <span>{{ $t('login.l29') }}</span>
-            <span class="textLink" @click="changePage('/auth/login')">{{ $t('x.a7') }}</span>
+            <button type="button" class="textLink" @click="changePage('/auth/login')">{{ $t('x.a7') }}</button>
           </div>
         </div>
       </van-form>
@@ -227,13 +227,22 @@ const handleSubmit = async () => {
 }
 
 .fieldAction {
-  width: 20px;
-  height: 20px;
-  display: flex;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   color: var(--brand-primary);
   opacity: 1;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  border-radius: 12px;
+  transition: transform 0.18s ease, color 0.18s ease, background 0.18s ease;
+}
+
+.fieldAction:active {
+  transform: scale(0.96);
 }
 
 .authInput :deep(.van-field__error-message) {
@@ -253,5 +262,10 @@ const handleSubmit = async () => {
 .textLink {
   color: var(--brand-primary);
   font-weight: 700;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
 }
 </style>

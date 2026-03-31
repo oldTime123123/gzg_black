@@ -11,12 +11,29 @@ const recordTypeTabs = ref([
   { text: t('fund.f20'), type: 2 },
 ]);
 
-const pages = ref<any>({
+type RecordPageState = {
+  page: number;
+  size: number;
+  status?: number;
+};
+
+type FundRecordItem = {
+  id: number;
+  order_no: string;
+  status: number;
+  num: number | string;
+  yuji_num: number | string;
+  actual_num: number | string;
+  createTime: string;
+  expire_time: string;
+};
+
+const pages = ref<RecordPageState>({
   page: 1,
   size: 10,
 });
 
-const recordList = ref<any[]>([]);
+const recordList = ref<FundRecordItem[]>([]);
 const loading = ref(true);
 const finished = ref(false);
 const totalSize = ref(0);
@@ -85,15 +102,17 @@ const showCancelConfirm = () => {
 
       <div class="sectionCard mt-4 contentCard">
         <div class="tabRail">
-          <div
+          <button
+            type="button"
             class="tabChip"
             v-for="(tab, index) in recordTypeTabs"
             :class="tab.type == actRecordType ? 'active' : ''"
             :key="index"
+            :aria-pressed="tab.type == actRecordType"
             @click="changeActType(tab.type)"
           >
             {{ tab.text }}
-          </div>
+          </button>
         </div>
 
         <div class="mt-4" v-if="recordList.length == 0">
@@ -132,9 +151,9 @@ const showCancelConfirm = () => {
                 </div>
               </div>
 
-              <div class="contentBtn mt-4" v-if="pub.cancelLixibaoFlag && actRecordType < 2" @click="openPop(item.id)">
+              <button type="button" class="contentBtn mt-4" v-if="pub.cancelLixibaoFlag && actRecordType < 2" @click="openPop(item.id)">
                 {{ t('fund.f23') }}
-              </div>
+              </button>
             </div>
           </van-list>
         </div>
@@ -146,15 +165,15 @@ const showCancelConfirm = () => {
         <div class="dialogCard" @click.stop>
           <div class="dialogHead">
             <div class="dialogTitle">{{ $t('mine.m9') }}</div>
-            <div class="closeBtn" @click="showPop = false">
+            <button type="button" class="closeBtn" :aria-label="$t('comm.c56')" @click="showPop = false">
               <Icon name="solar:close-circle-linear" size="20" />
-            </div>
+            </button>
           </div>
           <div class="dialogBody">
             <div class="dialogMessage">{{ t('fund.f24') }}</div>
             <div class="dialogActions">
-              <div class="borderContentBtn" @click="showPop = false">{{ $t('comm.c56') }}</div>
-              <div class="contentBtn" @click="showCancelConfirm">{{ $t('comm.c57') }}</div>
+              <button type="button" class="borderContentBtn" @click="showPop = false">{{ $t('comm.c56') }}</button>
+              <button type="button" class="contentBtn" @click="showCancelConfirm">{{ $t('comm.c57') }}</button>
             </div>
           </div>
         </div>
@@ -179,10 +198,12 @@ const showCancelConfirm = () => {
   background: rgba(255,255,255,0.025);
 }
 .tabChip {
-  min-height: 38px; padding: 0 16px; border-radius: 999px; display: inline-flex;
+  min-height: 44px; padding: 0 16px; border-radius: 999px; display: inline-flex;
   align-items: center; justify-content: center; color: var(--text-secondary); font-size: 13px;
+  appearance: none; border: 0; transition: transform .18s ease, background .18s ease, color .18s ease;
 }
 .tabChip.active { background: var(--brand-primary-soft); color: var(--brand-primary); }
+.tabChip:active { transform: scale(.97); }
 .emptyText { margin-top: 10px; text-align: center; color: var(--text-secondary); }
 .historyCard {
   padding: 14px; border-radius: 18px; background: rgba(255,255,255,0.025);
@@ -211,7 +232,9 @@ const showCancelConfirm = () => {
 }
 .dialogHead { position: relative; padding: 18px 18px 10px; }
 .dialogTitle { color: var(--text-primary); font-size: 18px; font-weight: 800; }
-.closeBtn { position: absolute; right: 14px; top: 14px; color: var(--text-secondary); }
+.closeBtn { position: absolute; right: 14px; top: 14px; width: 40px; height: 40px; border-radius: 14px; display: inline-flex; align-items: center; justify-content: center; color: var(--text-secondary); appearance: none; background: rgba(255,255,255,.025); border: 1px solid rgba(255,255,255,.08); transition: transform .18s ease, border-color .18s ease, color .18s ease; }
+.closeBtn:hover { border-color: rgba(212,154,58,.18); color: var(--brand-primary); }
+.closeBtn:active { transform: scale(.96); }
 .dialogBody { padding: 0 18px 18px; }
 .dialogMessage {
   padding: 18px 0; color: var(--text-primary); text-align: center; font-weight: 600;

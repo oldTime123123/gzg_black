@@ -1,23 +1,21 @@
 <script lang="ts" setup>
-
 const isFixed = ref(false)
-const changeFixedHandle = (e) => {
+const changeFixedHandle = (e: boolean) => {
     isFixed.value = e
 }
 const props = defineProps<{
-    title: String;
+    title: string;
     rightIcon?: string;
     hasNoBg?: boolean;
-    rightClickHandle?:Function
+    rightClickHandle?: () => void
 }>()
 const router = useRouter()
-const route = useRoute()
-const changePage = (url: any) => {
+const changePage = (url: string) => {
     if (url !=='back') {
         router.push(url)
     } else {
         // 方法一的变种：判断 state.back
-      if (window.history.state.back) {
+      if (import.meta.client && globalThis.history?.state?.back) {
         router.back()
       } else {
         // 如果没有上一页，强制跳转到首页（兜底）
@@ -34,9 +32,9 @@ const changePage = (url: any) => {
             <div class="navWrap px-3 py-3 flex justify-between items-center colorfff "
                 :class="isFixed || !props.hasNoBg ?'navSolid':''">
                 <div class="w-[40px] flex items-center">
-                    <div class="navAction cursor-pointer" @click="changePage('back')">
+                    <button type="button" class="navAction" @click="changePage('back')" :aria-label="$t('comm.c58') || 'Go back'">
                         <Icon name="solar:alt-arrow-left-linear" size="20" />
-                    </div>
+                    </button>
                 </div>
                 <div class="flex-1 text-center truncate navTitleWrap">
                     <div class="navEyebrow">Titanium Amber</div>
@@ -46,11 +44,12 @@ const changePage = (url: any) => {
                 </div>
                 <div class="w-[40px] flex flex-row-reverse cursor-pointer ">
                   <slot></slot>
-                    <div v-if="props.rightIcon"
+                    <button type="button" v-if="props.rightIcon"
                         class="navAction"
-                        @click="props.rightClickHandle">
-                        <img :src="props.rightIcon" class="w-5 h-5" />
-                    </div>
+                        @click="props.rightClickHandle"
+                        :aria-label="$t('comm.c84') || 'Secondary action'">
+                        <img :src="props.rightIcon" alt="" class="w-5 h-5" decoding="async" width="20" height="20" />
+                    </button>
                 </div>
             </div>
         </van-sticky>
@@ -76,8 +75,8 @@ const changePage = (url: any) => {
 }
 
 .navAction {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -85,6 +84,20 @@ const changePage = (url: any) => {
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid var(--border-soft);
     color: var(--text-primary);
+    appearance: none;
+    transition:
+        transform var(--motion-fast) ease,
+        background-color var(--motion-fast) ease,
+        border-color var(--motion-fast) ease;
+}
+
+.navAction:active {
+    transform: translateY(1px) scale(0.985);
+}
+
+.navAction:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(212, 154, 58, 0.18);
 }
 
 .navTitleWrap {
@@ -94,15 +107,19 @@ const changePage = (url: any) => {
 
 .navEyebrow {
     color: var(--brand-primary);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
+    font-size: var(--text-caption);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-eyebrow);
     text-transform: uppercase;
     line-height: 1;
 }
 
 .navTitle {
     color: var(--text-primary);
-    letter-spacing: 0.02em;
+    font-family: var(--font-family-display);
+    font-size: var(--text-title);
+    font-weight: var(--weight-bold);
+    line-height: 1.2;
+    letter-spacing: var(--tracking-dense);
 }
 </style>

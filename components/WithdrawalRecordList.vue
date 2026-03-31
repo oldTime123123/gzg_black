@@ -2,10 +2,26 @@
 import { getUserWithdrawalRecord } from '~/api/home/home';
 const { t } = useI18n();
 
-const statusText: any = { 1: t('comm.c83'), 2: t('comm.c84'), 3: t('comm.c85'), 4: t('comm.c86') };
-const payStatusText: any = { 1: t('comm.c87'), 2: t('comm.c88'), 3: t('comm.c89') };
+type WithdrawalRecordItem = {
+  order_no: string;
+  amount: number | string;
+  actual_amount: number | string;
+  arrive_time?: string;
+  fee: number | string;
+  remark?: string;
+  status: number;
+  pay_status: number;
+};
+
+type PaginatedResponse<T> = {
+  data: T[];
+  last_page: number;
+};
+
+const statusText: Record<number, string> = { 1: t('comm.c83'), 2: t('comm.c84'), 3: t('comm.c85'), 4: t('comm.c86') };
+const payStatusText: Record<number, string> = { 1: t('comm.c87'), 2: t('comm.c88'), 3: t('comm.c89') };
 const params = reactive({ page: 1, limit: 10 });
-const items = ref<any[]>([]);
+const items = ref<WithdrawalRecordItem[]>([]);
 const error = ref(false);
 const loading = ref(false);
 const finished = ref(false);
@@ -13,7 +29,7 @@ const finished = ref(false);
 const fetchItemsList = () => {
   loading.value = true;
   finished.value = true;
-  getUserWithdrawalRecord(params.page++, params.limit).then((res: any) => {
+  getUserWithdrawalRecord(params.page++, params.limit).then((res: PaginatedResponse<WithdrawalRecordItem>) => {
     items.value = items.value.concat(res.data);
     const bool = params.page > res.last_page;
     nextTick(() => { finished.value = bool; });

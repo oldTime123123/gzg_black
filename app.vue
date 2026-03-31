@@ -13,12 +13,12 @@
     <van-backTop :bottom="90" :right="10"></van-backTop>
   </div>
 </template>
-<script setup >
+<script setup lang="ts">
 import socket from "~/utils/socket.ts";
 import { storage } from "~/stores/storage";
 
 import { useHead, useSeoMeta, useRequestURL } from 'nuxt/app'
-import { computed, onMounted, onUnmounted } from 'vue'
+import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue'
 const pub = usePublicStore()
 
 const url = useRequestURL()
@@ -67,66 +67,59 @@ useSeoMeta({
 })
 const { setLocale, locale } = useI18n()
 
-const loginStore = useLoginStore()
-onMounted(() => {
-  // if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-  //   navigator.serviceWorker.register('/sw.js', { scope: '/' })
-  // }
-  // if (loginStore.loading) {
-    //   loginStore.loading = false
-  // }
-  const savedLang =
-    (typeof window !== 'undefined' && localStorage.getItem('lang')) ||
-    storage.get?.('lang', '') ||
-    ''
-  if (savedLang) {
-    setLocale(savedLang)
-    pub.setLang = true
-  } else if (!pub.setLang && !locale.value) {
-    setLocale('ja')
-  }
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations().then(function (registrations) {
-      for (let registration of registrations) {
-        registration.unregister().then(success => {
-          if (success) {
-            window.location.reload();
-          }
-        });
-      }
-    });
-    if ('caches' in window) {
-      caches.keys().then(function (cacheNames) {
-        cacheNames.forEach(function (cacheName) {
-          caches.delete(cacheName);
-        });
-      });
-    }
-  }
-})
-
-
-
 const user = useUserStore();
 
-if(window){
-  window.addEventListener('error', () => {
-    pub.showLoading = false
-  })
-
-  window.addEventListener('unhandledrejection', () => {
-    pub.showLoading = false
-  })
+const notifyTimer = ref<ReturnType<typeof setInterval> | null>(null)
+const handleWindowFailure = () => {
+  pub.showLoading = false
 }
-const notifyTimer = ref("")
+const handleIpoNotice = (data: any) => {
+  if (data?.id) {
+    pub.showIPONoticePop = true
+    pub.ipoNoticeData = data
+  }
+}
+const handleStockStatus = (data: any) => {
+  pub.stockStatus = data?.status
+}
+const stopNotifyTimer = () => {
+  if (notifyTimer.value) {
+    clearInterval(notifyTimer.value)
+    notifyTimer.value = null
+  }
+}
+const emitStockSignals = (params: { token: string }) => {
+  socket.emit('ipoNotice', params)
+  socket.emit('stock_status')
+}
+const startNotifyTimer = (token: string) => {
+  if (document.hidden) return
+  stopNotifyTimer()
+  const params = { token }
+  emitStockSignals(params)
+  notifyTimer.value = setInterval(() => {
+    emitStockSignals(params)
+  }, 5000)
+}
+const handleVisibilityChange = () => {
+  if (!import.meta.client) return
+  const token = localStorage.getItem('token')
+  if (!token) {
+    stopNotifyTimer()
+    return
+  }
+  if (document.hidden) {
+    stopNotifyTimer()
+    return
+  }
+  startNotifyTimer(token)
+}
+
 onBeforeMount(() => {
   if (user.isLogined()) {
-
     user.flush();
   }
-  if(notifyTimer.value){
-    clearInterval(notifyTimer.value)
-  }
+  stopNotifyTimer()
   if (pub.showIPONoticePop) {
     pub.showIPONoticePop = false
   }
@@ -134,32 +127,47 @@ onBeforeMount(() => {
     pub.show209PopFlag = false
   }
   pub.initPlantformData()
-  if (window) {
-    if (localStorage.getItem('token')) {
-      let params = {
-        token: localStorage.getItem('token')
-      }
-      socket.connect()
-      socket.emit('ipoNotice', params)
-      socket.emit('stock_status')
-      notifyTimer.value = setInterval(() => {
-        socket.emit('ipoNotice', params)
-        socket.emit('stock_status' )
-      }, 5000);
-      socket.on('ipoNotice', data => {
+})
 
-        if (data.id) {
-            pub.showIPONoticePop = true
-          pub.ipoNoticeData = data
-          }
-      })
-      socket.on('stock_status', data => {
-        pub.stockStatus = data.status
-      })
+onMounted(() => {
+  const savedLang =
+    storage.get?.('lang', '') ||
+    ''
+
+  if (savedLang) {
+    setLocale(savedLang)
+    pub.setLang = true
+  } else if (!pub.setLang && !locale.value) {
+    setLocale('ja')
+  }
+
+  if (import.meta.client) {
+    window.addEventListener('error', handleWindowFailure)
+    window.addEventListener('unhandledrejection', handleWindowFailure)
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+
+    const token = localStorage.getItem('token')
+    if (token) {
+      socket.connect()
+      socket.off('ipoNotice', handleIpoNotice)
+      socket.off('stock_status', handleStockStatus)
+      socket.on('ipoNotice', handleIpoNotice)
+      socket.on('stock_status', handleStockStatus)
+      startNotifyTimer(token)
     }
   }
 })
 
+onUnmounted(() => {
+  stopNotifyTimer()
+  if (import.meta.client) {
+    window.removeEventListener('error', handleWindowFailure)
+    window.removeEventListener('unhandledrejection', handleWindowFailure)
+    document.removeEventListener('visibilitychange', handleVisibilityChange)
+  }
+  socket.off('ipoNotice', handleIpoNotice)
+  socket.off('stock_status', handleStockStatus)
+})
 
 </script>
 

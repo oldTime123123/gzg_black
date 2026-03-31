@@ -1,8 +1,25 @@
 <script setup lang="ts">
 import { getUserBalanceRecord } from '~/api/home/home';
 
+type BalanceRecordItem = {
+  change_reason: string;
+  createTime: string;
+  info_type: number;
+  info?: {
+    pro_code?: string;
+    pro_name?: string;
+  };
+  change_type: number;
+  amount: number | string;
+};
+
+type PaginatedResponse<T> = {
+  data: T[];
+  last_page: number;
+};
+
 const params = reactive({ page: 1, limit: 10 });
-const items = ref<any[]>([]);
+const items = ref<BalanceRecordItem[]>([]);
 const error = ref(false);
 const loading = ref(false);
 const finished = ref(false);
@@ -10,7 +27,7 @@ const finished = ref(false);
 const fetchItemsList = () => {
   loading.value = true;
   finished.value = true;
-  getUserBalanceRecord(params.page++, params.limit, 1).then((res: any) => {
+  getUserBalanceRecord(params.page++, params.limit, 1).then((res: PaginatedResponse<BalanceRecordItem>) => {
     items.value = items.value.concat(res.data);
     const bool = params.page > res.last_page;
     nextTick(() => {

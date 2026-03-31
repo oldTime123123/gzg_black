@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { getTradeProduct } from '~/api/home/home';
 
+type MarketListItem = Record<string, unknown>;
+
 const params = reactive({
   vol: 1,
   size: 10,
 });
 
-const items = ref(new Array())
+const items = ref<MarketListItem[]>([])
 const error = ref(false);
 const loading = ref(false);
 const finished = ref(false);
@@ -14,7 +16,7 @@ const showSkeleton = ref(true)
 const fetchItemsList = () => {
   loading.value = true;
   finished.value = true;
-  getTradeProduct(params).then((rows: any) => {
+  getTradeProduct(params).then((rows: MarketListItem[]) => {
     items.value = rows;
   }).catch(() => {
     error.value = true;

@@ -16,12 +16,12 @@
       </div>
 
       <div class="realModalActions">
-        <div class="borderContentBtn" @click="closePop(1)">
+        <button type="button" class="borderContentBtn" @click="closePop(1)">
           {{ t('mine.m11') }}
-        </div>
-        <div class="contentBtn" @click="closePop(2)">
+        </button>
+        <button type="button" class="contentBtn" @click="closePop(2)">
           {{ t('mine.m10') }}
-        </div>
+        </button>
       </div>
     </div>
   </div>
@@ -81,6 +81,12 @@ const closePop = (type: number) => {
   justify-content: center;
   background: rgba(255, 255, 255, 0.05);
   color: var(--text-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: transform .18s ease, border-color .18s ease, color .18s ease;
+}
+
+.realModalClose:active {
+  transform: scale(.96);
 }
 
 .realModalBadge {

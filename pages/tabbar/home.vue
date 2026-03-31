@@ -5,6 +5,12 @@ import { LineOption } from '~/utils/indexLineStyle';
 
 const { t } = useI18n();
 
+type HomeNewsItem = {
+  type: number;
+  url?: string;
+  [key: string]: unknown;
+};
+
 const commList = computed(() => {
   return [
     {
@@ -131,12 +137,12 @@ const goNewsDetail = (item) => {
   if (item.type !== 2) {
     pub.selectNews = item;
     router.push('/mine/newsDetail');
-  } else {
-    window.open(item.url);
+  } else if (import.meta.client && item.url) {
+    globalThis.open?.(item.url, '_blank');
   }
 };
 
-const changeLineTypeData = (data: any) => {
+const changeLineTypeData = (data: Array<number | null>) => {
   const result = Array(100)
     .fill(null)
     .map((_, i) => data[i] ?? null);
@@ -150,7 +156,7 @@ const changeLineTypeData = (data: any) => {
   return result;
 };
 
-const goTrade = (item) => {
+const goTrade = (item: Record<string, unknown>) => {
   useSocketStore.currentCoin = item;
   router.push('/trade');
 };
@@ -184,20 +190,18 @@ onMounted(() => {
             </div>
 
             <div class="topBarActions">
-              <div class="topAction" @click="changePage('/service')">
+              <button type="button" class="topAction" @click="changePage('/service')">
                 <Icon name="solar:headphones-round-sound-linear" size="18" />
-              </div>
-              <div class="topAction" @click="changePage('/setting/identify')">
+              </button>
+              <button type="button" class="topAction" @click="changePage('/setting/identify')">
                 <Icon name="solar:shield-check-linear" size="18" />
-              </div>
+              </button>
             </div>
           </div>
         </van-sticky>
 
-        <div class="pageContainer px-3 mt-3 pb-6">
-
-
-          <div class="homeGrid mt-4">
+        <div class="pageContainer pageStack px-3 mt-3 pb-6">
+          <div class="homeGrid">
             <div class="marketBoard sectionCard">
               <div class="sectionHeading">
                 <div>
@@ -206,68 +210,70 @@ onMounted(() => {
                 </div>
               </div>
 
-              <div class="marketMeta">
-                <div class="marketPriceBlock" :class="selectStockInfo.is_rise > 1 ? 'colorUp' : 'colorDown'">
-                  <div class="marketPrice">{{ UseExchangeNumber(selectStockInfo.price) }}</div>
-                  <div class="marketChange">
-                    <span>{{ getNumberType(true, selectStockInfo.is_rise) + UseExchangeNumber(selectStockInfo.chart.rise) }}</span>
-                    <span>{{ getNumberType(true, selectStockInfo.is_rise) + selectStockInfo.rise_rate }}%</span>
-                  </div>
-                </div>
-
-                <div class="statsGrid">
-                  <div class="statItem">
-                    <span>{{ $t('index.i17') }}</span>
-                    <strong>{{ UseExchangeNumber(homeKlineEmitData.open) }}</strong>
-                  </div>
-                  <div class="statItem">
-                    <span>{{ $t('index.i18') }}</span>
-                    <strong>{{ UseExchangeNumber(homeKlineEmitData.close) }}</strong>
-                  </div>
-                  <div class="statItem">
-                    <span>{{ $t('index.i19') }}</span>
-                    <strong>{{ UseExchangeNumber(selfData.high) }}</strong>
-                  </div>
-                  <div class="statItem">
-                    <span>{{ $t('index.i20') }}</span>
-                    <strong>{{ UseExchangeNumber(selfData.low) }}</strong>
-                  </div>
-                </div>
-              </div>
-
-              <div class="chartShell mt-4">
-                <HomeKLine ref="HomeKlineRef" @updateHomeKlineTopData="updateHomeKlineTopData" />
-              </div>
-
-              <div class="boardActionRow">
-                <div class="boardActionEyebrow">{{ $t('theme.quickActions') }}</div>
-                <div class="actionRail">
-                  <div class="actionCard" v-for="(item, index) in commList" :key="index" @click="changePage(item.url)">
-                    <div class="iconFrame">
-                      <Icon :name="item.icon" size="20" />
+              <div class="marketBoardBody">
+                <div class="marketMeta">
+                  <div class="marketPriceBlock" :class="selectStockInfo.is_rise > 1 ? 'colorUp' : 'colorDown'">
+                    <div class="marketPrice">{{ UseExchangeNumber(selectStockInfo.price) }}</div>
+                    <div class="marketChange">
+                      <span>{{ getNumberType(true, selectStockInfo.is_rise) + UseExchangeNumber(selectStockInfo.chart.rise) }}</span>
+                      <span>{{ getNumberType(true, selectStockInfo.is_rise) + selectStockInfo.rise_rate }}%</span>
                     </div>
-                    <div class="actionName">{{ item.name }}</div>
+                  </div>
+
+                  <div class="statsGrid">
+                    <div class="statItem">
+                      <span>{{ $t('index.i17') }}</span>
+                      <strong>{{ UseExchangeNumber(homeKlineEmitData.open) }}</strong>
+                    </div>
+                    <div class="statItem">
+                      <span>{{ $t('index.i18') }}</span>
+                      <strong>{{ UseExchangeNumber(homeKlineEmitData.close) }}</strong>
+                    </div>
+                    <div class="statItem">
+                      <span>{{ $t('index.i19') }}</span>
+                      <strong>{{ UseExchangeNumber(selfData.high) }}</strong>
+                    </div>
+                    <div class="statItem">
+                      <span>{{ $t('index.i20') }}</span>
+                      <strong>{{ UseExchangeNumber(selfData.low) }}</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="chartShell">
+                  <HomeKLine ref="HomeKlineRef" @updateHomeKlineTopData="updateHomeKlineTopData" />
+                </div>
+
+                <div class="boardActionRow">
+                  <div class="boardActionEyebrow">{{ $t('theme.quickActions') }}</div>
+                  <div class="actionRail">
+                    <button type="button" class="actionCard" v-for="(item, index) in commList" :key="index" @click="changePage(item.url)">
+                      <div class="iconFrame">
+                        <Icon :name="item.icon" size="20" />
+                      </div>
+                      <div class="actionName">{{ item.name }}</div>
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
 
             <div class="sidebarStack">
-              <div class="sectionCard sectionBlock">
+              <div class="sectionCard sectionBlock moversBlock">
                 <div class="sectionHeading">
                   <div class="sectionTitle">{{ $t('index.i21') }}</div>
-                  <div class="sectionLink" @click="changePage('/tabbar/market?type=1')">
+                  <button type="button" class="sectionLink" @click="changePage('/tabbar/market?type=1')">
                     {{ $t('index.i23') }}
                     <Icon name="solar:alt-arrow-right-linear" size="16" />
-                  </div>
+                  </button>
                 </div>
 
-                <div class="moverStage mt-4">
+                <div class="moverStage">
                   <template v-if="showSeketLoading">
                     <div class="productSkeleton" v-for="item in 3" :key="item"></div>
                   </template>
                   <template v-else>
-                    <div class="leadMoverCard" v-if="lineDataList[0]" @click="goTrade(lineDataList[0])">
+                    <button type="button" class="leadMoverCard" v-if="lineDataList[0]" @click="goTrade(lineDataList[0])">
                       <div class="leadMoverHead">
                         <div class="productInfo">
                           <div class="productName">{{ lineDataList[0].pro_name }}</div>
@@ -293,10 +299,10 @@ onMounted(() => {
                           />
                         </ClientOnly>
                       </div>
-                    </div>
+                    </button>
 
-                    <div class="moverCompactList" v-if="lineDataList.length > 1">
-                      <div class="moverRow" v-for="item in lineDataList.slice(1, 4)" :key="item.id || item.pro_code" @click="goTrade(item)">
+                    <div class="moverCompactList renderBudgetDense" v-if="lineDataList.length > 1">
+                      <button type="button" class="moverRow" v-for="item in lineDataList.slice(1, 4)" :key="item.id || item.pro_code" @click="goTrade(item)">
                         <div class="productInfo">
                           <div class="productName compact">{{ item.pro_name }}</div>
                           <div class="productCode">{{ item.pro_code }}</div>
@@ -308,41 +314,41 @@ onMounted(() => {
                             <span>{{ getNumberType(true, item.is_rise) + item.rise_rate }}%</span>
                           </div>
                         </div>
-                      </div>
+                      </button>
                     </div>
                   </template>
                 </div>
               </div>
 
-              <div class="sectionCard sectionBlock">
+              <div class="sectionCard sectionBlock newsBlock">
                 <div class="sectionHeading">
                   <div class="sectionTitle">{{ t('x.a8') }}</div>
-                  <div class="sectionLink" @click="changePage('/tabbar/news')">
+                  <button type="button" class="sectionLink" @click="changePage('/tabbar/news')">
                     {{ $t('index.i23') }}
                     <Icon name="solar:alt-arrow-right-linear" size="16" />
-                  </div>
+                  </button>
                 </div>
 
-                <div class="newsList mt-4">
+                <div class="newsList">
                   <template v-if="showNewsSeketLoading">
                     <div class="newsSkeleton" v-for="(item, index) in 3" :key="index"></div>
                   </template>
                   <template v-else>
-                    <div class="newsLeadCard" v-if="newsList[0]" @click="goNewsDetail(newsList[0])">
+                    <button type="button" class="newsLeadCard" v-if="newsList[0]" @click="goNewsDetail(newsList[0])">
                       <div class="newsLeadEyebrow">{{ $t('theme.featured') }}</div>
                       <div class="newsLeadTitle">{{ newsList[0].name }}</div>
                       <div class="newsMeta">{{ newsList[0].show_time_format }}</div>
-                    </div>
-                    <div class="newsCompactList" v-if="newsList.length > 1">
-                      <div class="newsCard compact" v-for="(item, index) in newsList.slice(1, 4)" :key="index" @click="goNewsDetail(item)">
+                    </button>
+                    <div class="newsCompactList renderBudgetDense" v-if="newsList.length > 1">
+                      <button type="button" class="newsCard compact" v-for="(item, index) in newsList.slice(1, 4)" :key="index" @click="goNewsDetail(item)">
                         <div class="newsTitle">{{ item.name }}</div>
                         <div class="newsMeta">{{ item.show_time_format }}</div>
-                      </div>
+                      </button>
                     </div>
-                    <div class="sectionLink mt-4" @click="changePage('/tabbar/news')">
+                    <button type="button" class="sectionLink mt-4" @click="changePage('/tabbar/news')">
                       {{ $t('theme.latestCoverage') }}
                       <Icon name="solar:alt-arrow-right-linear" size="16" />
-                    </div>
+                    </button>
                   </template>
                 </div>
               </div>
@@ -378,7 +384,7 @@ onMounted(() => {
 .homeTopBar {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-xs);
 }
 
 .noticeBar {
@@ -418,6 +424,7 @@ onMounted(() => {
 }
 
 .topAction {
+  appearance: none;
   width: 40px;
   height: 40px;
   border-radius: 14px;
@@ -428,6 +435,12 @@ onMounted(() => {
   background: rgba(255, 255, 255, 0.025);
   border: 1px solid rgba(255, 255, 255, 0.06);
   box-shadow: none;
+  cursor: pointer;
+  transition:
+    transform var(--motion-fast),
+    background-color var(--motion-fast),
+    border-color var(--motion-fast),
+    color var(--motion-fast);
 }
 
 .heroPanel {
@@ -442,9 +455,9 @@ onMounted(() => {
 
 .heroEyebrow {
   color: var(--brand-primary);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
+  font-size: var(--text-caption);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-eyebrow);
   text-transform: uppercase;
 }
 
@@ -489,15 +502,14 @@ onMounted(() => {
 
 .actionRail {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: var(--space-xs);
 }
 
 .boardActionRow {
   display: grid;
-  gap: 12px;
-  margin-top: 16px;
-  padding-top: 16px;
+  gap: var(--space-xs);
+  padding-top: var(--space-m);
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
@@ -510,48 +522,70 @@ onMounted(() => {
 }
 
 .actionCard {
+  appearance: none;
   display: grid;
   justify-items: center;
-  gap: 8px;
+  align-content: start;
+  gap: var(--space-2xs);
+  grid-column: span 2;
+  width: 100%;
+  min-height: 108px;
   padding: 14px 10px;
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.025);
   border: 1px solid rgba(255, 255, 255, 0.06);
   box-shadow: none;
   text-align: center;
+  cursor: pointer;
+  transition:
+    transform var(--motion-fast),
+    border-color var(--motion-fast),
+    background-color var(--motion-fast);
+}
+
+.actionCard:nth-child(-n + 2) {
+  grid-column: span 3;
 }
 
 .actionName {
   color: var(--text-primary);
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1.45;
+  font-size: var(--text-label);
+  font-weight: var(--weight-semibold);
+  line-height: 1.5;
+  max-width: 10ch;
 }
 
 .homeGrid {
   display: grid;
-  gap: 14px;
+  gap: var(--space-l);
 }
 
 .marketBoard {
-  padding: 20px 18px 18px;
+  padding: clamp(20px, 5vw, 24px) clamp(18px, 4vw, 22px);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.02));
   border: 1px solid rgba(255, 255, 255, 0.06);
   box-shadow: none;
 }
 
+.marketBoardBody {
+  display: grid;
+  gap: var(--space-m);
+  margin-top: var(--space-m);
+}
+
 .boardTitle {
   margin-top: 8px;
   color: var(--text-primary);
-  font-size: 20px;
-  line-height: 1.2;
-  font-weight: 700;
+  font-family: var(--font-family-display);
+  font-size: var(--text-heading);
+  line-height: var(--leading-tight);
+  font-weight: var(--weight-heavy);
+  letter-spacing: var(--tracking-tight);
 }
 
 .marketMeta {
   display: grid;
-  gap: 14px;
-  margin-top: 16px;
+  gap: var(--space-m);
 }
 
 .marketPriceBlock {
@@ -562,9 +596,11 @@ onMounted(() => {
 
   .marketPrice {
     color: var(--text-primary);
-    font-size: 24px;
-    font-weight: 800;
-    line-height: 1.08;
+    font-family: var(--font-family-display);
+    font-size: 2rem;
+    font-weight: var(--weight-heavy);
+    line-height: 1.02;
+    letter-spacing: var(--tracking-tight);
     word-break: break-word;
     overflow-wrap: anywhere;
   }
@@ -573,15 +609,15 @@ onMounted(() => {
     display: flex;
     gap: 12px;
     margin-top: 8px;
-    font-size: 13px;
-    font-weight: 700;
+    font-size: var(--text-body-compact);
+    font-weight: var(--weight-bold);
   }
 }
 
 .statsGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0 16px;
+  gap: 0 var(--space-s);
 }
 
 .statItem {
@@ -591,14 +627,17 @@ onMounted(() => {
   span {
     display: block;
     color: var(--text-secondary);
-    font-size: 12px;
+    font-size: var(--text-label);
+    line-height: 1.5;
   }
 
   strong {
     display: block;
     margin-top: 6px;
     color: var(--text-primary);
-    font-size: 14px;
+    font-size: 1rem;
+    font-weight: var(--weight-bold);
+    line-height: 1.4;
   }
 }
 
@@ -615,40 +654,62 @@ onMounted(() => {
 
 .sidebarStack {
   display: grid;
-  gap: 14px;
+  gap: var(--space-m);
 }
 
 .sectionBlock {
-  padding: 18px 16px 16px;
+  padding: clamp(18px, 4vw, 22px);
   background: rgba(255, 255, 255, 0.025);
   border: 1px solid rgba(255, 255, 255, 0.06);
   box-shadow: none;
 }
 
+.moversBlock,
+.newsBlock {
+  display: grid;
+  gap: var(--space-s);
+}
+
 .sectionLink {
+  appearance: none;
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  padding: 0;
   color: var(--brand-primary);
-  font-size: 12px;
-  font-weight: 700;
+  font-size: var(--text-label);
+  font-weight: var(--weight-bold);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transition:
+    color var(--motion-fast),
+    transform var(--motion-fast);
 }
 
 .newsList {
   display: grid;
-  gap: 10px;
+  gap: var(--space-xs);
 }
 
 .moverStage {
   display: grid;
-  gap: 12px;
+  gap: var(--space-xs);
 }
 
 .leadMoverCard {
+  appearance: none;
+  width: 100%;
   padding: 16px;
   border-radius: 22px;
   background: rgba(255, 255, 255, 0.025);
   border: 1px solid rgba(255, 255, 255, 0.05);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform var(--motion-fast),
+    border-color var(--motion-fast),
+    background-color var(--motion-fast);
 }
 
 .leadMoverHead {
@@ -664,12 +725,23 @@ onMounted(() => {
 }
 
 .moverRow {
+  appearance: none;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
+  width: 100%;
   padding: 14px 0;
+  background: transparent;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform var(--motion-fast),
+    border-color var(--motion-fast);
 }
 
 .moverRow:last-child {
@@ -691,16 +763,17 @@ onMounted(() => {
 
 .productName {
   color: var(--text-primary);
-  font-size: 14px;
-  line-height: 1.45;
-  font-weight: 700;
+  font-size: 1rem;
+  line-height: var(--leading-body);
+  font-weight: var(--weight-bold);
   word-break: break-word;
 }
 
 .productCode {
   margin-top: 4px;
   color: var(--text-secondary);
-  font-size: 12px;
+  font-size: var(--text-label);
+  line-height: 1.45;
 }
 
 .productPriceBlock {
@@ -715,12 +788,14 @@ onMounted(() => {
 
 .productPrice {
   color: inherit;
-  font-size: 18px;
-  font-weight: 800;
+  font-family: var(--font-family-display);
+  font-size: 1.25rem;
+  font-weight: var(--weight-heavy);
+  letter-spacing: var(--tracking-dense);
 }
 
 .productPrice.compact {
-  font-size: 16px;
+  font-size: 1.125rem;
 }
 
 .productDelta {
@@ -729,8 +804,8 @@ onMounted(() => {
   justify-content: flex-end;
   gap: 4px;
   margin-top: 6px;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: var(--text-label);
+  font-weight: var(--weight-bold);
 }
 
 .productDelta.compact {
@@ -751,19 +826,28 @@ onMounted(() => {
 }
 
 .productName.compact {
-  font-size: 13px;
-  line-height: 1.4;
-  font-weight: 600;
+  font-size: var(--text-body-compact);
+  line-height: 1.55;
+  font-weight: var(--weight-semibold);
 }
 
 .newsCard {
+  appearance: none;
+  width: 100%;
   padding: 14px;
   border-radius: 18px;
   background: transparent;
   border: 0;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform var(--motion-fast),
+    border-color var(--motion-fast);
 }
 
 .newsLeadCard {
+  appearance: none;
+  width: 100%;
   padding: 14px 0 16px 16px;
   border-radius: 0;
   background: transparent;
@@ -771,28 +855,37 @@ onMounted(() => {
   border-top: 0;
   border-right: 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform var(--motion-fast),
+    border-color var(--motion-fast),
+    background-color var(--motion-fast);
 }
 
 .newsLeadEyebrow {
   color: var(--brand-primary);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
+  font-size: var(--text-caption);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-eyebrow);
   text-transform: uppercase;
 }
 
 .newsLeadTitle {
   margin-top: 8px;
   color: var(--text-primary);
-  font-size: 16px;
-  line-height: 1.5;
-  font-weight: 700;
+  font-family: var(--font-family-display);
+  font-size: 1.125rem;
+  line-height: 1.42;
+  font-weight: var(--weight-heavy);
+  letter-spacing: var(--tracking-dense);
+  max-width: 24ch;
 }
 
 .newsCompactList {
   display: grid;
   gap: 0;
-  margin-top: 12px;
+  margin-top: var(--space-xs);
 }
 
 .newsCard.compact {
@@ -807,15 +900,16 @@ onMounted(() => {
 
 .newsTitle {
   color: var(--text-primary);
-  font-size: 14px;
-  line-height: 1.45;
-  font-weight: 600;
+  font-size: 1rem;
+  line-height: var(--leading-body);
+  font-weight: var(--weight-semibold);
 }
 
 .newsMeta {
   margin-top: 8px;
   color: var(--text-secondary);
-  font-size: 12px;
+  font-size: var(--text-label);
+  line-height: 1.5;
 }
 
 .newsSkeleton {
@@ -830,6 +924,28 @@ onMounted(() => {
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border-soft);
+}
+
+.topAction:hover,
+.actionCard:hover,
+.leadMoverCard:hover,
+.newsLeadCard:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(212, 154, 58, 0.2);
+}
+
+.sectionLink:hover {
+  color: color-mix(in srgb, var(--brand-primary) 85%, white 15%);
+}
+
+.topAction:active,
+.actionCard:active,
+.sectionLink:active,
+.leadMoverCard:active,
+.moverRow:active,
+.newsLeadCard:active,
+.newsCard:active {
+  transform: scale(0.98);
 }
 
 </style>

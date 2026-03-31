@@ -2,15 +2,28 @@
 import { defineProps } from 'vue';
 
 const props = defineProps<{
-    data: Record<string, any>
+    data: {
+        number: number | string;
+        limit_price: number | string;
+        fee: number | string;
+        create_time: string;
+        product: {
+            pro_name: string;
+            pro_code: string;
+            is_rise: number;
+            price: number | string;
+            rise: number | string;
+            rise_rate: number | string;
+        };
+    }
 }>();
 const data = props.data;
 
-const isRiseText: any = {
+const isRiseText: Record<number, string> = {
     1: '-',
     2: '+',
 }
-const isRiseClass: any = {
+const isRiseClass: Record<number, string> = {
     1: 'colorDown',
     2: 'colorUp',
 }

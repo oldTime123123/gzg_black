@@ -9,13 +9,34 @@ const pages = ref({
   type: 1,
 });
 
-const recordList = ref<any[]>([]);
+type IpoSuccessRecordItem = {
+  pro_code: string;
+  number: number | string;
+  price: number | string;
+  income_formart: number | string;
+  income_100_formart: number | string;
+  create_time: string;
+  status: number;
+  product?: {
+    pro_name?: string;
+  };
+  ipo?: {
+    show_price?: number | string;
+  };
+};
+
+type PaginatedResponse<T> = {
+  data: T[];
+  total: number;
+};
+
+const recordList = ref<IpoSuccessRecordItem[]>([]);
 const loading = ref(true);
 const finished = ref(false);
 const totalSize = ref(0);
 
 const getRecordList = () => {
-  ipoApplyDataApi(pages.value).then((res) => {
+  ipoApplyDataApi(pages.value).then((res: PaginatedResponse<IpoSuccessRecordItem>) => {
     totalSize.value = res.total;
     recordList.value = recordList.value.concat(res.data);
   }).finally(() => {

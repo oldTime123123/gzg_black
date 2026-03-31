@@ -1,7 +1,10 @@
 // plugins/apexcharts.client.ts
-import VueApexCharts from "vue3-apexcharts";
+import { defineAsyncComponent } from "vue";
 
 export default defineNuxtPlugin((nuxtApp) => {
-  // 全局注册组件，这样你在任何页面都可以直接用 <apexchart>
-  nuxtApp.vueApp.use(VueApexCharts);
+  // 按需异步加载图表组件，避免所有页面都提前打入 ApexCharts
+  nuxtApp.vueApp.component(
+    "apexchart",
+    defineAsyncComponent(() => import("vue3-apexcharts"))
+  );
 });

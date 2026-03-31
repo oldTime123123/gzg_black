@@ -7,7 +7,27 @@ const { t } = useI18n();
 const route = useRoute();
 const pub = usePublicStore();
 const formRef = ref();
-const balanceTypeList = ref<any[]>([]);
+type BalanceTypeOption = {
+  type: number;
+  name: string;
+};
+
+type BankcardForm = {
+  id: number;
+  balance_type: number;
+  bank_num: string;
+  bank_name: string;
+  account_holder: string;
+  other_param_1: string;
+  other_param_2: string;
+};
+
+type BankcardInfoResponse = {
+  bankcard?: Partial<BankcardForm>;
+  balanceList?: BalanceTypeOption[];
+};
+
+const balanceTypeList = ref<BalanceTypeOption[]>([]);
 const showBalanceTypePicker = ref(false);
 const draftBalanceType = ref(0);
 
@@ -43,7 +63,7 @@ const valibotValidator = (fieldKey: keyof typeof schema.entries) => {
 };
 
 const selectedBalanceTypeName = computed(() => {
-  const cur = balanceTypeList.value.find((i: any) => i.type === state.balance_type);
+  const cur = balanceTypeList.value.find((i) => i.type === state.balance_type);
   return cur ? cur.name : '';
 });
 
@@ -57,7 +77,7 @@ const closeBalanceTypePicker = () => {
 };
 
 const confirmBalanceTypePicker = () => {
-  const target = balanceTypeList.value.find((i: any) => i.type === draftBalanceType.value) || balanceTypeList.value[0];
+  const target = balanceTypeList.value.find((i) => i.type === draftBalanceType.value) || balanceTypeList.value[0];
   if (target) state.balance_type = target.type;
   closeBalanceTypePicker();
   formRef.value?.validate('balance_type');
@@ -65,7 +85,7 @@ const confirmBalanceTypePicker = () => {
 
 const router = useRouter();
 const handleSubmit = () => {
-  const data: any = Object.assign({}, state);
+  const data: BankcardForm = Object.assign({}, state);
   pub.showLoading = true;
   postUserBankcard(data)
     .then(() => {
@@ -81,7 +101,7 @@ onMounted(() => {
   const bankId = Number(route.query.bankId);
 
   getUserBankcardInfo(bankId)
-    .then((res: any) => {
+    .then((res: BankcardInfoResponse) => {
       const { bankcard, balanceList } = res;
       balanceTypeList.value = balanceList || [];
 
@@ -201,7 +221,16 @@ onMounted(() => {
 
           <van-radio-group v-model="draftBalanceType" class="balanceTypeList">
             <div class="balanceTypeListInner">
-              <div v-for="item in balanceTypeList" :key="item.type" class="balanceTypeCell" @click="draftBalanceType = item.type">
+              <div
+                v-for="item in balanceTypeList"
+                :key="item.type"
+                class="balanceTypeCell"
+                role="button"
+                tabindex="0"
+                @click="draftBalanceType = item.type"
+                @keydown.enter.prevent="draftBalanceType = item.type"
+                @keydown.space.prevent="draftBalanceType = item.type"
+              >
                 <div class="balanceTypeCellLabel">{{ item.name }}</div>
                 <van-radio :name="item.type" checked-color="var(--brand-primary)" />
               </div>
@@ -435,10 +464,18 @@ onMounted(() => {
   align-items: center;
   justify-content: flex-end;
   min-height: 52px;
+  width: 100%;
   padding: 0 16px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 18px;
+  appearance: none;
+  text-align: left;
+  transition: transform .18s ease, border-color .18s ease, background .18s ease;
+}
+
+.balanceTypeCell:active {
+  transform: scale(.99);
 }
 
 .balanceTypeCellLabel {

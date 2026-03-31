@@ -5,7 +5,7 @@ const topFixedChange = (val: boolean) => {
 };
 
 const router = useRouter()
-const changePage = (url: any) => {
+const changePage = (url: string) => {
     router.push(url)
 }
 </script>
@@ -14,7 +14,7 @@ const changePage = (url: any) => {
     <div>
         <van-sticky offset-top="0" @change="topFixedChange">
             <div class="px-3 py-3 tabbarPageTopNav " :class="isSticky ? 'topStickyEl' : ''">
-                <div class="searchBox pr-4 rounded-3xl flex items-center cursor-zoom-in" @click="changePage('/search')">
+                <button type="button" class="searchBox pr-4 rounded-3xl flex items-center cursor-zoom-in" @click="changePage('/search')" :aria-label="$t('comm.c82')">
                     <div class="leftBoxEl flex items-center justify-center">
                         <div class="iconFrame iconFrame--small">
                             <Icon name="solar:magnifer-linear" size="18" />
@@ -27,7 +27,7 @@ const changePage = (url: any) => {
                         </div>
                     </div>
                     <Icon name="solar:arrow-right-linear" size="18" class="searchTail" />
-                </div>
+                </button>
             </div>
         </van-sticky>
     </div>
@@ -45,6 +45,7 @@ const changePage = (url: any) => {
 }
 
 .searchBox {
+    appearance: none;
     min-height: 60px;
     width: 100%;
     max-width: 100%;
@@ -60,12 +61,30 @@ const changePage = (url: any) => {
 
     justify-content: space-between;
     gap: 10px;
+    text-align: left;
+    transition:
+      transform var(--motion-fast) ease,
+      border-color var(--motion-fast) ease,
+      background-color var(--motion-fast) ease,
+      box-shadow var(--motion-fast) ease;
 
     .leftBoxEl {
         height: 35px;
         width: 44px;
         flex-shrink: 0;
     }
+}
+
+.searchBox:hover {
+    border-color: rgba(212, 154, 58, 0.18);
+    background:
+      radial-gradient(circle at left center, rgba(212, 154, 58, 0.12), transparent 30%),
+      rgba(19, 26, 34, 0.88);
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.24);
+}
+
+.searchBox:active {
+    transform: translateY(1px) scale(0.995);
 }
 
 .searchBody {
@@ -77,9 +96,9 @@ const changePage = (url: any) => {
 
 .searchEyebrow {
     color: var(--brand-primary);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
+    font-size: var(--text-caption);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-eyebrow);
     text-transform: uppercase;
     line-height: 1;
 }
@@ -87,8 +106,9 @@ const changePage = (url: any) => {
 .searchPlaceholder {
     color: var(--text-secondary);
     flex: 1;
-    font-size: 13px;
-    line-height: 1.3;
+    font-size: var(--text-body-compact);
+    line-height: 1.45;
+    font-weight: var(--weight-medium);
     overflow: visible;
     text-overflow: clip;
     white-space: nowrap;

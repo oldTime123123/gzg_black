@@ -3,6 +3,21 @@ import { getStockIndexList } from "~/api/home/home";
 import { LineOption } from "~/utils/indexLineStyle";
 const { t } = useI18n();
 
+type MarketIndexItem = {
+  exchange_name?: string;
+  is_rise: number;
+  rise_rate: number | string;
+  price: number | string;
+  chart: {
+    rise?: number | string;
+    indicators: {
+      quote: Array<{
+        close: Array<number | null>;
+      }>;
+    };
+  };
+};
+
 const actRecordType = ref(0);
 const tabs = ref([
   {
@@ -15,11 +30,11 @@ const tabs = ref([
   },
 ]);
 
-const lineDataList = ref([]);
+const lineDataList = ref<MarketIndexItem[]>([]);
 const leadIndex = computed(() => lineDataList.value[0]);
 const supportIndexes = computed(() => lineDataList.value.slice(1));
 const getData = () => {
-  getStockIndexList().then((res: any) => {
+  getStockIndexList().then((res: { index: MarketIndexItem[] }) => {
     lineDataList.value = Array.isArray(res.index) && res.index.length > 1 ? res.index.slice(0, 2) : res.index;
   });
 };
@@ -32,7 +47,7 @@ onMounted(() => {
   getData();
 });
 
-const changeLineTypeData = (data: any) => {
+const changeLineTypeData = (data: Array<number | null>) => {
   const result = Array(100)
     .fill(null)
     .map((_, i) => data[i] ?? null);
@@ -113,13 +128,13 @@ const changeDataType = (type: number) => {
           </div>
 
           <div class="tabRail mt-4">
-            <div v-for="(tab, index) in tabs" :class="actRecordType == tab.type ? 'tabChip active' : 'tabChip'"
-              :key="index" @click="changeDataType(tab.type)">
+            <button type="button" v-for="(tab, index) in tabs" :class="actRecordType == tab.type ? 'tabChip active' : 'tabChip'"
+              :key="index" :aria-pressed="actRecordType == tab.type" @click="changeDataType(tab.type)">
               {{ tab.text }}
-            </div>
+            </button>
           </div>
 
-          <div class="marketLedger mt-4">
+          <div class="marketLedger renderBudget mt-4">
             <MarketRecordList v-if="actRecordType < 1" />
             <CollectStockList v-else @changeDataType="changeDataType" />
           </div>
@@ -297,6 +312,7 @@ const changeDataType = (type: number) => {
 }
 
 .tabChip {
+  appearance: none;
   min-height: 40px;
   padding: 0 16px;
   border-radius: 999px;
@@ -306,12 +322,22 @@ const changeDataType = (type: number) => {
   flex: 1;
   color: var(--text-secondary);
   font-size: 13px;
+  background: transparent;
+  border: 0;
   cursor: pointer;
+  transition:
+    transform var(--motion-fast),
+    background-color var(--motion-fast),
+    color var(--motion-fast);
 
   &.active {
     background: var(--brand-primary-soft);
     color: var(--brand-primary);
   }
+}
+
+.tabChip:active {
+  transform: scale(0.98);
 }
 
 .marketLedger {

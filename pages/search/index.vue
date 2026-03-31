@@ -60,13 +60,15 @@ onMounted(() => {
       <div class="pageWrap px-3 pb-6">
         <div class="searchHero mt-4">
           <div class="searchBox">
-            <div class="searchIcon" @click="searchHandle">
+            <button type="button" class="searchIcon" @click="searchHandle" :aria-label="$t('search.s2')">
               <Icon name="solar:magnifer-linear" size="18" />
-            </div>
+            </button>
             <div class="searchField">
               <input type="text" v-model="searchVal" :placeholder="$t('search.s2')" @keydown.enter="searchHandle">
             </div>
-            <Icon name="pajamas:clear" class="clearIcon" v-if="searchVal" width="18" height="18" @click="searchVal = ''" />
+            <button type="button" class="clearIcon" v-if="searchVal" @click="searchVal = ''" :aria-label="$t('comm.c56') || 'Clear search'">
+              <Icon name="pajamas:clear" width="18" height="18" />
+            </button>
           </div>
 
           <div class="historyCard mt-4">
@@ -79,10 +81,16 @@ onMounted(() => {
                 v-for="item in searchHistory"
                 :key="item"
                 :class="{ 'gridItemElDelete': deletingItem === item }"
+                role="button"
+                tabindex="0"
                 @click="clickItemHandle(item)"
+                @keydown.enter.prevent="clickItemHandle(item)"
+                @keydown.space.prevent="clickItemHandle(item)"
               >
                 <span>{{ item }}</span>
-                <Icon name="mingcute:close-fill" class="delIcon" @click.stop="delSearchHandle(item)" />
+                <button type="button" class="delIcon" @click.stop="delSearchHandle(item)" :aria-label="$t('comm.c56') || 'Delete history item'">
+                  <Icon name="mingcute:close-fill" />
+                </button>
               </div>
             </div>
           </div>
@@ -94,7 +102,7 @@ onMounted(() => {
             <div class="emptyText">{{ $t('search.s4') }}</div>
           </div>
           <div v-else class="resultList">
-            <div class="resultItem" v-for="(item, index) in list" :key="index" @click="selectHandle(item)">
+            <button type="button" class="resultItem" v-for="(item, index) in list" :key="index" @click="selectHandle(item)">
               <div class="rankBadge">{{ index + 1 }}</div>
               <div class="resultMeta">
                 <div class="resultName">{{ item.pro_name }}</div>
@@ -118,7 +126,7 @@ onMounted(() => {
                   {{ item.is_rise > 1 ? '+' : '-' }} {{ item.rise_rate1 }}%
                 </div>
               </div>
-            </div>
+            </button>
           </div>
         </div>
       </div>
@@ -151,8 +159,9 @@ onMounted(() => {
 }
 
 .searchIcon {
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
+  appearance: none;
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -160,6 +169,9 @@ onMounted(() => {
   background: var(--brand-primary-soft);
   color: var(--brand-primary);
   flex-shrink: 0;
+  border: 0;
+  cursor: pointer;
+  transition: transform var(--motion-fast), background-color var(--motion-fast), color var(--motion-fast);
 }
 
 .searchField {
@@ -180,7 +192,17 @@ onMounted(() => {
 }
 
 .clearIcon {
+  appearance: none;
   color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  background: transparent;
+  border-radius: 12px;
+  cursor: pointer;
 }
 
 .historyCard {
@@ -207,6 +229,8 @@ onMounted(() => {
   background: var(--brand-primary-soft);
   color: var(--text-primary);
   font-size: 12px;
+  cursor: pointer;
+  transition: transform var(--motion-fast), background-color var(--motion-fast);
 }
 
 .gridItemElDelete {
@@ -219,7 +243,17 @@ onMounted(() => {
 }
 
 .delIcon {
+  appearance: none;
   color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  background: transparent;
+  border-radius: 999px;
+  cursor: pointer;
 }
 
 .resultCard {
@@ -242,6 +276,7 @@ onMounted(() => {
 }
 
 .resultItem {
+  appearance: none;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -249,6 +284,10 @@ onMounted(() => {
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.025);
   border: 1px solid var(--border-soft);
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition: transform var(--motion-fast), border-color var(--motion-fast), background-color var(--motion-fast);
 }
 
 .rankBadge {
@@ -322,5 +361,12 @@ onMounted(() => {
 .priceDelta.isDown {
   background: rgba(24, 195, 126, 0.12);
   color: var(--color-down);
+}
+
+.searchIcon:active,
+.clearIcon:active,
+.historyItem:active,
+.resultItem:active {
+  transform: scale(0.98);
 }
 </style>

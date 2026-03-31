@@ -1,5 +1,6 @@
-<script setup>
+<script setup lang="ts">
 import { useRouter, useRoute } from 'vue-router'
+import { watch } from 'vue'
 const router = useRouter()
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
@@ -42,7 +43,7 @@ const tabs = computed(() => {
 })
 
 
-const onChange = (index) => {
+const onChange = (index: number) => {
     active.value = index
     router.push(tabs.value[index].path)
 }
@@ -55,13 +56,9 @@ const setActiveTab = () => {
         active.value = index
     }
 }
-// 初始化时设置激活的标签
-setActiveTab()
-
-// 监听路由变化
-router.afterEach(() => {
+watch(() => route.path, () => {
     setActiveTab()
-})
+}, { immediate: true })
 
 
 </script>
@@ -149,7 +146,7 @@ router.afterEach(() => {
         padding-top: 10px;
     }
 
-    height: 64px;
+    height: 68px;
 }
 
 .tabbar-item-box {
@@ -163,20 +160,30 @@ router.afterEach(() => {
 }
 
 .tabbar-icon-shell {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--text-secondary);
-    transition: all 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 
     &.is-active {
         background: var(--gradient-brand);
         color: #fff7dc;
         box-shadow: 0 10px 22px rgba(212, 154, 58, 0.22);
     }
+}
+
+:deep(.van-tabbar-item:hover) .tabbar-icon-shell {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+}
+
+:deep(.van-tabbar-item:hover) .tabbar-icon-shell.is-active {
+    background: var(--gradient-brand);
+    color: #fff7dc;
 }
 
 .tabbar-icon {
@@ -186,10 +193,11 @@ router.afterEach(() => {
 
 .f12 {
     text-align: center;
-    font-size: 10px;
-    line-height: 1.15;
+    font-size: var(--text-caption);
+    line-height: 1.2;
     color: inherit;
-    font-weight: 600;
+    font-weight: var(--weight-semibold);
+    letter-spacing: 0.01em;
     width: 100%;
     max-width: 100%;
     overflow: hidden;

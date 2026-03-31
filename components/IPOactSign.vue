@@ -71,7 +71,9 @@ const closePop = () => {
   pub.showIPONoticePop = false;
 
   if (route.fullPath == '/trade/spoRecord' || route.fullPath == '/trade/ipoRecord') {
-    window.location.reload();
+    if (import.meta.client) {
+      globalThis.location?.reload();
+    }
     return;
   }
 

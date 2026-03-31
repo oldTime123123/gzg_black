@@ -34,6 +34,25 @@ const selectTimeList = [
   { name: t('trade.t43'), value: '15y_1mo', type: 'month' },
   { name: t('trade.t44'), value: '30y_3mo', type: 'year' },
 ];
+type TradeRequestPayload = {
+  pid: number | string;
+  num: number;
+  deal_type: '1' | '2';
+  type: number;
+  limit_price?: number;
+};
+
+type YahooMessage = {
+  info?: {
+    chart?: {
+      result?: Array<{
+        is_rise: number;
+        rise: number;
+        rise_rate: number;
+      }>;
+    };
+  };
+};
 
 const pub = usePublicStore();
 const socketParams = ref({
@@ -41,7 +60,7 @@ const socketParams = ref({
   range: "1d_1m",
 });
 
-const changeActTimeType = (index) => {
+const changeActTimeType = (index: number) => {
   pub.showLoading = true;
   actTimeEl.value = index;
   TradeKlineRef.value.showSkeletonLoading = true;
@@ -65,7 +84,7 @@ const getData = () => {
 };
 
 const TradeKlineRef = ref("");
-const socketTimer = ref("");
+const socketTimer = ref<ReturnType<typeof setInterval> | null>(null);
 const selfData = ref({
   high: 0,
   low: 0,
@@ -78,6 +97,9 @@ const topStockData = ref({
 });
 
 const startSocketTimerHandle = () => {
+  if (import.meta.client && globalThis.document?.hidden) {
+    return;
+  }
   if (socketTimer.value) {
     clearInterval(socketTimer.value);
     socketTimer.value = null;
@@ -89,6 +111,24 @@ const startSocketTimerHandle = () => {
     });
   }, 1500);
 };
+const stopSocketTimerHandle = () => {
+  if (socketTimer.value) {
+    clearInterval(socketTimer.value);
+    socketTimer.value = null;
+  }
+};
+const handleVisibilityChange = () => {
+  if (!import.meta.client) {
+    return;
+  }
+  if (globalThis.document?.hidden) {
+    stopSocketTimerHandle();
+    return;
+  }
+  if (stockStatus.value == 1) {
+    startSocketTimerHandle();
+  }
+};
 
 const topData = ref({
   open: '0',
@@ -98,7 +138,7 @@ const topData = ref({
 });
 
 const isChangeType = ref(false);
-const updateHomeKlineTopData = (data) => {
+const updateHomeKlineTopData = (data: typeof topData.value) => {
   topData.value = data;
   const closePrice = normalizeTradeNumber(data.close, topStockData.value.price || 0);
   topStockData.value.price = closePrice;
@@ -108,20 +148,21 @@ const updateHomeKlineTopData = (data) => {
   }
 };
 
-const changeActTradeType = (index) => {
+const changeActTradeType = (index: number) => {
   actTradeType.value = index;
   isChangeType.value = false;
 };
 
-socket.on('yahoo', (data: any) => {
+const handleYahooMessage = (data: YahooMessage) => {
   pub.showLoading = false;
-  if (TradeKlineRef.value && data.info.chart && data.info.chart.result[0]) {
-    topStockData.value.is_rise = data.info.chart.result[0].is_rise;
-    topStockData.value.rise = data.info.chart.result[0].rise;
-    topStockData.value.rise_rate = data.info.chart.result[0].rise_rate;
-    TradeKlineRef.value.updateKlineData(data.info.chart.result[0], selectTimeList[actTimeEl.value].type);
+  const chartResult = data.info?.chart?.result?.[0];
+  if (TradeKlineRef.value && chartResult) {
+    topStockData.value.is_rise = chartResult.is_rise;
+    topStockData.value.rise = chartResult.rise;
+    topStockData.value.rise_rate = chartResult.rise_rate;
+    TradeKlineRef.value.updateKlineData(chartResult, selectTimeList[actTimeEl.value].type);
   }
-});
+};
 
 const stockStatus = computed(() => {
   return pub.stockStatus;
@@ -135,8 +176,7 @@ onBeforeMount(() => {
   if (stockStatus.value == 1) {
     startSocketTimerHandle();
   } else if (socketTimer.value) {
-    clearInterval(socketTimer.value);
-    socketTimer.value = null;
+    stopSocketTimerHandle();
   }
 });
 
@@ -144,19 +184,27 @@ watch(stockStatus, (val) => {
   if (val == 1) {
     startSocketTimerHandle();
   } else if (socketTimer.value) {
-    clearInterval(socketTimer.value);
-    socketTimer.value = null;
+    stopSocketTimerHandle();
   }
 });
 
 onMounted(() => {
+  socket.off('yahoo', handleYahooMessage);
+  socket.on('yahoo', handleYahooMessage);
+  if (import.meta.client) {
+    globalThis.document?.addEventListener('visibilitychange', handleVisibilityChange);
+  }
   getData();
 });
 
 onUnmounted(() => {
   if (socketTimer.value) {
-    clearInterval(socketTimer.value);
+    stopSocketTimerHandle();
   }
+  if (import.meta.client) {
+    globalThis.document?.removeEventListener('visibilitychange', handleVisibilityChange);
+  }
+  socket.off('yahoo', handleYahooMessage);
 });
 
 const actTradeType = ref(0);
@@ -169,7 +217,7 @@ const confirmHandle = () => {
   const safePrice = normalizeTradeNumber(priceVal.value, topStockData.value.price || 0);
   const safeNum = normalizeTradeNumber(numVal.value, 1);
 
-  const buyData: any = {
+  const buyData: TradeRequestPayload = {
     pid: selectCurrentStock.value.id,
     num: safeNum,
     deal_type: actTradeType.value < 1 ? '2' : '1',
@@ -262,12 +310,13 @@ const collectHandle = () => {
   <div class="pageShell">
     <ClientOnly>
       <SecondPageNavBar :title="selectCurrentStock.pro_name">
-        <Icon
-          name="tabler:star-filled"
-          size="22"
-          :class="isCollect ? 'text-[var(--brand-primary)]' : 'text-[var(--text-muted)]'"
-          @click="collectHandle"
-        />
+        <button type="button" class="collectToggle" :aria-pressed="Boolean(isCollect)" :aria-label="$t('comm.c67')" @click="collectHandle">
+          <Icon
+            name="tabler:star-filled"
+            size="22"
+            :class="isCollect ? 'text-[var(--brand-primary)]' : 'text-[var(--text-muted)]'"
+          />
+        </button>
       </SecondPageNavBar>
 
       <div class="pageWrap px-3 pb-6">
@@ -304,15 +353,17 @@ const collectHandle = () => {
           </div>
 
           <div class="timeRail mt-4">
-            <div
+            <button
+              type="button"
               v-for="(item, index) in selectTimeList"
               class="timeChip"
               :class="index == actTimeEl ? 'active' : ''"
               :key="index"
+              :aria-pressed="index == actTimeEl"
               @click="changeActTimeType(index)"
             >
               {{ item.name }}
-            </div>
+            </button>
           </div>
 
           <div class="chartCard mt-4">
@@ -330,15 +381,17 @@ const collectHandle = () => {
           </div>
 
           <div class="typeRail mt-4">
-            <div
+            <button
+              type="button"
               v-for="(item, index) in tradeType"
               :key="index"
               class="typeChip"
               :class="index == actTradeType ? 'active' : ''"
+              :aria-pressed="index == actTradeType"
               @click="changeActTradeType(index)"
             >
               {{ item }}
-            </div>
+            </button>
           </div>
 
           <div class="tradeForm mt-4">
@@ -348,9 +401,9 @@ const collectHandle = () => {
                 <div class="fieldValuePreview">{{ getSafeExchangeNumber(safePriceValue) }}</div>
               </div>
               <div class="stepperRow inputShell">
-                <div class="stepperBtn" :class="safePriceValue > 0 ? 'enabled' : ''" @click="subPriceVal">
+                <button type="button" class="stepperBtn" :class="safePriceValue > 0 ? 'enabled' : ''" :disabled="safePriceValue <= 0" @click="subPriceVal">
                   <Icon name="solar:minus-square-linear" size="20" />
-                </div>
+                </button>
                 <input
                   type="text"
                   inputmode="decimal"
@@ -359,9 +412,9 @@ const collectHandle = () => {
                   @input="handlePriceInput"
                   @blur="handlePriceBlur"
                 />
-                <div class="stepperBtn enabled" @click="addPriceVal">
+                <button type="button" class="stepperBtn enabled" @click="addPriceVal">
                   <Icon name="solar:add-square-linear" size="20" />
-                </div>
+                </button>
               </div>
             </div>
 
@@ -371,9 +424,9 @@ const collectHandle = () => {
                 <div class="fieldValuePreview">{{ safeNumValue }}</div>
               </div>
               <div class="stepperRow inputShell">
-                <div class="stepperBtn" :class="safeNumValue > 1 ? 'enabled' : ''" @click="subNumVal">
+                <button type="button" class="stepperBtn" :class="safeNumValue > 1 ? 'enabled' : ''" :disabled="safeNumValue <= 1" @click="subNumVal">
                   <Icon name="solar:minus-square-linear" size="20" />
-                </div>
+                </button>
                 <input
                   type="text"
                   inputmode="numeric"
@@ -382,16 +435,16 @@ const collectHandle = () => {
                   @input="handleNumInput"
                   @blur="handleNumBlur"
                 />
-                <div class="stepperBtn enabled" @click="addNumVal">
+                <button type="button" class="stepperBtn enabled" @click="addNumVal">
                   <Icon name="solar:add-square-linear" size="20" />
-                </div>
+                </button>
               </div>
             </div>
           </div>
 
-          <div class="tradeAction mt-4 contentBtn" @click="showBottom = true">
+          <button type="button" class="tradeAction mt-4 contentBtn" @click="showBottom = true">
             {{ $t('trade.t58') }}
-          </div>
+          </button>
 
           <div class="hintBlock mt-4">
             <div class="hintTitle">{{ $t('trade.t59') }}</div>
@@ -442,7 +495,7 @@ const collectHandle = () => {
             </div>
           </div>
 
-          <div class="contentBtn mt-4" @click="confirmHandle">{{ $t('trade.t72') }}</div>
+          <button type="button" class="contentBtn mt-4" @click="confirmHandle">{{ $t('trade.t72') }}</button>
         </div>
       </van-popup>
     </ClientOnly>
@@ -556,12 +609,18 @@ const collectHandle = () => {
   font-size: 12px;
   white-space: nowrap;
   border: 1px solid transparent;
+  appearance: none;
+  transition: transform .18s ease, background .18s ease, color .18s ease, border-color .18s ease;
 }
 
 .timeChip.active {
   background: var(--brand-primary-soft);
   color: var(--brand-primary);
   border-color: var(--brand-primary-border);
+}
+
+.timeChip:active {
+  transform: scale(.97);
 }
 
 .chartCard {
@@ -614,11 +673,18 @@ const collectHandle = () => {
   color: var(--text-secondary);
   font-size: 13px;
   font-weight: 600;
+  appearance: none;
+  border: 0;
+  transition: transform .18s ease, background .18s ease, color .18s ease;
 }
 
 .typeChip.active {
   background: var(--brand-primary-soft);
   color: var(--brand-primary);
+}
+
+.typeChip:active {
+  transform: scale(.97);
 }
 
 .tradeForm {
@@ -680,10 +746,21 @@ const collectHandle = () => {
   background: rgba(255, 255, 255, 0.04);
   color: var(--text-muted);
   border: 1px solid var(--border-soft);
+  appearance: none;
+  transition: transform .18s ease, color .18s ease, border-color .18s ease, background .18s ease;
 }
 
 .stepperBtn.enabled {
   color: var(--brand-primary);
+}
+
+.stepperBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.stepperBtn:not(:disabled):active {
+  transform: scale(.96);
 }
 
 .stepperInput {
@@ -703,6 +780,27 @@ const collectHandle = () => {
 
 .tradeAction {
   min-height: 50px;
+}
+
+.collectToggle {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.025);
+  transition: transform .18s ease, border-color .18s ease, background .18s ease;
+}
+
+.collectToggle:hover {
+  border-color: rgba(212, 154, 58, 0.2);
+}
+
+.collectToggle:active {
+  transform: scale(.96);
 }
 
 .hintBlock {

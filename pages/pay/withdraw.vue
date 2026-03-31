@@ -18,44 +18,42 @@ const state = reactive({
   bank: '',
 });
 
-const bankList = ref([]);
+type WithdrawBankCard = {
+  id: number | string;
+  bank_name: string;
+  bank_num?: string;
+};
+
+type WithdrawInfo = {
+  balance_max: number;
+  min: number;
+  max: number;
+};
+
+const bankList = ref<WithdrawBankCard[]>([]);
 const showBankPicker = ref(false);
-const bankColumns = computed(() => bankList.value.map((i: any) => ({ text: i.bank_name, value: i.id })));
+const bankColumns = computed(() => bankList.value.map((i) => ({ text: i.bank_name, value: i.id })));
 const selectedBankName = computed(() => {
-  const cur = bankList.value.find((i: any) => i.id == state.bank);
+  const cur = bankList.value.find((i) => i.id == state.bank);
   return cur ? cur.bank_name : '';
 });
 
-const onBankConfirm = (...args: any[]) => {
-  if (args.length >= 2 && typeof args[1] === 'number') {
-    const index = args[1];
-    const item = bankList.value[index];
-    if (item) state.bank = item.id;
-  } else {
-    const opt = args[0]?.selectedOptions?.[0];
-    if (opt && Object.prototype.hasOwnProperty.call(opt, 'value')) {
-      state.bank = opt.value;
-    }
-  }
-  showBankPicker.value = false;
-};
-
-const selectBankHandle = (item: any) => {
+const selectBankHandle = (item: WithdrawBankCard) => {
   state.bank = item.id;
   showBankPicker.value = false;
 };
 
-const withdrawInfo = ref({
+const withdrawInfo = ref<WithdrawInfo>({
   balance_max: 0,
   min: 0,
   max: 0,
 });
 
 const getData = () => {
-  getBankWithdrawInfo().then((res) => {
+  getBankWithdrawInfo().then((res: WithdrawInfo) => {
     withdrawInfo.value = res;
   });
-  getUserBankcardList().then((res) => {
+  getUserBankcardList().then((res: WithdrawBankCard[]) => {
     bankList.value = res;
   });
 };
@@ -136,7 +134,7 @@ onBeforeMount(() => {
             <div class="formBlock">
               <div class="formRow">
                 <div class="formLabel">{{ $t('pay.p11') }}</div>
-                <div class="textLink" @click="state.amount = String(withdrawInfo.balance_max)">{{ $t('pay.p12') }}</div>
+                <button type="button" class="textLink" @click="state.amount = String(withdrawInfo.balance_max)">{{ $t('pay.p12') }}</button>
               </div>
 
               <van-field
@@ -164,9 +162,9 @@ onBeforeMount(() => {
                   <Icon name="solar:lock-password-linear" size="18" class="fieldIcon" />
                 </template>
                 <template #right-icon>
-                  <div class="fieldAction" @click="showPwd = !showPwd">
+                  <button type="button" class="fieldAction" @click="showPwd = !showPwd" :aria-pressed="showPwd">
                     <Icon :name="showPwd ? 'solar:eye-linear' : 'solar:eye-closed-linear'" size="18" />
-                  </div>
+                  </button>
                 </template>
               </van-field>
             </div>
@@ -214,16 +212,16 @@ onBeforeMount(() => {
                 </van-popup>
               </div>
 
-              <div v-else @click="changePage('/setting/bankList')" class="emptyBank ">
+              <button type="button" v-else @click="changePage('/setting/bankList')" class="emptyBank">
                 <span>{{ $t('pay.p19') }}</span>
                 <Icon class="w-5 h-5" name="solar:alt-arrow-right-linear" />
-              </div>
+              </button>
             </div>
           </div>
         </div>
 
         <div class="actionDock">
-          <div class="contentBtn" @click="handleSubmit">{{ $t('pay.p20') }}</div>
+          <button type="button" class="contentBtn" @click="handleSubmit">{{ $t('pay.p20') }}</button>
         </div>
       </van-form>
     </div>
@@ -373,13 +371,18 @@ onBeforeMount(() => {
 }
 
 .fieldAction {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
+  appearance: none;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--brand-primary);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transition: transform var(--motion-fast), background-color var(--motion-fast), color var(--motion-fast);
 }
 
 .rangeHint {
@@ -400,6 +403,9 @@ onBeforeMount(() => {
   background: rgba(255, 255, 255, 0.025);
   border: 1px solid var(--border-soft);
   color: var(--text-secondary);
+  text-align: left;
+  cursor: pointer;
+  transition: transform var(--motion-fast), border-color var(--motion-fast), background-color var(--motion-fast);
 }
 
 .actionDock {
@@ -434,6 +440,13 @@ onBeforeMount(() => {
   font-size: 15px;
   font-weight: 700;
   line-height: 1.2;
+}
+
+.fieldAction:active,
+.emptyBank:active,
+.bankPickerAction:active,
+.bankPickerItem:active {
+  transform: scale(0.98);
 }
 
 .bankPickerAction--cancel {

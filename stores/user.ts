@@ -5,7 +5,13 @@ import { joinLogin, joinAccountRegister, getUserInfo } from "~/api/home/home";
 
 type User = {
   rawAt: number;
-  raw?: Record<string, any>;
+  raw?: Record<string, unknown>;
+};
+
+type AuthResponse = {
+  userInfo: Record<string, unknown>;
+  accessToken: string;
+  accessTokenExpires: string;
 };
 
 export const useUserStore = defineStore("userStore", {
@@ -32,7 +38,7 @@ export const useUserStore = defineStore("userStore", {
           account,
           password,
         })
-          .then((data: any) => {
+          .then((data: AuthResponse) => {
             this.$patch({
               rawAt: Date.now(),
               raw: data.userInfo,
@@ -58,7 +64,7 @@ export const useUserStore = defineStore("userStore", {
           password2,
           invite_code,
         })
-          .then((data: any) => {
+          .then((data: AuthResponse) => {
             this.$patch({
               rawAt: Date.now(),
               raw: data.userInfo,
@@ -84,7 +90,7 @@ export const useUserStore = defineStore("userStore", {
         }
         this.rawAt = now;
         getUserInfo()
-          .then((info: any) => {
+          .then((info: Record<string, unknown>) => {
             this.raw = info;
             resolve();
           })

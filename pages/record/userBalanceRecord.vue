@@ -34,9 +34,9 @@ const handleTabChange = (type: number) => {
 
         <div class="contentCard mt-4">
           <div class="tabRail tabRailWide">
-            <div v-for="(tab, index) in recordTypeTabs" class="tabChip flex-1" :class="tab.type == actRecordType ? 'active' : ''" :key="index" @click="handleTabChange(tab.type)">
+            <button type="button" v-for="(tab, index) in recordTypeTabs" class="tabChip flex-1" :class="tab.type == actRecordType ? 'active' : ''" :key="index" :aria-pressed="tab.type == actRecordType" @click="handleTabChange(tab.type)">
               {{ tab.text }}
-            </div>
+            </button>
           </div>
           <BalanceRecordList v-if="1 == actRecordType" />
           <PaymentRecordList v-if="2 == actRecordType" />
@@ -58,5 +58,5 @@ const handleTabChange = (type: number) => {
 .centerTitle{margin-top:8px;color:var(--text-primary);font-size:20px;line-height:1.2;font-weight:700}
 .centerCaption{max-width:120px;color:var(--text-secondary);font-size:11px;line-height:1.45;text-align:right}
 .contentCard{padding:0;background:transparent;box-shadow:none}.tabRail{display:inline-flex;gap:8px;padding:6px;border-radius:999px;background:rgba(255,255,255,.025)}.tabRailWide{width:100%}
-.tabChip{min-height:38px;padding:0 16px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;color:var(--text-secondary);font-size:13px;text-align:center}.tabChip.active{background:var(--brand-primary-soft);color:var(--brand-primary)}
+.tabChip{appearance:none;min-height:40px;padding:0 16px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;color:var(--text-secondary);font-size:13px;text-align:center;background:transparent;border:0;transition:transform var(--motion-fast),background-color var(--motion-fast),color var(--motion-fast)}.tabChip.active{background:var(--brand-primary-soft);color:var(--brand-primary)}.tabChip:active{transform:scale(.98)}
 </style>

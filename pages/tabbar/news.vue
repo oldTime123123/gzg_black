@@ -38,8 +38,8 @@ const goNewsDetail = (item) => {
   if (item.type !== 2) {
     pub.selectNews = item;
     router.push('/mine/newsDetail');
-  } else {
-    window.open(item.url);
+  } else if (import.meta.client && item.url) {
+    globalThis.open?.(item.url, '_blank');
   }
 };
 
@@ -56,7 +56,7 @@ onBeforeMount(() => {
     <div class="hasNormalBg pageShell">
       <TabbarTopNavBar />
 
-      <div class="pageContainer px-3 mt-3 pb-6">
+      <div class="pageContainer pageStack px-3 mt-3 pb-6">
         <div v-if="showSkeleton" class="mt-4">
           <div class="skeletonCard" v-for="(item, index) in 6" :key="index"></div>
         </div>
@@ -71,7 +71,7 @@ onBeforeMount(() => {
               <div class="digestMeta">{{ featuredNews.show_time_format }}</div>
             </div>
 
-            <div class="headlineCard mt-4" @click="goNewsDetail(featuredNews)">
+            <button type="button" class="headlineCard" @click="goNewsDetail(featuredNews)">
               <div class="headlineTop">
                 <div class="featuredLabel">{{ $t('theme.featured') }}</div>
                 <div class="featuredTypeWrap">
@@ -81,18 +81,18 @@ onBeforeMount(() => {
               </div>
               <div class="headlineTitle">{{ featuredNews.name }}</div>
               <div class="headlineSummary">{{ $t('theme.intelligenceHubCopy') }}</div>
-            </div>
+            </button>
 
-            <div class="briefTicker mt-4" v-if="restNews.length">
-              <div class="tickerRow" v-for="item in restNews.slice(0, 3)" :key="item.id || item.name"
+            <div class="briefTicker renderBudgetDense" v-if="restNews.length">
+              <button type="button" class="tickerRow" v-for="item in restNews.slice(0, 3)" :key="item.id || item.name"
                 @click="goNewsDetail(item)">
                 <div class="tickerStamp">{{ item.show_time_format }}</div>
                 <div class="tickerHeadline">{{ item.name }}</div>
-              </div>
+              </button>
             </div>
           </div>
 
-          <div class="newsSection mt-4">
+          <div class="newsSection">
             <div class="sectionHeading">
               <div>
                 <div class="heroEyebrow">{{ $t('theme.chronologicalNewsFlow') }}</div>
@@ -103,8 +103,8 @@ onBeforeMount(() => {
 
             <van-list v-model:loading="loading" :finished="finished" :error-text="' '" :loading-text="' '"
               :finished-text="' '" @load="getRecordList">
-              <div class="newsTimeline mt-4">
-                <div class="timelineItem" v-for="item in restNews" :key="item.id || item.name" @click="goNewsDetail(item)">
+              <div class="newsTimeline renderBudget">
+                <button type="button" class="timelineItem" v-for="item in restNews" :key="item.id || item.name" @click="goNewsDetail(item)">
                   <div class="timelineRail">
                     <span class="newsDot"></span>
                     <span class="timelineLine"></span>
@@ -119,7 +119,7 @@ onBeforeMount(() => {
                     </div>
                     <div class="newsTitle">{{ item.name }}</div>
                   </div>
-                </div>
+                </button>
               </div>
             </van-list>
           </div>
@@ -138,45 +138,57 @@ onBeforeMount(() => {
 
 .heroEyebrow {
   color: var(--brand-primary);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-size: var(--text-caption);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-eyebrow);
   text-transform: uppercase;
 }
 
 .digestStage {
+  display: grid;
+  gap: var(--space-s);
   padding-top: 6px;
 }
 
 .digestHeader {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 12px;
+  gap: var(--space-s);
 }
 
 .digestTitle {
   margin-top: 8px;
   color: var(--text-primary);
-  font-size: 22px;
-  line-height: 1.15;
-  font-weight: 700;
+  font-family: var(--font-family-display);
+  font-size: 1.625rem;
+  line-height: 1.08;
+  font-weight: var(--weight-heavy);
+  letter-spacing: var(--tracking-tight);
 }
 
 .digestMeta {
   color: var(--text-secondary);
-  font-size: 11px;
-  line-height: 1.45;
+  font-size: var(--text-label);
+  line-height: 1.5;
   text-align: right;
 }
 
 .headlineCard {
+  appearance: none;
+  width: 100%;
   padding: 20px 18px 18px;
   border-radius: 26px;
   background:
     radial-gradient(circle at top right, rgba(212, 154, 58, 0.1), transparent 26%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
   border: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform var(--motion-fast),
+    border-color var(--motion-fast),
+    background-color var(--motion-fast);
 }
 
 .headlineTop {
@@ -193,54 +205,72 @@ onBeforeMount(() => {
   border-radius: 999px;
   background: var(--brand-primary-soft);
   color: var(--brand-primary);
-  font-size: 12px;
-  font-weight: 700;
+  font-size: var(--text-caption);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.04em;
 }
 
 .headlineTitle {
-  margin-top: 12px;
+  margin-top: 14px;
   color: var(--text-primary);
-  font-size: 20px;
-  line-height: 1.45;
-  font-weight: 700;
+  font-family: var(--font-family-display);
+  font-size: 1.375rem;
+  line-height: 1.34;
+  font-weight: var(--weight-heavy);
+  letter-spacing: var(--tracking-dense);
+  max-width: 24ch;
 }
 
 .headlineSummary {
   margin-top: 12px;
   color: var(--text-secondary);
-  font-size: 13px;
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: var(--leading-relaxed);
+  max-width: 28ch;
 }
 
 .briefTicker {
   display: grid;
-  gap: 12px;
+  gap: 0;
 }
 
 .tickerRow {
+  appearance: none;
   display: grid;
   grid-template-columns: 88px minmax(0, 1fr);
   gap: 12px;
   align-items: start;
-  padding-bottom: 12px;
+  width: 100%;
+  padding: 14px 0;
+  background: transparent;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform var(--motion-fast),
+    border-color var(--motion-fast);
 }
 
 .tickerStamp {
   color: var(--text-secondary);
-  font-size: 11px;
+  font-size: var(--text-label);
   line-height: 1.5;
 }
 
 .tickerHeadline {
   color: var(--text-primary);
-  font-size: 13px;
-  line-height: 1.55;
-  font-weight: 600;
+  font-size: 1rem;
+  line-height: var(--leading-body);
+  font-weight: var(--weight-semibold);
   word-break: break-word;
 }
 
 .newsSection {
+  display: grid;
+  gap: var(--space-s);
   padding: 4px 2px 0;
 }
 
@@ -254,29 +284,32 @@ onBeforeMount(() => {
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.06);
   color: var(--text-primary);
-  font-size: 12px;
+  font-size: var(--text-caption);
+  font-weight: var(--weight-semibold);
 }
 
 .sectionHeading {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 12px;
+  gap: var(--space-s);
 }
 
 .sectionTitle {
   margin-top: 8px;
   color: var(--text-primary);
-  font-size: 20px;
-  line-height: 1.2;
-  font-weight: 700;
+  font-family: var(--font-family-display);
+  font-size: 1.375rem;
+  line-height: 1.18;
+  font-weight: var(--weight-heavy);
+  letter-spacing: var(--tracking-dense);
 }
 
 .sectionCaption {
-  max-width: 132px;
+  max-width: 152px;
   color: var(--text-secondary);
-  font-size: 11px;
-  line-height: 1.45;
+  font-size: 0.875rem;
+  line-height: 1.6;
   text-align: right;
 }
 
@@ -291,13 +324,21 @@ onBeforeMount(() => {
 
 .newsTimeline {
   display: grid;
-  gap: 16px;
+  gap: 0;
 }
 
 .timelineItem {
+  appearance: none;
   display: grid;
   grid-template-columns: 20px minmax(0, 1fr);
   gap: 14px;
+  width: 100%;
+  padding: 0 0 var(--space-s);
+  background: transparent;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+  transition: transform var(--motion-fast);
 }
 
 .timelineRail {
@@ -316,7 +357,7 @@ onBeforeMount(() => {
 }
 
 .timelineBody {
-  padding-bottom: 16px;
+  padding-bottom: var(--space-s);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
@@ -330,16 +371,16 @@ onBeforeMount(() => {
 
 .newsTime {
   color: var(--text-secondary);
-  font-size: 12px;
-  line-height: 1.45;
+  font-size: var(--text-label);
+  line-height: 1.5;
 }
 
 .newsTitle {
   margin-top: 10px;
   color: var(--text-primary);
-  font-size: 14px;
-  line-height: 1.55;
-  font-weight: 600;
+  font-size: 1rem;
+  line-height: var(--leading-body);
+  font-weight: var(--weight-semibold);
   word-break: break-word;
 }
 
@@ -355,5 +396,18 @@ onBeforeMount(() => {
   border-radius: 24px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border-soft);
+}
+
+.headlineCard:hover {
+  background:
+    radial-gradient(circle at top right, rgba(212, 154, 58, 0.12), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.025));
+  border-color: rgba(212, 154, 58, 0.2);
+}
+
+.headlineCard:active,
+.tickerRow:active,
+.timelineItem:active {
+  transform: scale(0.99);
 }
 </style>

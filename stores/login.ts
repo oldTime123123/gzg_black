@@ -6,17 +6,33 @@ import {
 } from "~/api/home/home";
 import { storage } from "./storage";
 
+type AreaCode = {
+  id: number | string;
+  code?: string;
+  name?: string;
+  [key: string]: unknown;
+};
+
+type RegisterSettingResponse = {
+  registerChannel: {
+    channel: number[];
+  };
+  registerInviteCode: {
+    status: number;
+  };
+};
+
 interface stateFace {
-  areaCode: Record<string, any>;
-  countryList: Record<string, any>[];
-  registerChanel: Array<Number>;
+  areaCode: AreaCode;
+  countryList: AreaCode[];
+  registerChanel: number[];
   registerInviteCode: boolean;
-  loginType: Array<string>;
-  showCaptcha: Boolean;
+  loginType: string[];
+  showCaptcha: boolean;
   accInfo: string;
   rememberPwd: boolean;
   loading: boolean;
-  loadingText:string;
+  loadingText: string;
 }
 export const useLoginStore = defineStore("loginStore", {
   persist: {
@@ -38,11 +54,11 @@ export const useLoginStore = defineStore("loginStore", {
     };
   },
   actions: {
-    selectAreaCode(code: codeFace) {
+    selectAreaCode(code: AreaCode) {
       this.areaCode = code;
     },
     initLoginData() {
-      countryApi().then((res: any) => {
+      countryApi().then((res: AreaCode[]) => {
         this.countryList = res;
         if (!this.areaCode.code) {
           this.areaCode = res[0];
@@ -57,8 +73,8 @@ export const useLoginStore = defineStore("loginStore", {
           }
         }
       });
-      registerSetting().then((res: any) => {
-        let channel = res.registerChannel.channel;
+      registerSetting().then((res: RegisterSettingResponse) => {
+        const channel = res.registerChannel.channel;
         this.registerInviteCode =
           res.registerInviteCode.status > 0 ? true : false;
         this.loginType = [];

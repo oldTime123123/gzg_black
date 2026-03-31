@@ -1,7 +1,16 @@
 <script lang="ts" setup>
 import { getSettingService } from '~/api/pay/realse';
 
-const serviceList = ref([]);
+type ServiceItem = {
+  id?: number | string;
+  service_name?: string;
+  avatar?: string;
+  contact_link?: string;
+  start_working_time?: string;
+  end_working_time?: string;
+};
+
+const serviceList = ref<ServiceItem[]>([]);
 
 const getData = () => {
   getSettingService().then((res) => {
@@ -9,9 +18,9 @@ const getData = () => {
   });
 };
 
-const jumpPage = (item) => {
-  if (window) {
-    window.open(item.contact_link);
+const jumpPage = (item: ServiceItem) => {
+  if (import.meta.client && item.contact_link) {
+    globalThis.open?.(item.contact_link, '_blank');
   }
 };
 
@@ -31,10 +40,10 @@ onBeforeMount(() => {
         <div class="stageDesc">{{ $t('theme.openContact') }}</div>
       </div>
 
-      <div class="serviceGrid mt-5">
-        <div class="serviceCard" v-for="item in serviceList" :key="item.id || item.service_name" @click="jumpPage(item)">
+      <div class="serviceGrid renderBudget mt-5">
+        <button type="button" class="serviceCard" v-for="item in serviceList" :key="item.id || item.service_name" @click="jumpPage(item)">
           <div class="serviceTop">
-            <img :src="item.avatar" class="serviceAvatar">
+            <img :src="item.avatar" :alt="item.service_name || 'service avatar'" class="serviceAvatar" loading="lazy" decoding="async" width="48" height="48">
             <div class="serviceMeta">
               <div class="serviceName">{{ item.service_name }}</div>
               <div class="serviceTime">
@@ -50,7 +59,7 @@ onBeforeMount(() => {
             <span>{{ $t('theme.openContact') }}</span>
             <Icon name="solar:alt-arrow-right-linear" size="18" />
           </div>
-        </div>
+        </button>
       </div>
     </div>
   </div>
@@ -95,6 +104,7 @@ onBeforeMount(() => {
 }
 
 .serviceCard {
+  width: 100%;
   padding: 18px 16px 14px;
   border-radius: 24px;
   background:
@@ -102,6 +112,18 @@ onBeforeMount(() => {
     linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.02));
   border: 1px solid var(--border-soft);
   box-shadow: none;
+  appearance: none;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.serviceCard:active {
+  transform: scale(0.99);
+}
+
+.serviceCard:hover {
+  border-color: rgba(212, 154, 58, 0.18);
 }
 
 .serviceTop {

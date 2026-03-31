@@ -12,13 +12,43 @@ const schema = v.object({
   title: v.pipe(v.string(), v.nonEmpty(t('setting.s29'))),
 });
 
+type UploadFileItem = {
+  url?: string;
+  file?: File | null;
+};
+
+type RealNamePayload = {
+  name: string;
+  title: string;
+  type: number;
+  id_front: string;
+  id_back: string;
+};
+
+type UploadResponse = {
+  code: number;
+  message?: string;
+  data: string;
+};
+
+type RealInfoItem = {
+  status?: number;
+  name?: string;
+  title?: string;
+  full_id_front?: string;
+  full_id_back?: string;
+  upload_host?: string;
+  id_front?: string;
+  id_back?: string;
+};
+
 const state = reactive({
   name: "",
   title: "",
 });
 
-const fileFront = ref<any[]>([]);
-const fileBack = ref<any[]>([]);
+const fileFront = ref<UploadFileItem[]>([]);
+const fileBack = ref<UploadFileItem[]>([]);
 const uploadHost = ref("");
 const userRealStatus = ref(0);
 
@@ -47,7 +77,7 @@ const handleSubmit = async () => {
 
   publicStore.showLoading = true;
 
-  const data: any = {
+  const data: RealNamePayload = {
     name: state.name,
     title: state.title,
     type: 1,
@@ -59,7 +89,7 @@ const handleSubmit = async () => {
     if (fileFront.value[0].file) {
       const res1 = await uploadFile(uploadHost.value + '/api/uploads', {
         cert: fileFront.value[0].file,
-      });
+      }) as UploadResponse;
       if (res1.code == 200) {
         data.id_front = res1.data;
       } else {
@@ -72,7 +102,7 @@ const handleSubmit = async () => {
     if (fileBack.value[0].file) {
       const res2 = await uploadFile(uploadHost.value + '/api/uploads', {
         cert: fileBack.value[0].file,
-      });
+      }) as UploadResponse;
       if (res2.code == 200) {
         data.id_back = res2.data;
       } else {
@@ -85,20 +115,21 @@ const handleSubmit = async () => {
     await realNameService(data);
     showToast(t('setting.s30'));
     getData();
-  } catch (error: any) {
-    showToast(error.message || t('xx.a5'));
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : t('xx.a5');
+    showToast(message || t('xx.a5'));
   } finally {
     publicStore.showLoading = false;
   }
 };
 
-const realUserInfo = ref({
+const realUserInfo = ref<RealInfoItem>({
   id_front: "",
   id_back: "",
 });
 
 const getData = () => {
-  getUserRealInfo().then((res) => {
+  getUserRealInfo().then((res: RealInfoItem[]) => {
     if (res[0]) {
       userRealStatus.value = res[0].status || 0;
       state.name = res[0].name || '';
@@ -128,7 +159,7 @@ onMounted(() => {
   getData();
 });
 
-const userRealText = ref<any>({
+const userRealText = ref<Record<number, { text: string; icon: string; tone: string }>>({
   0: { text: t('setting.s31'), icon: 'solar:clock-circle-linear', tone: 'pending' },
   1: { text: t('setting.s32'), icon: 'solar:clock-circle-linear', tone: 'pending' },
   2: { text: t('setting.s33'), icon: 'solar:verified-check-linear', tone: 'success' },

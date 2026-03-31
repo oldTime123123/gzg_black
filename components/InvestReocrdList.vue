@@ -17,7 +17,12 @@ const params = reactive({
     limit: 10,
 });
 
-const items = ref(new Array())
+type PaginatedResponse<T> = {
+    data: T[];
+    last_page: number;
+}
+
+const items = ref<Record<string, unknown>[]>([])
 const error = ref(false);
 const loading = ref(false);
 const finished = ref(false);
@@ -26,7 +31,7 @@ const fetchItemsList = () => {
     loading.value = true;
   finished.value = true;
     showSkeleton.value = true
-    getTradeDealLog(params.page++, params.limit, typeDetail.value).then((res: any) => {
+    getTradeDealLog(params.page++, params.limit, typeDetail.value).then((res: PaginatedResponse<Record<string, unknown>>) => {
         items.value = items.value.concat(res.data);
         const bool = params.page > res.last_page;
         nextTick(() => {

@@ -3,22 +3,21 @@ import axios from "axios";
 // 加密数据
 
 export const openFlow = () => {
-  if (window.deferredPrompt) {
-    // You can use window.deferredPrompt here
-    window.deferredPrompt.prompt();
-    window.deferredPrompt.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === "accepted") {
-        console.log("用户接受了安装提示");
-      } else {
-        console.log("用户拒绝了安装提示");
-      }
-      deferredPrompt = null;
-    });
-  } else {
-    // showToast("Please add to home screen");
-    // console.log("window.deferredPrompt", window.deferredPrompt);
-    // console.warn("deferredPrompt is not available");
+  const deferredPrompt = globalThis.window?.deferredPrompt;
+  if (!deferredPrompt) {
+    return;
   }
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then((choiceResult) => {
+    if (choiceResult.outcome === "accepted") {
+      console.log("用户接受了安装提示");
+    } else {
+      console.log("用户拒绝了安装提示");
+    }
+    if (typeof globalThis.window !== "undefined") {
+      globalThis["window"].deferredPrompt = null;
+    }
+  });
 };
 
 // 上传图片
@@ -230,6 +229,10 @@ export function compressFile(file) {
 }
 
 export function unregisterServiceWorker() {
+  if (typeof window === "undefined") {
+    return;
+  }
+
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.getRegistrations().then((registrations) => {
       for (const registration of registrations) {

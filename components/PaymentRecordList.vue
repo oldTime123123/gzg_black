@@ -1,9 +1,24 @@
 <script setup lang="ts">
 import { getUserPaymentRecord } from '~/api/home/home';
 const { t } = useI18n();
-const statusText: any = { 0: t('fund.a2'), 1: t('fund.a3'), 2: t('fund.a4'), 3: t('fund.a5'), 4: t('xx.a1') };
+
+type PaymentRecordItem = {
+  order_no: string;
+  amount: number | string;
+  currency: string;
+  arrive_amount: number | string;
+  arrive_time?: string;
+  status: number;
+};
+
+type PaginatedResponse<T> = {
+  data: T[];
+  last_page: number;
+};
+
+const statusText: Record<number, string> = { 0: t('fund.a2'), 1: t('fund.a3'), 2: t('fund.a4'), 3: t('fund.a5'), 4: t('xx.a1') };
 const params = reactive({ page: 1, limit: 10 });
-const items = ref<any[]>([]);
+const items = ref<PaymentRecordItem[]>([]);
 const error = ref(false);
 const loading = ref(false);
 const finished = ref(false);
@@ -11,7 +26,7 @@ const finished = ref(false);
 const fetchItemsList = () => {
   loading.value = true;
   finished.value = true;
-  getUserPaymentRecord(params.page++, params.limit).then((res: any) => {
+  getUserPaymentRecord(params.page++, params.limit).then((res: PaginatedResponse<PaymentRecordItem>) => {
     items.value = items.value.concat(res.data);
     const bool = params.page > res.last_page;
     nextTick(() => { finished.value = bool; });

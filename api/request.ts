@@ -1,8 +1,8 @@
 import axios from "axios";
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import { useCookie } from "nuxt/app";
 import { showToast } from "vant";
 import { usePublicStore } from "~/stores/publicData";
+import { storage } from "~/stores/storage";
 
 interface HttpResponse<T> {
   code: number;
@@ -80,7 +80,9 @@ const axiosInstance: AxiosInstance = axios.create({
 
 // 辅助函数：读取指定名称的 cookie
 function getCookie(name: string): string | null {
-  const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+  if (!import.meta.client) return null;
+  const cookieValue = globalThis.document?.cookie ?? "";
+  const match = cookieValue.match(new RegExp("(^| )" + name + "=([^;]+)"));
   if (match) return match[2];
   return null;
 }
@@ -90,12 +92,12 @@ axiosInstance.interceptors.request.use(
     let lang = "en";
     let token = "";
     // 确保在浏览器环境执行
-    if (typeof window !== "undefined") {
+    if (import.meta.client) {
       const cookieLang = getCookie("i18n_redirected");
       lang = cookieLang || "ja";
-      token = localStorage.getItem("token") || "";
+      token = storage.getItem("token") || "";
     }
-const pub = usePublicStore();
+    const pub = usePublicStore();
 
     config.headers = {
       ...config.headers,
@@ -116,7 +118,7 @@ const pub = usePublicStore();
 
 // 响应拦截器
 axiosInstance.interceptors.response.use(
-  (response: AxiosResponse<HttpResponse<any>>) => {
+  (response: AxiosResponse<HttpResponse<unknown>>) => {
     // 请求完成，从 pending 列表中移除
     removePendingRequest(response.config);
 
@@ -138,7 +140,7 @@ axiosInstance.interceptors.response.use(
         actionLoading: false,
       });
 
-      const data = response.data as Record<string, any>;
+      const data = response.data as HttpResponse<unknown>;
       const { code, message } = data;
 
       switch (code) {
@@ -171,14 +173,12 @@ axiosInstance.interceptors.response.use(
       return Promise.reject({ message: "Request cancelled", cancelled: true });
     }
 
-    if (error.response?.status === 401) {
-      const currentRoute = window.location.pathname;
+    if (error.response?.status === 401 && import.meta.client) {
+      const currentRoute = globalThis.location?.pathname || "/";
       // 如果当前不在登录页面，则跳转到登录页
 
       if (!currentRoute.startsWith("/auth/")) {
-
-
-        window.location.href = "/auth/beforeLogin";
+        globalThis.location?.replace("/auth/beforeLogin");
       }
     }
 

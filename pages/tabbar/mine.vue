@@ -68,7 +68,14 @@ const rechargeTypeStatus = ref({
   recharge_unavailable_txt: '',
 });
 
-const account = ref<Record<string, any>>({
+type AccountSummary = {
+  totalAsset: number;
+  balance: number;
+  frozenAmount: number;
+  profit: number;
+};
+
+const account = ref<AccountSummary>({
   totalAsset: 0,
   balance: 0,
   frozenAmount: 0,
@@ -76,7 +83,7 @@ const account = ref<Record<string, any>>({
 });
 
 const fetchPageData = () => {
-  getUserAccountBalance().then((data: any) => {
+  getUserAccountBalance().then((data: AccountSummary) => {
     account.value = data;
   });
   getSettingFinanceWay().then((res) => {
@@ -150,12 +157,12 @@ onMounted(() => {
               {{ $t('mine.m13') }}
             </div>
             <div class="w-[88px] flex flex-row-reverse gap-2">
-              <div class="topAction" @click="changePage('/mine/language')">
+              <button type="button" class="topAction" @click="changePage('/mine/language')" :aria-label="$t('comm.c83') || 'Change language'">
                 <Icon name="solar:global-linear" size="18" />
-              </div>
-              <div class="topAction" @click="changePage('/service')">
+              </button>
+              <button type="button" class="topAction" @click="changePage('/service')" :aria-label="$t('theme.onlineCustomerService')">
                 <Icon name="solar:headphones-round-sound-linear" size="18" />
-              </div>
+              </button>
             </div>
           </div>
         </van-sticky>
@@ -171,13 +178,13 @@ onMounted(() => {
 
               <div class="accountStageSide">
                 <div class="memberBadge" v-if="userStore.data.vip?.name">
-                  <img :src="userStore.data.vip?.pic" class="memberBadgeIcon">
+                  <img :src="userStore.data.vip?.pic" :alt="userStore.data.vip?.name || 'member badge'" class="memberBadgeIcon" decoding="async">
                   <span>{{ userStore.data.vip?.name }}</span>
                 </div>
-                <div class="visibilityToggle" @click="showID = !showID">
+                <button type="button" class="visibilityToggle" @click="showID = !showID" :aria-pressed="showID">
                   <Icon :name="showID ? 'solar:eye-closed-linear' : 'solar:eye-linear'" size="16" />
                   <span>{{ showID ? $t('theme.hideBalance') : $t('theme.showBalance') }}</span>
-                </div>
+                </button>
               </div>
             </div>
 
@@ -201,8 +208,8 @@ onMounted(() => {
                 <div class="sectionTitle">{{ $t('theme.accountActions') }}</div>
               </div>
             </div>
-            <div class="grid grid-cols-2 cursor-pointer gap-3 mt-4">
-              <div class="actionButton actionDeposit" @click="goDeposit('/pay/deposit')">
+            <div class="grid grid-cols-2 gap-3 mt-4">
+              <button type="button" class="actionButton actionDeposit" @click="goDeposit('/pay/deposit')">
                 <div class="iconFrame">
                   <Icon name="solar:card-recive-linear" size="22" />
                 </div>
@@ -211,9 +218,9 @@ onMounted(() => {
                     {{ $t('mine.m18') }}
                   </div>
                 </div>
-              </div>
+              </button>
 
-              <div class="actionButton actionWithdraw" @click="changePage('/pay/withdraw')">
+              <button type="button" class="actionButton actionWithdraw" @click="changePage('/pay/withdraw')">
                 <div class="iconFrame">
                   <Icon name="solar:card-send-linear" size="22" />
                 </div>
@@ -222,7 +229,7 @@ onMounted(() => {
                     {{ $t('mine.m19') }}
                   </div>
                 </div>
-              </div>
+              </button>
             </div>
           </div>
 
@@ -233,8 +240,8 @@ onMounted(() => {
                 <div class="sectionTitle">{{ $t('theme.toolsSettings') }}</div>
               </div>
             </div>
-            <div class="menuGrid mt-4">
-              <div class="menuItem" v-for="(item, index) in myItemList" :key="index" @click="changePage(item.url)">
+            <div class="menuGrid renderBudget mt-4">
+              <button type="button" class="menuItem" v-for="(item, index) in myItemList" :key="index" @click="changePage(item.url)">
                 <div class="iconFrame">
                   <Icon :name="item.icon" size="20" />
                 </div>
@@ -242,15 +249,15 @@ onMounted(() => {
                   <div class="menuName">{{ item.name }}</div>
                 </div>
                 <Icon name="solar:alt-arrow-right-linear" size="18" class="menuArrow" />
-              </div>
+              </button>
             </div>
           </div>
 
           <div class="logoutSection mt-6">
             <div class="sectionCard p-3">
-              <div class="contentBtn" @click="handleLogout">
+              <button type="button" class="contentBtn" @click="handleLogout">
                 {{ $t('mine.m20') }}
-              </div>
+              </button>
             </div>
           </div>
         </div>
@@ -269,10 +276,10 @@ onMounted(() => {
             </div>
 
             <div class="dialogActions mt-4 grid grid-cols-2 gap-2">
-              <div class="borderContentBtn" @click="showPop = false">{{ $t('comm.c56') }}</div>
-              <div class="contentBtn" @click="confirmClosePositionHandle">
+              <button type="button" class="borderContentBtn" @click="showPop = false">{{ $t('comm.c56') }}</button>
+              <button type="button" class="contentBtn" @click="confirmClosePositionHandle">
                 {{ $t('comm.c57') }}
-              </div>
+              </button>
             </div>
           </div>
         </div>
@@ -294,8 +301,8 @@ onMounted(() => {
 }
 
 .topAction {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -303,6 +310,11 @@ onMounted(() => {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border-soft);
   color: var(--text-primary);
+  appearance: none;
+  transition:
+    transform var(--motion-fast) ease,
+    background-color var(--motion-fast) ease,
+    border-color var(--motion-fast) ease;
 }
 
 .heroEyebrow {
@@ -451,6 +463,11 @@ onMounted(() => {
     rgba(255, 255, 255, 0.04);
   color: var(--text-primary);
   font-size: 12px;
+  appearance: none;
+  transition:
+    transform var(--motion-fast) ease,
+    border-color var(--motion-fast) ease,
+    background-color var(--motion-fast) ease;
 }
 
 .actionCard,
@@ -468,6 +485,12 @@ onMounted(() => {
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.025);
   border: 1px solid rgba(255, 255, 255, 0.05);
+  text-align: left;
+  appearance: none;
+  transition:
+    transform var(--motion-fast) ease,
+    border-color var(--motion-fast) ease,
+    background-color var(--motion-fast) ease;
 }
 
 .actionLabel {
@@ -489,6 +512,13 @@ onMounted(() => {
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.025);
   border: 1px solid rgba(255, 255, 255, 0.05);
+  width: 100%;
+  text-align: left;
+  appearance: none;
+  transition:
+    transform var(--motion-fast) ease,
+    border-color var(--motion-fast) ease,
+    background-color var(--motion-fast) ease;
 }
 
 .menuContent {
@@ -562,7 +592,6 @@ onMounted(() => {
   margin-top: 16px;
   color: var(--text-secondary);
   font-size: 12px;
-  cursor: pointer;
 }
 
 .actionButton {
@@ -663,5 +692,21 @@ onMounted(() => {
   border: 1px solid var(--border-soft);
   color: var(--text-secondary);
   text-align: center;
+}
+
+.topAction:active,
+.visibilityToggle:active,
+.actionButton:active,
+.menuItem:active {
+  transform: translateY(1px) scale(0.995);
+}
+
+@media (hover: hover) {
+  .topAction:hover,
+  .visibilityToggle:hover,
+  .actionButton:hover,
+  .menuItem:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+  }
 }
 </style>

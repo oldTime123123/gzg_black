@@ -79,6 +79,11 @@ export const socketStore = defineStore("socketStoreId", {
     },
     // 设置Socket监听器
     setupSocketListeners() {
+      socket.off("connect");
+      socket.off("disconnect");
+      socket.off("error");
+      socket.off("project");
+
       socket.on("connect", (data) => {
         this.isConnected = true;
         this.error = null;
@@ -145,6 +150,7 @@ export const socketStore = defineStore("socketStoreId", {
     // 断开连接
     disconnect() {
       try {
+        this.clearReconnectTimer();
         socket.disconnect("project");
         socket.close("project");
         this.isConnected = false;

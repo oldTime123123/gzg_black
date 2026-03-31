@@ -6,12 +6,24 @@ const recordTypeList = ref([t('record.r10'), t('record.r11'), t('record.r12')]);
 const pub = usePublicStore();
 const pages = ref({ page: 1, type: 1, size: 10 });
 
-const recordList = ref<any[]>([]);
+type LoanRecordItem = {
+  type: number;
+  status: number;
+  amount: number | string;
+  createTime: string;
+};
+
+type PaginatedResponse<T> = {
+  data: T[];
+  total: number;
+};
+
+const recordList = ref<LoanRecordItem[]>([]);
 const loading = ref(true);
 const finished = ref(false);
 const totalSize = ref(0);
 const getRecordList = () => {
-  getLoanLogs(pages.value).then((res) => {
+  getLoanLogs(pages.value).then((res: PaginatedResponse<LoanRecordItem>) => {
     totalSize.value = res.total;
     recordList.value = recordList.value.concat(res.data);
   }).finally(() => {
@@ -54,9 +66,9 @@ const changeActType = (index: number) => {
 
       <div class="sectionCard mt-4 contentCard">
         <div class="tabRail tabRailWide">
-          <div class="tabChip flex-1" v-for="(item, index) in recordTypeList" :class="index == actRecordType ? 'active' : ''" :key="index" @click="changeActType(index)">
+          <button type="button" class="tabChip flex-1" v-for="(item, index) in recordTypeList" :class="index == actRecordType ? 'active' : ''" :key="index" :aria-pressed="index == actRecordType" @click="changeActType(index)">
             {{ item }}
-          </div>
+          </button>
         </div>
 
         <div class="mt-4" v-if="recordList.length == 0">
@@ -95,7 +107,7 @@ const changeActType = (index: number) => {
 .pageWrap{min-height:calc(100vh - 60px)}
 .heroEyebrow{color:var(--brand-primary);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.heroDesc{margin-top:10px;color:var(--text-secondary);font-size:13px;line-height:1.55}
 .contentCard{padding:16px}.tabRail{display:inline-flex;gap:8px;padding:6px;border-radius:999px;background:rgba(255,255,255,.025)}.tabRailWide{width:100%}
-.tabChip{min-height:38px;padding:0 16px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;color:var(--text-secondary);font-size:13px;text-align:center}.tabChip.active{background:var(--brand-primary-soft);color:var(--brand-primary)}
+.tabChip{appearance:none;min-height:40px;padding:0 16px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;color:var(--text-secondary);font-size:13px;text-align:center;background:transparent;border:0;transition:transform var(--motion-fast),background-color var(--motion-fast),color var(--motion-fast)}.tabChip.active{background:var(--brand-primary-soft);color:var(--brand-primary)}.tabChip:active{transform:scale(.98)}
 .emptyText{margin-top:10px;text-align:center;color:var(--text-secondary)}.historyCard{padding:14px;border-radius:18px;background:rgba(255,255,255,.025);border:1px solid var(--border-soft)}.historyCard + .historyCard{margin-top:12px}
 .detailList{display:grid;gap:8px}.detailRow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.025);color:var(--text-secondary);font-size:13px}.detailRow strong{text-align:right}.brandText{color:var(--brand-primary)}
 </style>

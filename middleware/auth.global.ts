@@ -9,8 +9,6 @@ export default defineNuxtRouteMiddleware((to, from) => {
   //     return navigateTo("/auth/login?redirect=" + to.path);
   //   }
   // }
-  const route = useRoute();
-  const router = useRouter();
   const pub = usePublicStore();
 
   if (import.meta.client) {
@@ -19,29 +17,23 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
   pub.showLoading = true;
   if (import.meta.client) {
-    if (route.path !== "/") {
+    if (to.path !== "/") {
       pub.isLoginFlag = false;
     } else {
       if (!localStorage.getItem("token")) {
         pub.isLoginFlag = true;
       }
     }
-  }
-
-  router.afterEach((to, from, failure) => {
-    if (failure) {
-      console.error("导航失败:", failure);
+    const isRefresh = localStorage.getItem("NEED_REFRESH") === "1";
+    if (isRefresh) {
+      localStorage.setItem("NEED_REFRESH", "0");
+      window.location.reload();
       return;
     }
-    if (window && window.localStorage) {
-      const isRefresh = localStorage.getItem("NEED_REFRESH") === "1";
-
-      if (isRefresh) {
-        localStorage.setItem("NEED_REFRESH", "0");
-        // 刷新完成后的处理
-        window.location.reload();
-      }
-    }
-  pub.showLoading = false
-  });
+    setTimeout(() => {
+      pub.showLoading = false;
+    }, 0);
+  } else {
+    pub.showLoading = false;
+  }
 });

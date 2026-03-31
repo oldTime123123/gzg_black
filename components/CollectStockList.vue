@@ -1,13 +1,23 @@
 <script setup lang="ts">
 import { getCollectList } from '~/api/home/home';
 
+type CollectStockItemData = {
+  pid: number | string;
+  [key: string]: unknown;
+};
+
+type CollectListResponse = {
+  data: CollectStockItemData[];
+  total: number;
+};
+
 const params = reactive({
   page: 1,
   limit: 10,
 });
 
 const showSkeleton = ref(true)
-const items = ref(new Array())
+const items = ref<CollectStockItemData[]>([])
 const error = ref(false);
 const loading = ref(false);
 const finished = ref(false);
@@ -16,7 +26,7 @@ const fetchItemsList = () => {
   loading.value = true;
   finished.value = true;
 
-  getCollectList(params.page, params.limit).then((res: any) => {
+  getCollectList(params.page, params.limit).then((res: CollectListResponse) => {
     if (params.page == 1) {
       items.value = res.data
     } else {
@@ -38,7 +48,7 @@ const fetchItemsList = () => {
   })
 }
 
-const deleteStock = (data) => {
+const deleteStock = (data: CollectStockItemData) => {
   const index = items.value.findIndex(item => item.pid === data.pid)
   if (index !== -1) {
     items.value.splice(index, 1)
@@ -70,10 +80,10 @@ const changeDataType = () => {
       </van-list>
     </div>
 
-    <div class="contentBtn addBtn mt-3" @click="changeDataType">
+    <button type="button" class="contentBtn addBtn mt-3" @click="changeDataType">
       <span>{{ $t('comm.c5') }}</span>
       <Icon name="material-symbols:add-circle-rounded" size="20" class="addBtnIcon" />
-    </div>
+    </button>
   </div>
 </template>
 
@@ -96,10 +106,15 @@ const changeDataType = () => {
   justify-content: center;
   gap: 8px;
   font-weight: 700;
+  transition: transform var(--motion-fast);
 }
 
 .addBtnIcon {
   color: rgba(255, 247, 220, 0.92);
   flex-shrink: 0;
+}
+
+.addBtn:active {
+  transform: scale(0.98);
 }
 </style>

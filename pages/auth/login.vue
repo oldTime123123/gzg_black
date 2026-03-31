@@ -18,6 +18,7 @@ const state = reactive({
   account: '',
   password: '',
 });
+type LoginFormState = typeof state;
 
 const showPwd = ref(false);
 const rememberPwd = ref(false);
@@ -27,7 +28,7 @@ const changePage = (link: string) => {
   router.push(link);
 };
 
-const handleSubmit = async (values: any) => {
+const handleSubmit = async (values: Partial<LoginFormState>) => {
   if (!showBtnStatus.value) return;
   publicStore.showLoading = true;
   const { account, password } = Object.assign({}, state, values);
@@ -100,9 +101,9 @@ onMounted(() => {
                   <Icon name="solar:lock-password-linear" size="18" class="fieldIcon" />
                 </template>
                 <template #right-icon>
-                  <div class="fieldAction" @click="showPwd = !showPwd">
+                  <button type="button" class="fieldAction" :aria-pressed="showPwd" @click="showPwd = !showPwd">
                     <Icon :name="showPwd ? 'solar:eye-linear' : 'solar:eye-closed-linear'" size="18" />
-                  </div>
+                  </button>
                 </template>
               </van-field>
             </div>
@@ -112,17 +113,17 @@ onMounted(() => {
                 <van-checkbox v-model="rememberPwd" icon-size="18" class="rememberCheck" />
                 <span>{{ $t('login.l11') }}</span>
               </div>
-              <div class="textLink" @click="changePage('/auth/forgot-password')">{{ $t('theme.forgotPassword') }}</div>
+              <button type="button" class="textLink" @click="changePage('/auth/forgot-password')">{{ $t('theme.forgotPassword') }}</button>
             </div>
           </div>
 
-          <button native-type="submit" class="contentBtn" :class="!showBtnStatus ? 'disAbledBtn' : ''">
+          <button type="submit" class="contentBtn" :class="!showBtnStatus ? 'disAbledBtn' : ''">
             {{ $t('login.l12') }}
           </button>
 
           <div class="flex items-center justify-center gap-1.5 text-[13px] text-[var(--text-secondary)]">
             <span>{{ $t('login.l13') }}</span>
-            <span class="textLink" @click="changePage('/auth/register')">{{ $t('login.l14') }}</span>
+            <button type="button" class="textLink" @click="changePage('/auth/register')">{{ $t('login.l14') }}</button>
           </div>
         </div>
       </van-form>
@@ -201,13 +202,22 @@ onMounted(() => {
 }
 
 .fieldAction {
-  width: 20px;
-  height: 20px;
-  display: flex;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   color: var(--brand-primary);
   opacity: 1;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  border-radius: 12px;
+  transition: transform 0.18s ease, color 0.18s ease, background 0.18s ease;
+}
+
+.fieldAction:active {
+  transform: scale(0.96);
 }
 
 .authInput :deep(.van-field__error-message) {
@@ -227,5 +237,10 @@ onMounted(() => {
 .textLink {
   color: var(--brand-primary);
   font-weight: 700;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
 }
 </style>

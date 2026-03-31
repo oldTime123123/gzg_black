@@ -6,7 +6,19 @@ import { showToast } from 'vant';
 const { t } = useI18n()
 
 const props = defineProps<{
-    data: Record<string, any>
+    data: {
+        pid: number | string;
+        isCollect?: boolean;
+        stock: {
+            code: string;
+            name: string;
+            price: number | string;
+            rise: number | string;
+            rise_rate: number | string;
+            is_rise: number;
+            [key: string]: unknown;
+        };
+    }
 }>();
 const data = props.data
 const emit = defineEmits()
@@ -24,12 +36,12 @@ const collectHandle = () => {
 
 const router = useRouter()
 const useSocketStore = socketStore()
-const goTrade = data => {
+const goTrade = (item: typeof data) => {
   useSocketStore.currentCoin = {
-    ...data.stock,
-    id: data.pid,
-    pro_code:data.stock.code,
-    pro_name:data.stock.name,
+    ...item.stock,
+    id: item.pid,
+    pro_code: item.stock.code,
+    pro_name: item.stock.name,
   }
   router.push('/trade')
 }
@@ -37,7 +49,8 @@ const goTrade = data => {
 
 
 <template>
-    <div class="collectStockItemEl cursor-pointer p-[18px] rounded-[22px]" @click="goTrade(data)">
+    <div class="collectStockItemEl cursor-pointer p-[18px] rounded-[22px]" role="button" tabindex="0" @click="goTrade(data)"
+        @keydown.enter.prevent="goTrade(data)" @keydown.space.prevent="goTrade(data)">
         <div class="headerRow">
             <div class="titleWrap">
                 <div class="itemTitle">{{ data.stock.name }}</div>
@@ -72,6 +85,10 @@ const goTrade = data => {
     flex-direction: column;
     justify-content: space-between;
     gap: 18px;
+    transition:
+        transform var(--motion-fast),
+        border-color var(--motion-fast),
+        background-color var(--motion-fast);
 
     .headerRow {
         display: flex;
@@ -113,14 +130,19 @@ const goTrade = data => {
     }
 
     .bookmarkBtn {
-        width: 34px;
-        height: 34px;
+        width: 40px;
+        height: 40px;
         border-radius: 999px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         background: rgba(255, 255, 255, 0.035);
         flex-shrink: 0;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        transition:
+            transform var(--motion-fast),
+            border-color var(--motion-fast),
+            background-color var(--motion-fast);
     }
 
     .quoteSummary {
@@ -180,5 +202,15 @@ const goTrade = data => {
         opacity: 1;
         transform: translateY(-1px);
     }
+}
+
+.collectStockItemEl:hover {
+    background: rgba(255, 255, 255, 0.035);
+    border-color: rgba(212, 154, 58, 0.18);
+}
+
+.collectStockItemEl:active,
+.collectStockItemEl .bookmarkBtn:active {
+    transform: scale(0.98);
 }
 </style>

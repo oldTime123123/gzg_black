@@ -90,9 +90,9 @@ onMounted(() => {
                 <Icon name="solar:shield-keyhole-linear" size="18" class="fieldIcon" />
               </template>
               <template #right-icon>
-                <div class="fieldAction" @click="passwordState.showPwd1 = !passwordState.showPwd1">
+                <button type="button" class="fieldAction" :aria-pressed="passwordState.showPwd1" @click="passwordState.showPwd1 = !passwordState.showPwd1">
                   <Icon :name="passwordState.showPwd1 ? 'solar:eye-linear' : 'solar:eye-closed-linear'" size="18" />
-                </div>
+                </button>
               </template>
             </van-field>
           </div>
@@ -106,9 +106,9 @@ onMounted(() => {
                 <Icon name="solar:lock-password-linear" size="18" class="fieldIcon" />
               </template>
               <template #right-icon>
-                <div class="fieldAction" @click="passwordState.showPwd2 = !passwordState.showPwd2">
+                <button type="button" class="fieldAction" :aria-pressed="passwordState.showPwd2" @click="passwordState.showPwd2 = !passwordState.showPwd2">
                   <Icon :name="passwordState.showPwd2 ? 'solar:eye-linear' : 'solar:eye-closed-linear'" size="18" />
-                </div>
+                </button>
               </template>
             </van-field>
           </div>
@@ -122,9 +122,9 @@ onMounted(() => {
                 <Icon name="solar:shield-check-linear" size="18" class="fieldIcon" />
               </template>
               <template #right-icon>
-                <div class="fieldAction" @click="passwordState.showPwd3 = !passwordState.showPwd3">
+                <button type="button" class="fieldAction" :aria-pressed="passwordState.showPwd3" @click="passwordState.showPwd3 = !passwordState.showPwd3">
                   <Icon :name="passwordState.showPwd3 ? 'solar:eye-linear' : 'solar:eye-closed-linear'" size="18" />
-                </div>
+                </button>
               </template>
             </van-field>
           </div>
@@ -251,12 +251,21 @@ onMounted(() => {
 }
 
 .fieldAction {
-  width: 20px;
-  height: 20px;
-  display: flex;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   color: var(--brand-primary);
+  appearance: none;
+  border: 0;
+  background: transparent;
+  border-radius: 12px;
+  transition: transform .18s ease, color .18s ease, background .18s ease;
+}
+
+.fieldAction:active {
+  transform: scale(.96);
 }
 
 .authInput :deep(.van-field__error-message) {

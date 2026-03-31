@@ -7,7 +7,15 @@ const colors = ['#D49A3A', '#73A3D6', '#F4B740', '#18C37E'];
 const series = ref([0, 0, 0, 0]);
 const { t } = useI18n();
 
-const balanceList = ref({
+type BalanceSummary = {
+  totalAsset: number;
+  balance: number;
+  frozenAmount: number;
+  product_balance: number;
+  inStockProfit: number;
+};
+
+const balanceList = ref<BalanceSummary>({
   totalAsset: 0,
   balance: 0,
   frozenAmount: 0,
@@ -16,7 +24,7 @@ const balanceList = ref({
 });
 
 const getData = () => {
-  getUserAccountBalance().then((res: any) => {
+  getUserAccountBalance().then((res: BalanceSummary) => {
     balanceList.value = res;
     series.value = [
       Number(res.balance),
@@ -79,15 +87,14 @@ const recordTypeTabs = ref([
   },
 ]);
 
-const changeRecordType = (type) => {
+const changeRecordType = (type: number) => {
   if (actRecordType.value == type) return;
   pub.actRecordType = type;
   pub.showLoading = true;
-  actRecordType.value = type;
 };
 
 const router = useRouter();
-const changePage = (url: any) => {
+const changePage = (url: string) => {
   if (url) {
     router.push(url);
   }
@@ -114,10 +121,10 @@ onBeforeMount(() => {
                 <div class="portfolioTitle">{{ t('index.i1') }}</div>
                 <div class="portfolioSubline">{{ $t('theme.monitorActiveOrdersPositions') }}</div>
               </div>
-              <div class="visibilityToggle" @click="showBalance = !showBalance">
+              <button type="button" class="visibilityToggle" :aria-pressed="showBalance" @click="showBalance = !showBalance">
                 <Icon :name="showBalance ? 'solar:eye-closed-linear' : 'solar:eye-linear'" size="16" />
                 <span>{{ showBalance ? $t('theme.hideBalance') : $t('theme.showBalance') }}</span>
-              </div>
+              </button>
             </div>
 
             <div class="portfolioHeadline">{{ getCurrency() + (showBalance ? '*****' : UseExchangeNumber(balanceList.totalAsset)) }}</div>
@@ -148,16 +155,16 @@ onBeforeMount(() => {
           <div class="recordBoxEl sectionCard mt-4 p-3">
             <div class="recordHeader">
               <div class="tabRail">
-                <div v-for="(tab, index) in recordTypeTabs" :class="actRecordType == tab.type ? 'tabChip active' : 'tabChip'"
-                  :key="index" @click="changeRecordType(tab.type)">
+                <button type="button" v-for="(tab, index) in recordTypeTabs" :class="actRecordType == tab.type ? 'tabChip active' : 'tabChip'"
+                  :key="index" :aria-pressed="actRecordType == tab.type" @click="changeRecordType(tab.type)">
                   {{ tab.text }}
-                </div>
+                </button>
               </div>
 
-              <div class="contentBtn addBtn" v-if="actRecordType == 3" @click="changePage('/trade/spoRecord')">
+              <button type="button" class="contentBtn addBtn" v-if="actRecordType == 3" @click="changePage('/trade/spoRecord')">
                 <span>{{ $t('comm.c5') }}</span>
                 <Icon name="material-symbols:add-circle-rounded" size="20" class="addBtnIcon" />
-              </div>
+              </button>
             </div>
 
             <div class="mt-4">
@@ -195,44 +202,52 @@ onBeforeMount(() => {
 .portfolioTitle {
   margin-top: 8px;
   color: var(--text-primary);
-  font-size: 24px;
-  line-height: 1.2;
-  font-weight: 700;
+  font-family: var(--font-family-display);
+  font-size: var(--text-heading);
+  line-height: 1.14;
+  font-weight: var(--weight-heavy);
+  letter-spacing: var(--tracking-tight);
 }
 
 .portfolioSubline {
   margin-top: 8px;
   color: var(--text-secondary);
-  font-size: 13px;
-  line-height: 1.45;
+  font-size: 1rem;
+  line-height: var(--leading-relaxed);
+  max-width: 30ch;
 }
 
 .portfolioHeadline {
   margin-top: 18px;
   color: var(--text-primary);
-  font-size: 30px;
-  line-height: 1.04;
-  font-weight: 800;
-  letter-spacing: -0.03em;
+  font-family: var(--font-family-display);
+  font-size: 2rem;
+  line-height: 1.02;
+  font-weight: var(--weight-heavy);
+  letter-spacing: var(--tracking-tight);
   word-break: break-word;
   overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
 }
 
 .portfolioCaption {
   margin-top: 8px;
   color: var(--text-secondary);
-  font-size: 13px;
+  font-size: var(--text-body-compact);
+  line-height: 1.6;
 }
 
 .heroEyebrow {
   color: var(--brand-primary);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-size: var(--text-caption);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-eyebrow);
   text-transform: uppercase;
 }
 
 .visibilityToggle {
+  appearance: none;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -242,7 +257,14 @@ onBeforeMount(() => {
     radial-gradient(circle at left center, rgba(212, 154, 58, 0.12), transparent 36%),
     rgba(255, 255, 255, 0.04);
   color: var(--text-primary);
-  font-size: 12px;
+  font-size: var(--text-label);
+  font-weight: var(--weight-semibold);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  transition:
+    transform var(--motion-fast),
+    border-color var(--motion-fast),
+    background-color var(--motion-fast);
 }
 
 .portfolioBody {
@@ -294,7 +316,8 @@ onBeforeMount(() => {
   align-items: center;
   gap: 10px;
   color: var(--text-secondary);
-  font-size: 13px;
+  font-size: var(--text-body-compact);
+  line-height: 1.55;
   min-width: 0;
   flex: 1;
 }
@@ -308,12 +331,15 @@ onBeforeMount(() => {
 
 .metricValue {
   color: var(--text-primary);
-  font-weight: 700;
-  font-size: 13px;
+  font-weight: var(--weight-bold);
+  font-size: 1rem;
+  line-height: 1.45;
   flex: 0 1 42%;
   max-width: 42%;
   text-align: right;
   word-break: break-word;
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
 }
 
 .recordBoxEl {
@@ -338,6 +364,7 @@ onBeforeMount(() => {
 }
 
 .tabChip {
+  appearance: none;
   min-height: 40px;
   padding: 8px 12px;
   border-radius: 999px;
@@ -345,12 +372,18 @@ onBeforeMount(() => {
   align-items: center;
   justify-content: center;
   color: var(--text-secondary);
-  font-size: 13px;
-  line-height: 1.35;
+  font-size: 0.875rem;
+  line-height: 1.4;
   cursor: pointer;
   min-width: 0;
   text-align: center;
   word-break: break-word;
+  background: transparent;
+  border: 0;
+  transition:
+    transform var(--motion-fast),
+    background-color var(--motion-fast),
+    color var(--motion-fast);
 
   &.active {
     background: rgba(212, 154, 58, 0.12);
@@ -370,11 +403,24 @@ onBeforeMount(() => {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-weight: 700;
+  font-weight: var(--weight-bold);
 }
 
 .addBtnIcon {
   color: rgba(255, 247, 220, 0.92);
   flex-shrink: 0;
+}
+
+.visibilityToggle:hover {
+  border-color: rgba(212, 154, 58, 0.2);
+  background:
+    radial-gradient(circle at left center, rgba(212, 154, 58, 0.14), transparent 38%),
+    rgba(255, 255, 255, 0.05);
+}
+
+.visibilityToggle:active,
+.tabChip:active,
+.addBtn:active {
+  transform: scale(0.98);
 }
 </style>

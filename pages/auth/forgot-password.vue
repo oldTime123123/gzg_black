@@ -26,11 +26,11 @@ const changePage = (url: string) => {
 
       </div>
 
-      <div class="contentBtn" @click="changePage('/service')">{{ $t('theme.onlineCustomerService') }}</div>
+      <button type="button" class="contentBtn" @click="changePage('/service')">{{ $t('theme.onlineCustomerService') }}</button>
 
       <div class="flex items-center justify-center gap-1.5 text-[13px] text-[var(--text-secondary)]">
         <span>{{ $t('theme.rememberedPassword') }}</span>
-        <span class="textLink" @click="changePage('/auth/login')">{{ $t('x.a7') }}</span>
+        <button type="button" class="textLink" @click="changePage('/auth/login')">{{ $t('x.a7') }}</button>
       </div>
     </div>
   </AuthShell>
@@ -125,6 +125,11 @@ const changePage = (url: string) => {
 .textLink {
   color: var(--brand-primary);
   font-weight: 700;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
 }
 
 </style>

@@ -7,9 +7,30 @@ import { getNumberClass, getNumberType, UseExchangeNumber } from "../utils";
 
 const { t } = useI18n();
 const props = defineProps<{
-  data: Record<string, any>;
+  data: {
+    id: number | string;
+    showMore?: boolean;
+    price: number | string;
+    number: number | string;
+    deal_time: string;
+    profit_type: number;
+    expected_profit: number | string;
+    order_analysis?: {
+      is_rise?: number;
+      raise?: number | string;
+      raise_rate?: number | string;
+    };
+    product: {
+      pro_name: string;
+      pro_code: string;
+      is_rise: number;
+      price: number | string;
+      rise: number | string;
+      rise_rate: number | string;
+    };
+  };
 }>();
-const data: any = props.data;
+const data = props.data;
 
 const showPop = ref(false);
 const closePosition = () => {
@@ -85,10 +106,10 @@ const confirmClosePositionHandle = () => {
         </div>
       </div>
 
-      <div class="expandToggle" v-if="!data.showMore" @click="data.showMore = true">
+      <button type="button" class="expandToggle" v-if="!data.showMore" @click="data.showMore = true">
         {{ $t("comm.c44") }}
         <Icon name="solar:alt-arrow-down-bold" size="20" />
-      </div>
+      </button>
       <div class="space-y-3" v-else>
         <div class="detailRow">
           <div>{{ $t("comm.c45") }}</div>
@@ -106,14 +127,14 @@ const confirmClosePositionHandle = () => {
           <div>{{ $t("comm.c49") }}</div>
           <div class="rowValue">{{ UseExchangeNumber(data.product?.price * data.number) }}</div>
         </div>
-        <div class="collapseToggle" @click="data.showMore = false">
+        <button type="button" class="collapseToggle" @click="data.showMore = false">
           {{ $t("theme.collapse") }}
           <Icon name="solar:alt-arrow-up-bold" size="20" />
-        </div>
+        </button>
       </div>
       <div class="grid grid-cols-2 gap-2">
-        <div class="mt-3 contentBtn" @click="goDetails">{{ $t("comm.c50") }}</div>
-        <div class="mt-3 contentBtn" @click="closePosition">{{ $t("comm.c51") }}</div>
+        <button type="button" class="mt-3 contentBtn" @click="goDetails">{{ $t("comm.c50") }}</button>
+        <button type="button" class="mt-3 contentBtn" @click="closePosition">{{ $t("comm.c51") }}</button>
       </div>
     </div>
 
@@ -148,8 +169,8 @@ const confirmClosePositionHandle = () => {
             </div>
           </div>
           <div class="dialogActions">
-            <div class="borderContentBtn" @click="showPop = false">{{ $t("comm.c56") }}</div>
-            <div class="contentBtn" @click="confirmClosePositionHandle">{{ $t("comm.c57") }}</div>
+            <button type="button" class="borderContentBtn" @click="showPop = false">{{ $t("comm.c56") }}</button>
+            <button type="button" class="contentBtn" @click="confirmClosePositionHandle">{{ $t("comm.c57") }}</button>
           </div>
         </div>
       </div>
@@ -280,6 +301,11 @@ const confirmClosePositionHandle = () => {
   width: 100%;
   color: var(--brand-primary);
   font-weight: 600;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
 }
 
 .collapseToggle {
@@ -290,6 +316,11 @@ const confirmClosePositionHandle = () => {
   width: 100%;
   color: var(--brand-primary);
   font-weight: 600;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
 }
 
 .overlayWrap {

@@ -8,7 +8,19 @@ const { t } = useI18n();
 const route = useRoute();
 const id = route.params.id;
 
-const pageData = ref<any>({
+type FundDetail = {
+  title?: string;
+  content?: string;
+  rate: number;
+  day: number;
+  progress: number;
+  balance: number;
+  min_num: number;
+  max_num: number;
+  vip: { name: string };
+};
+
+const pageData = ref<FundDetail>({
   rate: 0,
   day: 0,
   progress: 0,
@@ -19,12 +31,12 @@ const pageData = ref<any>({
 });
 
 const getData = () => {
-  getLixibaoDetail({ id }).then((res) => {
+  getLixibaoDetail({ id }).then((res: FundDetail) => {
     pageData.value = res;
   });
 };
 
-const inpVal = ref<any>('');
+const inpVal = ref<string | number>('');
 const pub = usePublicStore();
 const investHandle = () => {
   if (Number(pageData.value.min_num) > Number(inpVal.value) || Number(pageData.value.max_num) < Number(inpVal.value)) {
@@ -111,7 +123,7 @@ onMounted(() => {
           </div>
         </div>
 
-        <div class="contentBtn mt-6" @click="investHandle">{{ t('fund.f8') }}</div>
+        <button type="button" class="contentBtn mt-6 investBtn" @click="investHandle">{{ t('fund.f8') }}</button>
       </div>
 
       <div class="sectionCard mt-4 contentSection">
@@ -153,5 +165,7 @@ onMounted(() => {
 .detailRow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.025);color:var(--text-secondary);font-size:13px}
 .detailRow strong{color:var(--text-primary);font-size:15px;line-height:1.36;text-align:right;word-break:break-word;overflow-wrap:anywhere}
 .sectionTitle{color:var(--text-primary);font-size:18px;font-weight:800}.richCard{padding:18px;border-radius:20px;background:rgba(255,255,255,.025);color:var(--text-secondary);line-height:1.8}
+.investBtn{transition:transform var(--motion-fast)}
+.investBtn:active{transform:scale(.98)}
 
 </style>

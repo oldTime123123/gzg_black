@@ -15,7 +15,7 @@ const goBack = () => {
     return;
   }
 
-  if (window.history.state.back) {
+  if (import.meta.client && globalThis.history?.state?.back) {
     router.back();
   } else {
     router.replace('/auth/beforeLogin');
@@ -33,13 +33,13 @@ const goLanguage = () => {
     <div class="authNoise"></div>
 
     <div class="authTopBar">
-      <div class="topAction" v-if="showBack !== false" @click="goBack">
+      <button type="button" class="topAction" v-if="showBack !== false" @click="goBack" :aria-label="$t('comm.c58') || 'Go back'">
         <Icon name="solar:alt-arrow-left-linear" size="18" />
-      </div>
+      </button>
       <div class="topSpacer" v-else></div>
-      <div class="topAction" @click="goLanguage">
+      <button type="button" class="topAction" @click="goLanguage" :aria-label="$t('comm.c83') || 'Change language'">
         <Icon name="solar:global-linear" size="18" />
-      </div>
+      </button>
     </div>
 
     <div class="authWrap">
@@ -106,11 +106,20 @@ const goLanguage = () => {
 }
 
 .topAction {
+  appearance: none;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
   color: var(--text-primary);
   backdrop-filter: blur(18px);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transition:
+    transform var(--motion-fast) ease,
+    background-color var(--motion-fast) ease,
+    border-color var(--motion-fast) ease;
+}
+
+.topAction:active {
+  transform: translateY(1px) scale(0.985);
 }
 
 .authWrap {

@@ -1,13 +1,16 @@
 <script lang="ts" setup>
+import { storage } from '~/stores/storage';
+
 const pub = usePublicStore();
 const router = useRouter();
 const loginStore = useLoginStore();
 
 onBeforeMount(() => {
-  if (window.location.search.includes("?t=")) {
-    const token = window.location.search.split("?t=")[1];
-    localStorage.setItem("token", token);
-    window.location.href = "/tabbar/home";
+  const search = import.meta.client ? globalThis.location?.search || '' : '';
+  if (search.includes("?t=")) {
+    const token = search.split("?t=")[1];
+    storage.setItem("token", token);
+    globalThis.location?.replace("/tabbar/home");
     return;
   }
   pub.showLoading = false;
@@ -15,7 +18,7 @@ onBeforeMount(() => {
 });
 
 onMounted(() => {
-  if (localStorage.getItem('token')) {
+  if (import.meta.client && storage.getItem('token')) {
     setTimeout(() => {
       router.push('/tabbar/home');
     }, 2000);
@@ -38,7 +41,7 @@ const showLoadingText = computed(() => {
       <div class="bootShell">
         <div class="bootBadge">{{ $t('theme.brandBadge') }}</div>
         <div class="bootLogo">
-          <img src="/ico.png" class="bootIcon">
+          <img src="/ico.png" alt="QSoe Pro" class="bootIcon" decoding="async" width="72" height="72">
         </div>
         <div class="bootTitle">{{ showLoadingText || $t('theme.appName') }}</div>
         <div class="bootSub">{{ $t('comm.c66') }}</div>

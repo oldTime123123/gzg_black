@@ -19,7 +19,7 @@ const showLoadingText = computed(() => {
         <div class="loadingTitle">{{ showLoadingText }}</div>
         <div class="loadingSub">{{ $t('comm.c66') }}</div>
         <div class="brandBox">
-          <img src="/ico.png" class="brandIcon">
+          <img src="/ico.png" alt="QSoe Pro" class="brandIcon" decoding="async" width="64" height="64">
         </div>
       </div>
     </div>
