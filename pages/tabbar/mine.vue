@@ -168,43 +168,63 @@ onMounted(() => {
         </van-sticky>
 
         <div class="pageContainer px-3 pt-3 pb-6">
-          <div class="accountStage">
-            <div class="accountStageTop">
-              <div class="accountStageMain">
-                <div class="heroEyebrow">{{ $t('theme.portfolioDashboard') }}</div>
-                <div class="accountStageValue">{{ getCurrency() + formatMoney(account.totalAsset) }}</div>
-                <div class="accountStageCaption">{{ $t('mine.m14') }}</div>
-              </div>
+          <div class="grid gap-3.5 rounded-[30px] border border-white/10 bg-[radial-gradient(circle_at_top_right,rgba(212,154,58,0.16),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.045),rgba(255,255,255,0.018))] px-[18px] pb-[18px] pt-[22px]">
 
-              <div class="accountStageSide">
-                <div class="memberBadge" v-if="userStore.data.vip?.name">
-                  <img :src="userStore.data.vip?.pic" :alt="userStore.data.vip?.name || 'member badge'" class="memberBadgeIcon" decoding="async">
-                  <span>{{ userStore.data.vip?.name }}</span>
+            <div class="flex w-full min-w-0 items-center gap-2">
+
+              <div
+                class=" min-w-0 flex-1 items-center gap-2 text-[12px] leading-[1.35] text-[var(--text-primary)] opacity-70">
+                <div class="shrink-0">{{ $t('theme.idLabel') }} {{ userStore.data.id }}</div>
+                <div class="min-w-0 truncate">{{ $t('login.l6') }} {{ userStore.data.phone }}</div>
+              </div>
+  <button type="button"
+                class="inline-flex min-h-8 shrink-0 items-center gap-1.5 rounded-full border border-white/10 bg-[radial-gradient(circle_at_left_center,rgba(212,154,58,0.08),transparent_36%),rgba(255,255,255,0.03)] px-2.5 py-1.5 text-[12px] leading-[1.2] text-[var(--text-secondary)] transition-[transform,border-color,background-color] duration-200 ease-out"
+                @click="showID = !showID" :aria-pressed="showID">
+                <Icon :name="showID ? 'solar:eye-closed-linear' : 'solar:eye-linear'" size="16" />
+                <span>{{ showID ? $t('theme.hideBalance') : $t('theme.showBalance') }}</span>
+              </button>
+            </div>
+            <div>
+              <div class="text-[12px] uppercase tracking-[0.06em] leading-[1.4] text-[var(--text-muted)]">{{
+                $t('mine.m14') }}</div>
+            </div>
+            <div class="w-full">
+              <div class="flex w-full items-end gap-2">
+                <span class="shrink-0 text-[clamp(2.35rem,7vw,3rem)] font-extrabold leading-[0.94] tracking-[-0.03em] text-[var(--text-primary)]">{{ getCurrency() }}</span>
+                <span class="min-w-0 flex-1 break-words text-[clamp(2.55rem,8vw,3.25rem)] font-extrabold leading-[0.9] tracking-[-0.04em] text-[var(--text-primary)] [overflow-wrap:anywhere]">{{ formatMoney(account.totalAsset) }}</span>
+              </div>
+            </div>
+            <div v-if="userStore.data.vip?.name"
+              class="inline-flex min-h-8 shrink-0 items-center gap-1.5 rounded-full border border-white/10 bg-[radial-gradient(circle_at_left_center,rgba(212,154,58,0.1),transparent_34%),rgba(255,255,255,0.03)] px-2.5 py-1.5 text-[12px] leading-[1.2] text-[var(--text-primary)]">
+              <img :src="userStore.data.vip?.pic" :alt="userStore.data.vip?.name || 'member badge'"
+                class="h-4 w-4 shrink-0 rounded-full object-cover" decoding="async">
+              <span>{{ userStore.data.vip?.name }}</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2.5">
+              <div
+                v-for="(item, index) in accountFocusStats"
+                :key="index"
+                class="rounded-2xl border border-white/10"
+                :class="index === 0
+                  ? 'col-span-2 border-[rgba(212,154,58,0.16)] bg-[radial-gradient(circle_at_top_right,rgba(212,154,58,0.12),transparent_30%),rgba(255,255,255,0.035)] p-4'
+                  : 'bg-[rgba(255,255,255,0.025)] p-3.5'"
+              >
+                <div class="text-[12px] leading-[1.4] text-[var(--text-secondary)]">{{ item.label }}</div>
+                <div
+                  class="mt-2 break-words text-base font-bold leading-[1.35] text-[var(--text-primary)]"
+                  :class="item.tone === 'profit' ? '!text-[var(--color-up)]' : ''"
+                >
+                  {{ item.value }}
                 </div>
-                <button type="button" class="visibilityToggle" @click="showID = !showID" :aria-pressed="showID">
-                  <Icon :name="showID ? 'solar:eye-closed-linear' : 'solar:eye-linear'" size="16" />
-                  <span>{{ showID ? $t('theme.hideBalance') : $t('theme.showBalance') }}</span>
-                </button>
               </div>
             </div>
 
-            <div class="identityRow">
-              <div class="identityChip">{{ $t('theme.idLabel') }}:{{ userStore.data.id }}</div>
-              <div class="identityChip">{{ $t('login.l6') }}:{{ userStore.data.phone }}</div>
-            </div>
-
-            <div class="fundStageGrid">
-              <div class="fundTile" v-for="(item, index) in accountFocusStats" :key="index" :class="item.tone">
-                <div class="fundLabel">{{ item.label }}</div>
-                <div class="fundValue">{{ item.value }}</div>
-              </div>
-            </div>
           </div>
 
           <div class="actionCard sectionCard mt-4 p-3">
             <div class="sectionHeading">
               <div>
-                <div class="panelEyebrow">{{ $t('theme.quickActions') }}</div>
                 <div class="sectionTitle">{{ $t('theme.accountActions') }}</div>
               </div>
             </div>
@@ -236,7 +256,6 @@ onMounted(() => {
           <div class="menuSection sectionCard mt-4 p-4">
             <div class="sectionHeading">
               <div>
-                <div class="panelEyebrow">{{ $t('theme.preferences') }}</div>
                 <div class="sectionTitle">{{ $t('theme.toolsSettings') }}</div>
               </div>
             </div>
@@ -325,155 +344,14 @@ onMounted(() => {
   text-transform: uppercase;
 }
 
-.accountStage {
-  padding: 20px 18px;
-  border-radius: 30px;
-  background:
-    radial-gradient(circle at top right, rgba(212, 154, 58, 0.16), transparent 30%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018));
-  border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.accountStageTop {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 14px;
-}
-
-.accountStageMain {
-  min-width: 0;
-  flex: 1;
-}
-
-.accountStageValue {
-  margin-top: 10px;
-  color: var(--text-primary);
-  font-size: 30px;
-  line-height: 1.04;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-}
-
-.accountStageCaption {
-  margin-top: 10px;
-  color: var(--text-secondary);
-  font-size: 13px;
-}
-
-.accountStageSide {
-  display: grid;
-  justify-items: end;
-  gap: 10px;
-}
-
-.identityRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.identityChip {
-  display: inline-flex;
-  align-items: center;
-  min-height: 28px;
-  padding: 0 10px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-primary);
-  font-size: 12px;
-  line-height: 1.35;
-  max-width: 100%;
-  word-break: break-word;
-}
-
-.memberBadge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border-radius: 18px;
-  background:
-    radial-gradient(circle at left center, rgba(212, 154, 58, 0.12), transparent 34%),
-    rgba(255, 255, 255, 0.04);
-  color: var(--text-primary);
-  max-width: 48%;
-  width: max-content;
-}
-
-.memberBadgeIcon {
-  width: 18px;
-  height: 18px;
-  border-radius: 999px;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
-.fundStageGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin-top: 16px;
-}
-
-.fundTile {
-  padding: 12px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.025);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.fundTile.primary {
-  background:
-    radial-gradient(circle at top right, rgba(212, 154, 58, 0.12), transparent 30%),
-    rgba(255, 255, 255, 0.035);
-  border-color: rgba(212, 154, 58, 0.16);
-}
-
-.fundLabel {
-  color: var(--text-secondary);
-  font-size: 12px;
-  line-height: 1.4;
-}
-
-.fundValue {
-  margin-top: 8px;
-  color: var(--text-primary);
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 1.35;
-  word-break: break-word;
-}
-
-.fundTile.profit .fundValue {
-  color: var(--color-up);
-}
-
-.visibilityToggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at left center, rgba(212, 154, 58, 0.12), transparent 36%),
-    rgba(255, 255, 255, 0.04);
-  color: var(--text-primary);
-  font-size: 12px;
-  appearance: none;
-  transition:
-    transform var(--motion-fast) ease,
-    border-color var(--motion-fast) ease,
-    background-color var(--motion-fast) ease;
-}
-
 .actionCard,
 .menuSection {
   background: rgba(255, 255, 255, 0.025);
   box-shadow: none;
+}
+
+.actionCard {
+  padding: 18px 16px !important;
 }
 
 .actionButton {
@@ -500,7 +378,7 @@ onMounted(() => {
 
 .menuGrid {
   display: grid;
-  gap: 10px;
+  gap: 12px;
 }
 
 .menuItem {
@@ -546,14 +424,6 @@ onMounted(() => {
 
 .dialogActions {
   margin-top: 16px;
-}
-
-.panelEyebrow {
-  color: var(--brand-primary);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
 }
 
 .fundTile {

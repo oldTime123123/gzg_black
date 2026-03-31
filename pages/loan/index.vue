@@ -101,23 +101,25 @@ onBeforeMount(() => {
           </div>
         </div>
 
-        <button type="button" class="contentBtn mt-5" @click="loanInfo.loan_status > 0 ? changePage('/loan/loan') : ''" :class="loanInfo.loan_status < 1 ? 'disBtn' : ''" :disabled="loanInfo.loan_status < 1">
-          {{ $t('loan.l7') }}
-        </button>
-      </div>
+        <div class="loanActionStack">
+          <button type="button" class="contentBtn" @click="loanInfo.loan_status > 0 ? changePage('/loan/loan') : ''" :class="loanInfo.loan_status < 1 ? 'disBtn' : ''" :disabled="loanInfo.loan_status < 1">
+            {{ $t('loan.l7') }}
+          </button>
 
-      <button type="button" class="sectionCard mt-4 repayCard" @click="goBackLoan">
-        <div class="repayLeft">
-          <div class="repayIcon">
-            <Icon name="solar:card-recive-linear" size="18" />
-          </div>
-          <div>
-            <div class="repayTitle">{{ $t('loan.l8') }}</div>
-            <div class="repayDesc">{{ $t('loan.l9') }}</div>
-          </div>
+          <button type="button" class="repayCard" @click="goBackLoan">
+            <div class="repayLeft">
+              <div class="repayIcon">
+                <Icon name="solar:card-recive-linear" size="18" />
+              </div>
+              <div>
+                <div class="repayTitle">{{ $t('loan.l8') }}</div>
+                <div class="repayDesc">{{ $t('loan.l9') }}</div>
+              </div>
+            </div>
+            <Icon class="repayArrow" name="solar:arrow-right-linear" size="18" />
+          </button>
         </div>
-        <Icon class="repayArrow" name="solar:arrow-right-linear" size="18" />
-      </button>
+      </div>
     </div>
 
     <van-overlay :show="showPop" @click="showPop = false">
@@ -147,16 +149,18 @@ onBeforeMount(() => {
 
 <style scoped>
 .pageWrap{min-height:calc(100vh - 60px)}
-.heroTop{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.heroCard{display:grid;gap:18px;padding:22px 18px}
+.heroTop{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .heroEyebrow{color:var(--brand-primary);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
 .ghostAction{appearance:none;display:inline-flex;align-items:center;gap:6px;padding:10px 12px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid var(--border-soft);color:var(--text-secondary);font-size:12px;cursor:pointer;transition:transform var(--motion-fast),border-color var(--motion-fast),background-color var(--motion-fast)}
-.heroValue{margin-top:22px;color:var(--text-primary);font-size:30px;font-weight:800;line-height:1.08;word-break:break-word;overflow-wrap:anywhere}
-.heroLabel{margin-top:8px;color:var(--text-secondary);font-size:13px;line-height:1.45}
-.featureGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:22px}
-.featureCard{padding:16px 12px;border-radius:18px;background:rgba(255,255,255,.025);text-align:center}
-.featureIcon{width:36px;height:36px;margin:0 auto;display:flex;align-items:center;justify-content:center;border-radius:12px;background:var(--brand-primary-soft);color:var(--brand-primary)}
-.featureName{margin-top:12px;color:var(--text-secondary);font-size:12px;line-height:1.45}
-.repayCard{padding:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;cursor:pointer;transition:transform var(--motion-fast),border-color var(--motion-fast),background-color var(--motion-fast)}
+.heroValue{color:var(--text-primary);font-size:clamp(2.125rem,7vw,2.85rem);font-weight:800;line-height:1.02;word-break:break-word;overflow-wrap:anywhere;max-width:10ch}
+.heroLabel{color:var(--text-secondary);font-size:13px;line-height:1.45}
+.featureGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:14px;border-radius:20px;background:rgba(255,255,255,.018);border:1px solid rgba(255,255,255,.05)}
+.featureCard{padding:10px 8px;border-radius:16px;background:rgba(255,255,255,.02);text-align:center}
+.featureIcon{width:32px;height:32px;margin:0 auto;display:flex;align-items:center;justify-content:center;border-radius:10px;background:var(--brand-primary-soft);color:var(--brand-primary)}
+.featureName{margin-top:10px;color:var(--text-secondary);font-size:12px;line-height:1.4}
+.loanActionStack{display:grid;gap:12px;padding-top:6px}
+.repayCard{padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;cursor:pointer;transition:transform var(--motion-fast),border-color var(--motion-fast),background-color var(--motion-fast);border-radius:20px;background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.06)}
 .repayLeft{display:flex;align-items:center;gap:12px}.repayIcon{width:40px;height:40px;border-radius:14px;background:var(--brand-primary-soft);display:flex;align-items:center;justify-content:center;color:var(--brand-primary)}
 .repayTitle{color:var(--text-primary);font-weight:700;line-height:1.35}.repayDesc{margin-top:6px;color:var(--text-secondary);font-size:12px;line-height:1.45}.repayArrow{color:var(--text-secondary)}
 .overlayWrap{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:16px}

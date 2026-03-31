@@ -127,8 +127,7 @@ onMounted(() => {
       </div>
 
       <div class="sectionCard mt-4 contentSection">
-        <div class="heroEyebrow">{{ $t('theme.rules') }}</div>
-        <div class="sectionTitle mt-3">{{ t('fund.f9') }}</div>
+        <div class="sectionTitle">{{ t('fund.f9') }}</div>
         <div class="richCard mt-5" v-html="pageData.content"></div>
       </div>
     </div>

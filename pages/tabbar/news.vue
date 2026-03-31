@@ -95,7 +95,6 @@ onBeforeMount(() => {
           <div class="newsSection">
             <div class="sectionHeading">
               <div>
-                <div class="heroEyebrow">{{ $t('theme.chronologicalNewsFlow') }}</div>
                 <div class="sectionTitle">{{ $t('theme.intelligenceHub') }}</div>
               </div>
               <div class="sectionCaption">{{ $t('theme.intelligenceHubCopy') }}</div>

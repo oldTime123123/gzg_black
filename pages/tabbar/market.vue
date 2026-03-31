@@ -121,7 +121,6 @@ const changeDataType = (type: number) => {
         <div class="marketSection mt-4">
           <div class="sectionTop">
             <div>
-              <div class="heroEyebrow">{{ $t('theme.latestCoverage') }}</div>
               <div class="sectionTitle">{{ actRecordType < 1 ? $t('market.m1') : $t('market.m2') }}</div>
             </div>
             <div class="sectionCaption">{{ $t('theme.chronologicalNewsFlow') }}</div>

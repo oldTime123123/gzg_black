@@ -46,6 +46,9 @@ const commList = computed(() => {
   ];
 });
 
+const primaryQuickActions = computed(() => commList.value.slice(0, 2));
+const secondaryQuickActions = computed(() => commList.value.slice(2));
+
 const isSticky = ref(false);
 const topFixedChange = (val: boolean) => {
   isSticky.value = val;
@@ -245,13 +248,28 @@ onMounted(() => {
                 </div>
 
                 <div class="boardActionRow">
-                  <div class="boardActionEyebrow">{{ $t('theme.quickActions') }}</div>
-                  <div class="actionRail">
-                    <button type="button" class="actionCard" v-for="(item, index) in commList" :key="index" @click="changePage(item.url)">
+                  <div class="boardActionHead">
+                    <div class="boardActionNote">{{ $t('theme.accountActions') }}</div>
+                  </div>
+                  <div class="actionHeroRail">
+                    <button type="button" class="actionCard actionCardPrimary" v-for="(item, index) in primaryQuickActions" :key="index" @click="changePage(item.url)">
                       <div class="iconFrame">
                         <Icon :name="item.icon" size="20" />
                       </div>
-                      <div class="actionName">{{ item.name }}</div>
+                      <div class="actionCopy">
+                        <div class="actionName">{{ item.name }}</div>
+                        <div class="actionHint">{{ $t('theme.tradingAccess') }}</div>
+                      </div>
+                    </button>
+                  </div>
+                  <div class="actionRail">
+                    <button type="button" class="actionCard" v-for="(item, index) in secondaryQuickActions" :key="item.url" @click="changePage(item.url)">
+                      <div class="iconFrame">
+                        <Icon :name="item.icon" size="20" />
+                      </div>
+                      <div class="actionCopy">
+                        <div class="actionName">{{ item.name }}</div>
+                      </div>
                     </button>
                   </div>
                 </div>
@@ -500,42 +518,49 @@ onMounted(() => {
 
 }
 
-.actionRail {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: var(--space-xs);
-}
-
 .boardActionRow {
   display: grid;
-  gap: var(--space-xs);
-  padding-top: var(--space-m);
+  gap: var(--space-s);
+  padding-top: var(--space-l);
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.boardActionEyebrow {
-  color: var(--text-secondary);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+.boardActionHead {
+  display: grid;
+  gap: 4px;
+}
+
+.boardActionNote {
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.actionHeroRail {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-xs);
+}
+
+.actionRail {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-xs);
 }
 
 .actionCard {
   appearance: none;
-  display: grid;
-  justify-items: center;
-  align-content: start;
-  gap: var(--space-2xs);
-  grid-column: span 2;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
   width: 100%;
-  min-height: 108px;
-  padding: 14px 10px;
+  min-height: 98px;
+  padding: 16px 14px;
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.025);
   border: 1px solid rgba(255, 255, 255, 0.06);
   box-shadow: none;
-  text-align: center;
+  text-align: left;
   cursor: pointer;
   transition:
     transform var(--motion-fast),
@@ -543,16 +568,34 @@ onMounted(() => {
     background-color var(--motion-fast);
 }
 
-.actionCard:nth-child(-n + 2) {
-  grid-column: span 3;
+.actionCardPrimary {
+  min-height: 112px;
+  border-color: rgba(212, 154, 58, 0.14);
+  background:
+    radial-gradient(circle at top left, rgba(212, 154, 58, 0.08), transparent 36%),
+    rgba(255, 255, 255, 0.03);
+}
+
+.actionCopy {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+  align-content: start;
 }
 
 .actionName {
   color: var(--text-primary);
-  font-size: var(--text-label);
+  font-size: 0.9375rem;
   font-weight: var(--weight-semibold);
-  line-height: 1.5;
-  max-width: 10ch;
+  line-height: 1.42;
+  max-width: 9ch;
+  text-wrap: balance;
+}
+
+.actionHint {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.35;
 }
 
 .homeGrid {

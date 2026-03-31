@@ -113,7 +113,6 @@ onMounted(() => {
                 <van-checkbox v-model="rememberPwd" icon-size="18" class="rememberCheck" />
                 <span>{{ $t('login.l11') }}</span>
               </div>
-              <button type="button" class="textLink" @click="changePage('/auth/forgot-password')">{{ $t('theme.forgotPassword') }}</button>
             </div>
           </div>
 

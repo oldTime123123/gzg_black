@@ -374,7 +374,6 @@ const collectHandle = () => {
         <div class="executionDesk mt-4">
           <div class="deskHeader">
             <div class="tradeTitleGroup">
-              <div class="heroEyebrow">{{ $t('theme.latestCoverage') }}</div>
               <div class="sectionTitle">{{ $t('trade.t53') }}</div>
             </div>
             <div class="deskCaption">{{ $t('theme.marketBoardSubtext') }}</div>

@@ -92,7 +92,6 @@ onBeforeMount(() => {
       <div class="sectionCard mt-4 sectionBody">
         <div class="sectionHeader">
           <div>
-            <div class="heroEyebrow">{{ $t('theme.products') }}</div>
             <div class="sectionTitle">{{ $t('fund.f5') }}</div>
           </div>
         </div>
@@ -124,7 +123,6 @@ onBeforeMount(() => {
 
       <div class="sectionCard mt-4 sectionBody">
         <div class="sectionHeader">
-          <div class="heroEyebrow">{{ $t('theme.rules') }}</div>
           <div class="sectionTitle">{{ $t('fund.f9') }}</div>
         </div>
         <div class="richCard" v-html="richTxt"></div>

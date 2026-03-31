@@ -26,7 +26,6 @@ const handleTabChange = (type: number) => {
       <div class="recordCenter mt-4">
         <div class="centerTop">
           <div>
-            <div class="heroEyebrow">{{ $t('theme.latestCoverage') }}</div>
             <div class="centerTitle">{{ $t('theme.balanceRecord') }}</div>
           </div>
           <div class="centerCaption">{{ $t('theme.chronologicalNewsFlow') }}</div>

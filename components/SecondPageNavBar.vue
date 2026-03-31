@@ -37,7 +37,6 @@ const changePage = (url: string) => {
                     </button>
                 </div>
                 <div class="flex-1 text-center truncate navTitleWrap">
-                    <div class="navEyebrow">Titanium Amber</div>
                     <div class="text-xl font-bold truncate navTitle">
                         {{ props.title }}
                     </div>
