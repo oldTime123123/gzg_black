@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NuxtPage class="pageContent" />
+    <NuxtPage class="pageContent" :transition="pageTransition" />
     <Loading1 />
     <RealPop />
     <IPOactSign/>
@@ -20,6 +20,10 @@ import { storage } from "~/stores/storage";
 import { useHead, useSeoMeta, useRequestURL } from 'nuxt/app'
 import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue'
 const pub = usePublicStore()
+const pageTransition = {
+  name: 'page-shell',
+  mode: 'out-in' as const,
+}
 
 const url = useRequestURL()
 // const siteConfig = computed(() => {
