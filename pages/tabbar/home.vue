@@ -439,8 +439,10 @@ onMounted(() => {
 }
 
 .pageContainer {
+  position: relative;
+  z-index: 1;
   min-height: calc(100vh - 130px);
-  padding-top: 10px;
+  padding-top: 8px;
 }
 
 .homeTopBar {
@@ -451,7 +453,7 @@ onMounted(() => {
 
 .homeFrame {
   display: grid;
-  gap: 14px;
+  gap: 12px;
 }
 
 .signalStrip {
@@ -460,11 +462,12 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 12px;
-  min-height: 58px;
+  min-height: 56px;
   padding: 0 14px;
   border-radius: 20px;
-  background: var(--surface-overlay);
-  border: 1px solid var(--border-strong);
+  background: linear-gradient(180deg, rgba(24, 43, 64, 0.76), rgba(17, 31, 48, 0.68));
+  border: 1px solid rgba(125, 211, 252, 0.1);
+  box-shadow: 0 10px 24px rgba(5, 12, 22, 0.12);
 }
 
 .signalStrip__icon {
@@ -513,10 +516,10 @@ onMounted(() => {
 .heroMatrix {
   position: relative;
   overflow: hidden;
-  padding: 22px 18px 18px;
-  background: var(--surface-card-hero);
-  border: 1px solid var(--border-strong);
-  box-shadow: 0 22px 58px rgba(2, 8, 20, 0.42);
+  padding: 20px 18px 16px;
+  background: linear-gradient(180deg, rgba(28, 49, 73, 0.9), rgba(19, 36, 54, 0.86));
+  border: 1px solid rgba(125, 211, 252, 0.12);
+  box-shadow: 0 16px 34px rgba(5, 12, 22, 0.16);
 }
 
 .heroMatrix__backdrop {
@@ -581,11 +584,11 @@ onMounted(() => {
 }
 
 .heroSpotlight {
-  padding: 14px 14px 12px;
-  border-radius: 24px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018));
-  border: 1px solid rgba(125, 211, 252, 0.12);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  padding: 13px 13px 11px;
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.028));
+  border: 1px solid rgba(125, 211, 252, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .heroSpotlight__head {
@@ -723,17 +726,17 @@ onMounted(() => {
 .heroBoardGrid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
-  margin-top: 14px;
+  gap: 8px;
+  margin-top: 12px;
 }
 
 .heroBoardCell {
   display: grid;
-  gap: 5px;
-  padding: 12px 11px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(148, 163, 184, 0.16);
+  gap: 4px;
+  padding: 11px 10px;
+  border-radius: 17px;
+  background: rgba(255, 255, 255, 0.048);
+  border: 1px solid rgba(125, 211, 252, 0.08);
 }
 
 .heroBoardCell span {
@@ -753,9 +756,9 @@ onMounted(() => {
 .marketDeck,
 .newsDeck {
   display: grid;
-  gap: 14px;
-  background: var(--surface-module);
-  border: 1px solid var(--border-soft);
+  gap: 12px;
+  background: linear-gradient(180deg, rgba(23, 42, 62, 0.88), rgba(16, 30, 46, 0.84));
+  border: 1px solid rgba(125, 211, 252, 0.09);
 }
 
 .overviewDeck__summary {
@@ -827,10 +830,10 @@ onMounted(() => {
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 12px;
-  padding: 16px 14px;
-  border-radius: 20px;
-  background: var(--surface-frost);
-  border: 1px solid var(--border-soft);
+  padding: 14px 13px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(125, 211, 252, 0.08);
   text-align: left;
 }
 
@@ -877,10 +880,10 @@ onMounted(() => {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 12px;
-  padding: 16px 14px;
-  border-radius: 18px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.018));
-  border: 1px solid rgba(148, 163, 184, 0.16);
+  padding: 14px 13px;
+  border-radius: 17px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.026));
+  border: 1px solid rgba(125, 211, 252, 0.08);
 }
 
 .marketGridRow__main,
@@ -923,10 +926,10 @@ onMounted(() => {
 .newsPanel {
   display: grid;
   gap: 8px;
-  padding: 16px 14px;
-  border-radius: 18px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.018));
-  border: 1px solid rgba(148, 163, 184, 0.16);
+  padding: 14px 13px;
+  border-radius: 17px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.026));
+  border: 1px solid rgba(125, 211, 252, 0.08);
 }
 
 .newsPanel__time {

@@ -46,16 +46,16 @@ const changePage = (url: string) => {
 
 .searchBox {
     appearance: none;
-    min-height: 60px;
+    min-height: 58px;
     width: 100%;
     max-width: 100%;
     padding-left: 10px;
     padding-right: 12px;
     background:
-      radial-gradient(circle at left center, rgba(56, 189, 248, 0.10), transparent 28%),
-      rgba(19, 26, 34, 0.82);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.22);
+      radial-gradient(circle at left center, rgba(103, 214, 255, 0.14), transparent 30%),
+      linear-gradient(180deg, rgba(24, 43, 64, 0.78), rgba(17, 31, 48, 0.72));
+    border: 1px solid rgba(125, 211, 252, 0.1);
+    box-shadow: 0 12px 26px rgba(5, 12, 22, 0.12);
     backdrop-filter: blur(18px);
     box-sizing: border-box;
 
@@ -76,11 +76,11 @@ const changePage = (url: string) => {
 }
 
 .searchBox:hover {
-    border-color: rgba(56, 189, 248, 0.18);
+    border-color: rgba(103, 214, 255, 0.18);
     background:
-      radial-gradient(circle at left center, rgba(56, 189, 248, 0.12), transparent 30%),
-      rgba(19, 26, 34, 0.88);
-    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.24);
+      radial-gradient(circle at left center, rgba(103, 214, 255, 0.16), transparent 32%),
+      linear-gradient(180deg, rgba(27, 48, 71, 0.84), rgba(19, 35, 53, 0.78));
+    box-shadow: 0 14px 28px rgba(5, 12, 22, 0.14);
 }
 
 .searchBox:active {
