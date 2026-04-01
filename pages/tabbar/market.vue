@@ -106,13 +106,25 @@ const changeDataType = (type: number) => {
           </div>
 
           <div class="briefStrip" v-if="supportIndexes.length">
-            <div class="briefCard" v-for="(item, index) in supportIndexes" :key="index">
+            <div class="" v-for="(item, index) in supportIndexes" :key="index">
+            <div class="briefCard" >
               <div class="briefName">{{ item.exchange_name }}</div>
               <div class="briefValue">{{ item.price }}</div>
               <div class="briefDelta" :class="item.is_rise == 2 ? 'colorUp' : 'colorDown'">
                 <Icon :name="item.is_rise == 2 ? 'solar:alt-arrow-up-bold' : 'solar:alt-arrow-down-bold'"
                   class="briefIcon" />
                 <span>{{ getNumberType(true, item.is_rise) }}{{ item.rise_rate }}%</span>
+              </div>
+
+            </div>
+              <div class="w-full stageChart">
+                <ClientOnly>
+                  <apexchart width="100%" height="116" type="area" :options="LineOption(item.is_rise)" :series="[
+                    {
+                      data: changeLineTypeData(item.chart.indicators.quote[0].close),
+                    },
+                  ]" />
+                </ClientOnly>
               </div>
             </div>
           </div>
