@@ -21,11 +21,16 @@
   --surface-card: #0d1d31;
   --surface-card-soft: #13263d;
   --surface-elevated: #19324d;
+  --surface-overlay: rgba(7, 16, 29, 0.82);
+  --surface-overlay-strong: rgba(7, 16, 29, 0.96);
+  --surface-frost: rgba(255, 255, 255, 0.03);
+  --surface-frost-strong: rgba(255, 255, 255, 0.05);
 
   --text-primary: #eff6ff;
   --text-secondary: #b7c8de;
   --text-muted: #7f93ad;
   --text-placeholder: #637892;
+  --text-accent: #7dd3fc;
   --text-inverse: #06111f;
 
   --font-family-sans: "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Noto Sans JP", "Noto Sans KR", "Helvetica Neue", sans-serif;
@@ -80,6 +85,7 @@
   --shadow-glow: 0 16px 40px rgba(14, 165, 233, 0.22);
 
   --gradient-brand: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+  --gradient-brand-soft: linear-gradient(135deg, rgba(14, 165, 233, 0.18) 0%, rgba(37, 99, 235, 0.14) 100%);
   --gradient-panel: linear-gradient(180deg, #0d1d31 0%, #091726 100%);
   --gradient-hero:
     radial-gradient(circle at top left, rgba(56, 189, 248, 0.2), transparent 36%),
@@ -180,6 +186,23 @@ input,
 textarea,
 select {
   font: inherit;
+}
+
+.van-field__error-message,
+.van-form__error-message,
+.van-list__error-text,
+.van-empty__description,
+.van-notify,
+.van-toast {
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.van-field__error-message,
+.van-form__error-message,
+.van-list__error-text {
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 button {

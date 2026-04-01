@@ -133,25 +133,12 @@ const boardStats = computed(() => {
   ];
 });
 
-const marketSummary = computed(() => {
-  return [
-    {
-      label: t('theme.marketBoardSubtext'),
-      value: selectStockInfo.value.exchange_name || '--',
-    },
-    {
-      label: t('x.a8'),
-      value: `${newsList.value.length}`,
-    },
-    {
-      label: t('theme.accountActions'),
-      value: `${actionGroups.value.reduce((sum, group) => sum + group.items.length, 0)}`,
-    },
-  ];
-});
-
 const quickBoardRows = computed(() => {
   return lineDataList.value.slice(0, 4);
+});
+
+const featuredNewsList = computed(() => {
+  return newsList.value.slice(0, 4);
 });
 
 const insightCards = computed(() => {
@@ -319,13 +306,6 @@ onMounted(() => {
                 </div>
               </div>
 
-              <div class="overviewDeck__summary">
-                <div v-for="item in marketSummary" :key="item.label" class="overviewMetric">
-                  <span>{{ item.label }}</span>
-                  <strong>{{ item.value }}</strong>
-                </div>
-              </div>
-
               <div class="overviewDeck__groups">
                 <div v-for="group in actionGroups" :key="group.title" class="actionColumn">
                   <div class="actionColumn__header">
@@ -418,7 +398,7 @@ onMounted(() => {
                   <button
                     type="button"
                     class="newsPanel"
-                    v-for="(item, index) in newsList"
+                    v-for="(item, index) in featuredNewsList"
                     :key="index"
                     @click="goNewsDetail(item)"
                   >
@@ -443,11 +423,11 @@ onMounted(() => {
 <style lang="less" scoped>
 :deep(.apexcharts-tooltip-candlestick) {
   padding: 10px;
-  background: rgba(7, 16, 29, 0.96);
+  background: var(--surface-overlay-strong);
   color: var(--text-primary);
   border-radius: 12px;
   font-size: 12px;
-  border: 1px solid rgba(125, 211, 252, 0.16);
+  border: 1px solid var(--brand-primary-border);
 }
 
 :deep(.apexcharts-tooltip-candlestick div) {
@@ -481,8 +461,8 @@ onMounted(() => {
   min-height: 58px;
   padding: 0 14px;
   border-radius: 20px;
-  background: rgba(7, 16, 29, 0.76);
-  border: 1px solid rgba(125, 211, 252, 0.12);
+  background: var(--surface-overlay);
+  border: 1px solid var(--border-strong);
 }
 
 .signalStrip__icon {
@@ -492,8 +472,8 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #d9f7ff;
-  background: linear-gradient(135deg, rgba(14, 165, 233, 0.2), rgba(37, 99, 235, 0.24));
+  color: var(--text-primary);
+  background: var(--gradient-brand-soft);
   flex-shrink: 0;
 }
 
@@ -524,16 +504,16 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   color: var(--text-primary);
-  background: rgba(7, 16, 29, 0.74);
-  border: 1px solid rgba(125, 211, 252, 0.12);
+  background: var(--surface-overlay);
+  border: 1px solid var(--border-strong);
 }
 
 .heroMatrix {
   position: relative;
   overflow: hidden;
   padding: 22px 18px 18px;
-  background: linear-gradient(180deg, rgba(9, 20, 36, 0.96), rgba(7, 16, 29, 0.92));
-  border: 1px solid rgba(125, 211, 252, 0.12);
+  background: var(--gradient-panel);
+  border: 1px solid var(--border-strong);
 }
 
 .heroMatrix__backdrop {
@@ -561,7 +541,7 @@ onMounted(() => {
 }
 
 .heroMatrix__eyebrow {
-  color: #7dd3fc;
+  color: var(--text-accent);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -585,8 +565,8 @@ onMounted(() => {
   min-height: 38px;
   padding: 0 12px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(125, 211, 252, 0.16);
+  background: var(--surface-frost-strong);
+  border: 1px solid var(--brand-primary-border);
   color: var(--text-primary);
   flex-shrink: 0;
 }
@@ -600,8 +580,8 @@ onMounted(() => {
 .heroSpotlight {
   padding: 18px;
   border-radius: 24px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
-  border: 1px solid rgba(125, 211, 252, 0.14);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), var(--surface-frost));
+  border: 1px solid var(--border-strong);
 }
 
 .heroSpotlight__tone {
@@ -610,7 +590,7 @@ onMounted(() => {
   gap: 6px;
   padding: 6px 10px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--surface-frost-strong);
   font-size: 12px;
   font-weight: 700;
 }
@@ -643,8 +623,8 @@ onMounted(() => {
   gap: 8px;
   padding: 14px 12px;
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.035);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--surface-frost);
+  border: 1px solid var(--border-soft);
 }
 
 .insightCard__label {
@@ -679,8 +659,8 @@ onMounted(() => {
   gap: 6px;
   padding: 14px 12px;
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--surface-frost);
+  border: 1px solid var(--border-soft);
 }
 
 .heroBoardCell span {
@@ -701,8 +681,8 @@ onMounted(() => {
 .newsDeck {
   display: grid;
   gap: 16px;
-  background: rgba(8, 18, 31, 0.9);
-  border: 1px solid rgba(125, 211, 252, 0.1);
+  background: color-mix(in srgb, var(--surface-panel) 88%, transparent);
+  border: 1px solid var(--border-soft);
 }
 
 .overviewDeck__summary {
@@ -716,8 +696,8 @@ onMounted(() => {
   gap: 6px;
   padding: 14px 12px;
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--surface-frost);
+  border: 1px solid var(--border-soft);
 }
 
 .overviewMetric span {
@@ -776,13 +756,13 @@ onMounted(() => {
   gap: 12px;
   padding: 16px 14px;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--surface-frost);
+  border: 1px solid var(--border-soft);
   text-align: left;
 }
 
 .commandStripStrong {
-  background: linear-gradient(135deg, rgba(14, 165, 233, 0.12), rgba(37, 99, 235, 0.08));
+  background: var(--gradient-brand-soft);
   border-color: rgba(125, 211, 252, 0.16);
 }
 
@@ -804,8 +784,8 @@ onMounted(() => {
 .marketDeck__chart {
   overflow: hidden;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--surface-frost);
+  border: 1px solid var(--border-soft);
 }
 
 .marketDeck__list,
@@ -826,8 +806,8 @@ onMounted(() => {
   gap: 12px;
   padding: 16px 14px;
   border-radius: 18px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.022));
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+  border: 1px solid var(--border-soft);
 }
 
 .marketGridRow__main,
@@ -872,8 +852,8 @@ onMounted(() => {
   gap: 8px;
   padding: 16px 14px;
   border-radius: 18px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.022));
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+  border: 1px solid var(--border-soft);
 }
 
 .newsPanel__time {
@@ -894,7 +874,7 @@ onMounted(() => {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  color: #7dd3fc;
+  color: var(--text-accent);
   font-size: 12px;
   line-height: 1.35;
 }
@@ -905,7 +885,7 @@ onMounted(() => {
   align-items: center;
   gap: 4px;
   padding: 0;
-  color: #7dd3fc;
+  color: var(--text-accent);
   font-size: var(--text-label);
   font-weight: var(--weight-bold);
   background: transparent;
@@ -916,8 +896,8 @@ onMounted(() => {
 .newsSkeleton {
   height: 84px;
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: var(--surface-frost-strong);
+  border: 1px solid var(--border-soft);
 }
 
 @media (max-width: 420px) {
