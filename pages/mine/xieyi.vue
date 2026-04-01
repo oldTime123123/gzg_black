@@ -36,7 +36,7 @@ onMounted(() => {
 
 .pdfShell {
   height: 100%;
-  background: #0d1117;
+  background: linear-gradient(180deg, rgba(44, 75, 108, 0.96), rgba(29, 53, 79, 0.94));
 }
 
 .pdfShell :deep(.pdf-app) {

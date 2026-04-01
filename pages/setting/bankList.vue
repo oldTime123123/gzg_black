@@ -168,7 +168,7 @@ onMounted(() => {
   height: 140px;
   border-radius: 22px;
   margin-bottom: 12px;
-  background: rgba(255, 255, 255, 0.035);
+  background: var(--surface-interactive-soft);
   border: 1px solid var(--border-soft);
 }
 
@@ -176,7 +176,7 @@ onMounted(() => {
   padding: 18px;
   text-align: center;
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.025);
+  background: var(--surface-interactive-soft);
   border: 1px solid var(--border-soft);
 }
 
@@ -193,9 +193,7 @@ onMounted(() => {
 .bankCard {
   padding: 18px 16px 14px;
   border-radius: 24px;
-  background:
-    radial-gradient(circle at top right, rgba(56, 189, 248, 0.09), transparent 26%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.02));
+  background: linear-gradient(180deg, rgba(48, 82, 119, 0.92), rgba(35, 63, 92, 0.88));
   border: 1px solid var(--border-soft);
   box-shadow: none;
 }
@@ -254,7 +252,7 @@ onMounted(() => {
   border-radius: 18px;
   background: transparent;
   border: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid var(--border-soft);
   cursor: pointer;
   text-align: left;
   width: 100%;
@@ -304,7 +302,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--surface-interactive-soft);
   border: 1px solid var(--border-soft);
   color: var(--text-primary);
   cursor: pointer;
@@ -324,7 +322,7 @@ onMounted(() => {
 .dialogCard {
   background:
     radial-gradient(circle at top right, rgba(56, 189, 248, 0.12), transparent 30%),
-    linear-gradient(180deg, rgba(24, 33, 43, 0.98), rgba(13, 17, 23, 0.98));
+    linear-gradient(180deg, rgba(48, 80, 116, 0.98), rgba(34, 62, 91, 0.96));
   border: 1px solid var(--border-soft);
   box-shadow: var(--shadow-float);
   color: var(--text-primary);
@@ -348,7 +346,7 @@ onMounted(() => {
   margin-top: 18px;
   padding: 14px;
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.025);
+  background: var(--surface-interactive-soft);
   border: 1px solid var(--border-soft);
   text-align: center;
   color: var(--text-secondary);

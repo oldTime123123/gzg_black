@@ -14,14 +14,36 @@ const topFixedChange = (val: boolean) => {
   isSticky.value = val;
 };
 
-const myItemList = computed(() => {
+const menuGroups = computed(() => {
   return [
-    { name: t('mine.m3'), icon: 'solar:card-2-linear', url: '/setting/bankList' },
-    { name: t('mine.m4'), icon: 'solar:shield-user-linear', url: '/setting/identify' },
-    { name: t('mine.m5'), icon: 'solar:key-linear', url: '/setting/password?type=1' },
-    { name: t('mine.m6'), icon: 'solar:headphones-round-sound-linear', url: '/service' },
-    { name: t('mine.m7'), icon: 'solar:bill-list-linear', url: '/record/userBalanceRecord' },
-    { name: t('mine.m8'), icon: 'solar:lock-password-linear', url: '/setting/password?type=0' },
+    {
+      title: t('theme.linkedAccounts'),
+      copy: t('theme.linkedAccountsCopy'),
+      badge: t('theme.accountActions'),
+      items: [
+        { name: t('mine.m3'), desc: t('theme.linkedAccountsCopy'), icon: 'solar:card-2-linear', url: '/setting/bankList', accent: 'accent' },
+        { name: t('mine.m7'), desc: t('theme.balanceRecordCopy'), icon: 'solar:bill-list-linear', url: '/record/userBalanceRecord' },
+      ],
+    },
+    {
+      title: t('theme.secureAccess'),
+      copy: t('theme.securityUpdateCopy'),
+      badge: t('theme.secure'),
+      items: [
+        { name: t('mine.m4'), desc: t('theme.verificationStatus'), icon: 'solar:shield-user-linear', url: '/setting/identify', accent: 'accent' },
+        { name: t('mine.m5'), desc: t('theme.securityUpdateCopy'), icon: 'solar:key-linear', url: '/setting/password?type=1' },
+        { name: t('mine.m8'), desc: t('theme.recoveryCopy'), icon: 'solar:lock-password-linear', url: '/setting/password?type=0' },
+      ],
+    },
+    {
+      title: t('theme.supportAccess'),
+      copy: t('theme.manageAccountVerificationAccess'),
+      badge: t('theme.supportFirst'),
+      items: [
+        { name: t('mine.m6'), desc: t('theme.onlineCustomerService'), icon: 'solar:headphones-round-sound-linear', url: '/service', accent: 'accent' },
+        { name: t('comm.c83'), desc: t('theme.openAndManage'), icon: 'solar:global-linear', url: '/mine/language' },
+      ],
+    },
   ];
 });
 
@@ -162,6 +184,7 @@ onMounted(() => {
               <div class="sectionHeading">
                 <div>
                   <div class="sectionTitle">{{ $t('theme.accountActions') }}</div>
+                  <div class="sectionSubtext actionLead">{{ $t('theme.accountActionsCopy') }}</div>
                 </div>
               </div>
               <div class="quickActions">
@@ -170,7 +193,9 @@ onMounted(() => {
                     <Icon name="solar:card-recive-linear" size="22" />
                   </div>
                   <div class="actionCopy">
+                    <div class="actionEyebrow">{{ $t('theme.depositChannel') }}</div>
                     <div class="actionLabel">{{ $t('mine.m18') }}</div>
+                    <div class="actionDesc">{{ $t('theme.depositHint') }}</div>
                   </div>
                 </button>
 
@@ -179,28 +204,48 @@ onMounted(() => {
                     <Icon name="solar:card-send-linear" size="22" />
                   </div>
                   <div class="actionCopy">
+                    <div class="actionEyebrow">{{ $t('theme.withdrawCenter') }}</div>
                     <div class="actionLabel">{{ $t('mine.m19') }}</div>
+                    <div class="actionDesc">{{ $t('theme.withdrawHint') }}</div>
                   </div>
                 </button>
               </div>
             </section>
 
-            <section class="menuSection sectionCard">
-              <div class="sectionHeading">
+            <section class="menuSection menuSectionShell">
+              <div class="sectionHeading sectionHeadingLoose">
                 <div>
                   <div class="sectionTitle">{{ $t('theme.toolsSettings') }}</div>
+                  <div class="sectionSubtext">{{ $t('theme.manageAccountVerificationAccess') }}</div>
                 </div>
               </div>
-              <div class="menuGrid renderBudget mt-4">
-                <button type="button" class="menuItem" v-for="(item, index) in myItemList" :key="index" @click="changePage(item.url)">
-                  <div class="iconFrame">
-                    <Icon :name="item.icon" size="20" />
+
+              <div class="menuSectionStack renderBudget mt-4">
+                <section class="menuCluster sectionCard" v-for="(group, groupIndex) in menuGroups" :key="groupIndex">
+                  <div class="menuCluster__head">
+                    <div>
+                      <div class="clusterBadge">{{ group.badge }}</div>
+                      <div class="clusterTitle">{{ group.title }}</div>
+                    </div>
+                    <div class="clusterCopy">{{ group.copy }}</div>
                   </div>
-                  <div class="menuContent">
-                    <div class="menuName">{{ item.name }}</div>
+
+                  <div class="menuCardGrid">
+                    <button type="button" class="menuCard" :class="item.accent ? 'menuCardAccent' : ''" v-for="(item, index) in group.items" :key="index" @click="changePage(item.url)">
+                      <div class="menuCard__top">
+                        <div class="iconFrame">
+                          <Icon :name="item.icon" size="20" />
+                        </div>
+                        <Icon name="solar:alt-arrow-right-linear" size="18" class="menuArrow" />
+                      </div>
+                      <div class="menuCard__body">
+                        <div class="menuName">{{ item.name }}</div>
+                        <div class="menuDesc">{{ item.desc }}</div>
+                      </div>
+                      <div class="menuCard__foot">{{ $t('theme.openAndManage') }}</div>
+                    </button>
                   </div>
-                  <Icon name="solar:alt-arrow-right-linear" size="18" class="menuArrow" />
-                </button>
+                </section>
               </div>
             </section>
 
@@ -247,7 +292,7 @@ onMounted(() => {
 
 .mineShell {
   display: grid;
-  gap: 14px;
+  gap: 16px;
 }
 
 .pageTitle {
@@ -258,11 +303,11 @@ onMounted(() => {
 .topAction {
   width: 40px;
   height: 40px;
-  border-radius: 12px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--surface-interactive-soft);
   border: 1px solid var(--border-soft);
   color: var(--text-primary);
   appearance: none;
@@ -270,18 +315,16 @@ onMounted(() => {
 
 .profileStage,
 .actionCard,
-.menuSection,
+.menuCluster,
 .logoutSection {
-  background: rgba(8, 18, 31, 0.9);
-  border: 1px solid rgba(125, 211, 252, 0.1);
+  border: 1px solid var(--border-soft);
+  box-shadow: 0 14px 34px rgba(7, 19, 34, 0.12);
 }
 
 .profileStage {
   display: grid;
-  gap: 16px;
-  background:
-    radial-gradient(circle at top right, rgba(56, 189, 248, 0.14), transparent 32%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018));
+  gap: 18px;
+  background: linear-gradient(180deg, rgba(43, 76, 112, 0.96), rgba(30, 56, 85, 0.94));
 }
 
 .profileStage__head {
@@ -291,7 +334,9 @@ onMounted(() => {
   gap: 12px;
 }
 
-.profileStage__eyebrow {
+.profileStage__eyebrow,
+.actionEyebrow,
+.clusterBadge {
   color: var(--brand-primary);
   font-size: 11px;
   font-weight: 700;
@@ -316,19 +361,19 @@ onMounted(() => {
 
 .visibilitySwitch {
   display: inline-flex;
-  min-height: 36px;
+  min-height: 38px;
   align-items: center;
   gap: 8px;
   border-radius: 999px;
   padding: 0 12px;
-  border: 1px solid rgba(125, 211, 252, 0.12);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-default);
+  background: rgba(255, 255, 255, 0.08);
   color: var(--text-secondary);
   flex-shrink: 0;
 }
 
 .profileStage__assetLabel {
-  color: var(--text-muted);
+  color: rgba(239, 246, 255, 0.72);
   font-size: 12px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -343,7 +388,7 @@ onMounted(() => {
 .profileStage__currency,
 .profileStage__amount {
   color: var(--text-primary);
-  font-size: 28px;
+  font-size: 29px;
   font-weight: 800;
   line-height: 0.92;
   letter-spacing: -0.04em;
@@ -364,8 +409,8 @@ onMounted(() => {
   width: fit-content;
   padding: 0 12px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(125, 211, 252, 0.12);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(191, 219, 254, 0.22);
   color: var(--text-primary);
   font-size: 12px;
   font-weight: 600;
@@ -387,18 +432,18 @@ onMounted(() => {
 .assetPanel {
   padding: 14px;
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(191, 219, 254, 0.12);
 }
 
 .assetPanelWide {
   grid-column: 1 / -1;
-  background: linear-gradient(135deg, rgba(14, 165, 233, 0.12), rgba(37, 99, 235, 0.08));
-  border-color: rgba(125, 211, 252, 0.16);
+  background: linear-gradient(135deg, rgba(125, 211, 252, 0.18), rgba(56, 189, 248, 0.08));
+  border-color: rgba(191, 219, 254, 0.18);
 }
 
 .assetPanel__label {
-  color: var(--text-secondary);
+  color: rgba(239, 246, 255, 0.74);
   font-size: 12px;
   line-height: 1.4;
 }
@@ -413,13 +458,16 @@ onMounted(() => {
 }
 
 .assetPanel__valueProfit {
-  color: var(--color-up);
+  color: #bbf7d0;
 }
 
-.actionCard,
-.menuSection,
-.logoutSection {
-  box-shadow: none;
+.actionLead {
+  margin-top: 6px;
+  max-width: 240px;
+}
+
+.actionCard {
+  background: linear-gradient(180deg, rgba(42, 72, 106, 0.92), rgba(31, 56, 83, 0.9));
 }
 
 .quickActions {
@@ -431,67 +479,151 @@ onMounted(() => {
 
 .actionButton {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
-  min-height: 76px;
-  padding: 14px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.025);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  min-height: 112px;
+  padding: 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(191, 219, 254, 0.12);
   text-align: left;
   appearance: none;
 }
 
 .actionButtonPrimary {
-  background: linear-gradient(135deg, rgba(14, 165, 233, 0.12), rgba(37, 99, 235, 0.08));
-  border-color: rgba(125, 211, 252, 0.16);
+  background: linear-gradient(135deg, rgba(125, 211, 252, 0.18), rgba(59, 130, 246, 0.12));
+  border-color: rgba(191, 219, 254, 0.18);
+}
+
+.actionCopy {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
 }
 
 .actionLabel {
   color: var(--text-primary);
   font-weight: 700;
+  line-height: 1.35;
 }
 
-.menuGrid {
+.actionDesc {
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.menuSectionShell {
+  display: grid;
+  gap: 0;
+}
+
+.sectionHeadingLoose {
+  padding: 0 2px;
+}
+
+.menuSectionStack {
   display: grid;
   gap: 12px;
 }
 
-.menuItem {
-  display: flex;
-  align-items: center;
+.menuCluster {
+  display: grid;
+  gap: 16px;
+  background: linear-gradient(180deg, rgba(39, 70, 103, 0.92), rgba(30, 55, 81, 0.9));
+}
+
+.menuCluster__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 180px);
   gap: 12px;
-  min-height: 58px;
-  padding: 0 14px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.025);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  width: 100%;
+  align-items: flex-start;
+}
+
+.clusterTitle {
+  margin-top: 8px;
+  color: var(--text-primary);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.clusterCopy {
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.55;
+  text-align: right;
+}
+
+.menuCardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.menuCard {
+  display: grid;
+  gap: 14px;
+  min-height: 154px;
+  padding: 14px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(191, 219, 254, 0.12);
   text-align: left;
+  width: 100%;
   appearance: none;
 }
 
-.menuContent {
-  flex: 1;
+.menuCardAccent {
+  background: linear-gradient(180deg, rgba(125, 211, 252, 0.16), rgba(255, 255, 255, 0.08));
+  border-color: rgba(191, 219, 254, 0.2);
+}
+
+.menuCard__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.menuCard__body {
+  display: grid;
+  gap: 8px;
   min-width: 0;
 }
 
 .menuName {
   color: var(--text-primary);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.4;
+}
+
+.menuDesc {
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.menuCard__foot {
+  color: var(--brand-primary);
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .menuArrow {
   color: var(--text-secondary);
 }
 
+.logoutSection {
+  background: rgba(40, 67, 97, 0.84);
+}
+
 .dialogBody {
   margin-top: 12px;
   padding: 14px;
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.025);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--surface-interactive-soft);
+  border: 1px solid var(--border-soft);
 }
 
 .dialogCard {
@@ -512,15 +644,24 @@ onMounted(() => {
   line-height: 1.35;
 }
 
+.actionButton:active,
+.menuCard:active,
+.topAction:active,
+.visibilitySwitch:active {
+  transform: scale(0.98);
+}
+
 @media (max-width: 360px) {
   .profileStage__head,
   .quickActions,
-  .profileStage__stats {
+  .profileStage__stats,
+  .menuCardGrid,
+  .menuCluster__head {
     grid-template-columns: 1fr;
   }
 
-  .profileStage__head {
-    display: grid;
+  .clusterCopy {
+    text-align: left;
   }
 }
 </style>

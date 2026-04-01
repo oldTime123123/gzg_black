@@ -306,7 +306,7 @@ onMounted(() => {
   display: grid;
   gap: 10px;
   padding-bottom: 18px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid var(--border-soft);
 }
 
 .formBlock:last-child {
@@ -323,16 +323,16 @@ onMounted(() => {
 
 .authInput {
   padding: 14px 16px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--surface-interactive-soft);
+  border: 1px solid var(--border-default);
   border-radius: 18px;
   transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
 }
 
 .authInput:focus-within {
-  border-color: rgba(56, 189, 248, 0.42);
-  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
-  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(125, 211, 252, 0.46);
+  box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.14);
+  background: var(--surface-interactive-strong);
 }
 
 .authInput :deep(.van-cell__value) {
@@ -466,8 +466,8 @@ onMounted(() => {
   min-height: 52px;
   width: 100%;
   padding: 0 16px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--surface-interactive-soft);
+  border: 1px solid var(--border-default);
   border-radius: 18px;
   appearance: none;
   text-align: left;
