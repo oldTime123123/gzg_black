@@ -373,8 +373,8 @@ const userRealText = ref<Record<number, { text: string; icon: string; tone: stri
   width: 100%;
   margin-top: 10px;
   color: var(--color-up);
-  font-size: 12px;
-  line-height: 1.4;
+  font-size: 11px;
+  line-height: 1.35;
 }
 
 .uploadGrid {

@@ -144,11 +144,6 @@ const featuredNewsList = computed(() => {
 const insightCards = computed(() => {
   return [
     {
-      label: t('index.i21'),
-      value: selectStockInfo.value.exchange_name || '--',
-      note: t('theme.marketBoardSubtext'),
-    },
-    {
       label: t('x.a8'),
       value: newsList.value[0]?.show_time_format || '--',
       note: newsList.value[0]?.name || t('theme.chronologicalNewsFlow'),
@@ -271,21 +266,32 @@ onMounted(() => {
 
               <div class="heroMatrix__lead">
                 <div class="heroSpotlight">
-                  <div class="heroSpotlight__tone" :class="selectStockInfo.is_rise > 1 ? 'colorUp' : 'colorDown'">
-                    <Icon :name="selectStockInfo.is_rise > 1 ? 'solar:alt-arrow-up-bold' : 'solar:alt-arrow-down-bold'" size="16" />
-                    <span>{{ getNumberType(true, selectStockInfo.is_rise) + selectStockInfo.rise_rate }}%</span>
+                  <div class="heroSpotlight__head">
+                    <div class="heroSpotlight__tone" :class="selectStockInfo.is_rise > 1 ? 'colorUp' : 'colorDown'">
+                      <Icon :name="selectStockInfo.is_rise > 1 ? 'solar:alt-arrow-up-bold' : 'solar:alt-arrow-down-bold'" size="14" />
+                      <span>{{ getNumberType(true, selectStockInfo.is_rise) + selectStockInfo.rise_rate }}%</span>
+                    </div>
+                    <div v-for="item in insightCards" :key="item.label" class="heroSignalCard">
+                      <span class="heroSignalCard__label">{{ item.label }}</span>
+                      <strong class="heroSignalCard__value">{{ item.value }}</strong>
+                      <span class="heroSignalCard__note">{{ item.note }}</span>
+                    </div>
                   </div>
-                  <div class="heroSpotlight__price">{{ UseExchangeNumber(selectStockInfo.price) }}</div>
-                  <div class="heroSpotlight__delta" :class="selectStockInfo.is_rise > 1 ? 'colorUp' : 'colorDown'">
-                    {{ getNumberType(true, selectStockInfo.is_rise) + UseExchangeNumber(selectStockInfo.chart?.rise) }}
+                  <div class="heroSpotlight__valueBlock">
+                    <div class="heroSpotlight__price">{{ UseExchangeNumber(selectStockInfo.price) }}</div>
+                    <div class="heroSpotlight__delta" :class="selectStockInfo.is_rise > 1 ? 'colorUp' : 'colorDown'">
+                      {{ getNumberType(true, selectStockInfo.is_rise) + UseExchangeNumber(selectStockInfo.chart?.rise) }}
+                    </div>
                   </div>
-                </div>
 
-                <div class="heroInsightRail">
-                  <div v-for="item in insightCards" :key="item.label" class="insightCard">
-                    <span class="insightCard__label">{{ item.label }}</span>
-                    <strong class="insightCard__value">{{ item.value }}</strong>
-                    <span class="insightCard__note">{{ item.note }}</span>
+                  <div class="heroSpotlight__chartShell">
+                    <div class="heroSpotlight__chartMeta">
+                      <span>{{ $t('theme.marketBoardSubtext') }}</span>
+                      <span>{{ selectStockInfo.exchange_name || 'N225' }}</span>
+                    </div>
+                    <div class="heroSpotlight__chart">
+                      <HomeKLine ref="HomeKlineRef" @updateHomeKlineTopData="updateHomeKlineTopData" />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -344,10 +350,6 @@ onMounted(() => {
                   {{ $t('index.i23') }}
                   <Icon name="solar:alt-arrow-right-linear" size="16" />
                 </button>
-              </div>
-
-              <div class="marketDeck__chart">
-                <HomeKLine ref="HomeKlineRef" @updateHomeKlineTopData="updateHomeKlineTopData" />
               </div>
 
               <div class="marketDeck__list renderBudgetDense">
@@ -512,8 +514,9 @@ onMounted(() => {
   position: relative;
   overflow: hidden;
   padding: 22px 18px 18px;
-  background: var(--gradient-panel);
+  background: var(--surface-card-hero);
   border: 1px solid var(--border-strong);
+  box-shadow: 0 22px 58px rgba(2, 8, 20, 0.42);
 }
 
 .heroMatrix__backdrop {
@@ -552,8 +555,8 @@ onMounted(() => {
   margin: 10px 0 0;
   color: var(--text-primary);
   font-family: var(--font-family-display);
-  font-size: clamp(1.65rem, 8vw, 2.35rem);
-  line-height: 0.98;
+  font-size: clamp(1.36rem, 6.5vw, 1.88rem);
+  line-height: 1.02;
   font-weight: var(--weight-heavy);
   letter-spacing: -0.05em;
 }
@@ -574,47 +577,117 @@ onMounted(() => {
 .heroMatrix__lead {
   display: grid;
   gap: 12px;
-  margin-top: 22px;
+  margin-top: 18px;
 }
 
 .heroSpotlight {
-  padding: 18px;
+  padding: 14px 14px 12px;
   border-radius: 24px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), var(--surface-frost));
-  border: 1px solid var(--border-strong);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018));
+  border: 1px solid rgba(125, 211, 252, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.heroSpotlight__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.heroSignalCard {
+  min-width: 0;
+  max-width: 48%;
+  display: grid;
+  gap: 2px;
+  padding: 7px 9px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(125, 211, 252, 0.09);
+}
+
+.heroSignalCard__label {
+  color: var(--text-muted);
+  font-size: 10px;
+  line-height: 1.3;
+}
+
+.heroSignalCard__value {
+  color: var(--text-primary);
+  font-size: 11px;
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+.heroSignalCard__note {
+  color: var(--text-secondary);
+  font-size: 10px;
+  line-height: 1.32;
 }
 
 .heroSpotlight__tone {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
+  gap: 5px;
+  padding: 5px 9px;
   border-radius: 999px;
   background: var(--surface-frost-strong);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
 }
 
+.heroSpotlight__valueBlock {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+}
+
 .heroSpotlight__price {
-  margin-top: 14px;
   color: var(--text-primary);
   font-family: var(--font-family-display);
-  font-size: clamp(2.2rem, 12vw, 3.4rem);
-  line-height: 0.9;
-  font-weight: var(--weight-heavy);
-  letter-spacing: -0.06em;
+  font-size: clamp(1.62rem, 7.8vw, 2.18rem);
+  line-height: 0.94;
+  font-weight: 780;
+  letter-spacing: -0.05em;
   word-break: break-word;
 }
 
 .heroSpotlight__delta {
-  margin-top: 10px;
-  font-size: 15px;
+  font-size: 12px;
   font-weight: 700;
+}
+
+.heroSpotlight__chartShell {
+  margin-top: 12px;
+  padding: 10px 10px 8px;
+  border-radius: 20px;
+  background: var(--surface-chart);
+  border: 1px solid rgba(125, 211, 252, 0.1);
+}
+
+.heroSpotlight__chartMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+  color: var(--text-muted);
+  font-size: 10px;
+  line-height: 1.3;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.heroSpotlight__chart {
+  overflow: hidden;
+  border-radius: 16px;
+  background: transparent;
+  border: 0;
 }
 
 .heroInsightRail {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 10px;
 }
 
@@ -635,44 +708,44 @@ onMounted(() => {
 
 .insightCard__value {
   color: var(--text-primary);
-  font-size: 14px;
-  line-height: 1.25;
+  font-size: 13px;
+  line-height: 1.22;
   font-weight: 700;
   word-break: break-word;
 }
 
 .insightCard__note {
   color: var(--text-secondary);
-  font-size: 12px;
-  line-height: 1.45;
+  font-size: 11px;
+  line-height: 1.42;
 }
 
 .heroBoardGrid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
-  margin-top: 16px;
+  margin-top: 14px;
 }
 
 .heroBoardCell {
   display: grid;
-  gap: 6px;
-  padding: 14px 12px;
+  gap: 5px;
+  padding: 12px 11px;
   border-radius: 18px;
-  background: var(--surface-frost);
-  border: 1px solid var(--border-soft);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(148, 163, 184, 0.16);
 }
 
 .heroBoardCell span {
   color: var(--text-muted);
-  font-size: 11px;
+  font-size: 10px;
   line-height: 1.3;
 }
 
 .heroBoardCell strong {
   color: var(--text-primary);
-  font-size: 14px;
-  line-height: 1.25;
+  font-size: 13px;
+  line-height: 1.22;
   font-weight: 700;
 }
 
@@ -680,8 +753,8 @@ onMounted(() => {
 .marketDeck,
 .newsDeck {
   display: grid;
-  gap: 16px;
-  background: color-mix(in srgb, var(--surface-panel) 88%, transparent);
+  gap: 14px;
+  background: var(--surface-module);
   border: 1px solid var(--border-soft);
 }
 
@@ -806,8 +879,8 @@ onMounted(() => {
   gap: 12px;
   padding: 16px 14px;
   border-radius: 18px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
-  border: 1px solid var(--border-soft);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.018));
+  border: 1px solid rgba(148, 163, 184, 0.16);
 }
 
 .marketGridRow__main,
@@ -852,8 +925,8 @@ onMounted(() => {
   gap: 8px;
   padding: 16px 14px;
   border-radius: 18px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
-  border: 1px solid var(--border-soft);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.018));
+  border: 1px solid rgba(148, 163, 184, 0.16);
 }
 
 .newsPanel__time {
@@ -905,13 +978,30 @@ onMounted(() => {
   .overviewDeck__summary {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .heroSpotlight__head {
+    align-items: stretch;
+  }
+
+  .heroSignalCard {
+    max-width: 50%;
+  }
 }
 
 @media (max-width: 360px) {
+  .heroSpotlight__head,
   .heroInsightRail,
   .heroBoardGrid,
   .overviewDeck__summary {
     grid-template-columns: 1fr;
+  }
+
+  .heroSpotlight__head {
+    display: grid;
+  }
+
+  .heroSignalCard {
+    max-width: 100%;
   }
 }
 </style>

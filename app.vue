@@ -30,11 +30,8 @@ const url = useRequestURL()
 //   return pub.siteConfig
 // })
 import icon from '~/public/ico.png?v=1'
-const siteName = 'HQBW '
-const description = `
-HQBW 証券は機関投資家向けのサービスに特化しています。 HQBW は、投資学習、市場調査、戦略交流に特化した総合型プラットフォームです。異なる段階の投資家に対して、明確で理解しやすく、検証可能な投資参考情報を提供することを目指しております。プラットフォームは、理性的な投資とリスク管理を核心理念とし、体系的な市場分析、
-戦略の分解、実戦の振り返りを通じて、利用者が自分自身の投資判断体系を徐々に構築できるようサポートいたします
-`
+const siteName = 'Market Terminal'
+const description = 'Real-time market dashboard with index tracking, chart views, news flow, and trading access.'
 
 useHead({
   link: [
@@ -185,10 +182,11 @@ onUnmounted(() => {
 }
 html{
   min-height: 100vh;
-  background: #06111f;
+  background: var(--surface-page);
 }
 body,
 #__nuxt {
   min-height: 100vh;
+  background: var(--surface-page);
 }
 </style>
