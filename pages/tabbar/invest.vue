@@ -114,21 +114,28 @@ onBeforeMount(() => {
 
       <ClientOnly>
         <div class="pageContainer px-3 mt-3 pb-6">
-          <div class="portfolioHero">
-            <div class="portfolioHeader">
-              <div>
-                <div class="heroEyebrow">{{ $t('theme.portfolioDashboard') }}</div>
-                <div class="portfolioTitle">{{ t('index.i1') }}</div>
-                <div class="portfolioSubline">{{ $t('theme.monitorActiveOrdersPositions') }}</div>
+          <div class="portfolioHero grid gap-5">
+            <div class="flex items-start justify-between gap-3">
+              <div class="min-w-0">
+                <div class="text-[12px] uppercase tracking-[0.06em] leading-[1.4] text-[var(--text-muted)]">{{ t('index.i1') }}</div>
               </div>
-              <button type="button" class="visibilityToggle" :aria-pressed="showBalance" @click="showBalance = !showBalance">
+              <button
+                type="button"
+                class="inline-flex min-h-8 shrink-0 items-center gap-1.5 rounded-full border border-white/10 bg-[radial-gradient(circle_at_left_center,rgba(212,154,58,0.08),transparent_36%),rgba(255,255,255,0.03)] px-2.5 py-1.5 text-[12px] leading-[1.2] text-[var(--text-secondary)] transition-[transform,border-color,background-color] duration-200 ease-out"
+                :aria-pressed="showBalance"
+                @click="showBalance = !showBalance"
+              >
                 <Icon :name="showBalance ? 'solar:eye-closed-linear' : 'solar:eye-linear'" size="16" />
                 <span>{{ showBalance ? $t('theme.hideBalance') : $t('theme.showBalance') }}</span>
               </button>
             </div>
 
-            <div class="portfolioHeadline">{{ getCurrency() + (showBalance ? '*****' : UseExchangeNumber(balanceList.totalAsset)) }}</div>
-            <div class="portfolioCaption">{{ $t('theme.totalAssetsTracked') }}</div>
+            <div class="flex w-full items-end gap-2">
+              <span class="shrink-0 text-[clamp(2.35rem,7vw,3rem)] font-extrabold leading-[0.94] tracking-[-0.03em] text-[var(--text-primary)]">{{ getCurrency() }}</span>
+              <span class="min-w-0 flex-1 break-words text-[clamp(2.55rem,8vw,3.25rem)] font-extrabold leading-[0.9] tracking-[-0.04em] text-[var(--text-primary)] [overflow-wrap:anywhere]">
+                {{ showBalance ? '*****' : UseExchangeNumber(balanceList.totalAsset) }}
+              </span>
+            </div>
 
             <div class="portfolioBody">
               <div class="chartCard">
@@ -190,81 +197,6 @@ onBeforeMount(() => {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
   border: 1px solid rgba(255, 255, 255, 0.06);
   box-shadow: none;
-}
-
-.portfolioHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.portfolioTitle {
-  margin-top: 8px;
-  color: var(--text-primary);
-  font-family: var(--font-family-display);
-  font-size: var(--text-heading);
-  line-height: 1.14;
-  font-weight: var(--weight-heavy);
-  letter-spacing: var(--tracking-tight);
-}
-
-.portfolioSubline {
-  margin-top: 8px;
-  color: var(--text-secondary);
-  font-size: 1rem;
-  line-height: var(--leading-relaxed);
-  max-width: 30ch;
-}
-
-.portfolioHeadline {
-  margin-top: 18px;
-  color: var(--text-primary);
-  font-family: var(--font-family-display);
-  font-size: 2rem;
-  line-height: 1.02;
-  font-weight: var(--weight-heavy);
-  letter-spacing: var(--tracking-tight);
-  word-break: break-word;
-  overflow-wrap: anywhere;
-  font-variant-numeric: tabular-nums lining-nums;
-  font-feature-settings: "tnum" 1, "lnum" 1;
-}
-
-.portfolioCaption {
-  margin-top: 8px;
-  color: var(--text-secondary);
-  font-size: var(--text-body-compact);
-  line-height: 1.6;
-}
-
-.heroEyebrow {
-  color: var(--brand-primary);
-  font-size: var(--text-caption);
-  font-weight: var(--weight-bold);
-  letter-spacing: var(--tracking-eyebrow);
-  text-transform: uppercase;
-}
-
-.visibilityToggle {
-  appearance: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at left center, rgba(212, 154, 58, 0.12), transparent 36%),
-    rgba(255, 255, 255, 0.04);
-  color: var(--text-primary);
-  font-size: var(--text-label);
-  font-weight: var(--weight-semibold);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  cursor: pointer;
-  transition:
-    transform var(--motion-fast),
-    border-color var(--motion-fast),
-    background-color var(--motion-fast);
 }
 
 .portfolioBody {
@@ -411,14 +343,6 @@ onBeforeMount(() => {
   flex-shrink: 0;
 }
 
-.visibilityToggle:hover {
-  border-color: rgba(212, 154, 58, 0.2);
-  background:
-    radial-gradient(circle at left center, rgba(212, 154, 58, 0.14), transparent 38%),
-    rgba(255, 255, 255, 0.05);
-}
-
-.visibilityToggle:active,
 .tabChip:active,
 .addBtn:active {
   transform: scale(0.98);

@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 import { homeNoitceBarInfo, getNewsList, getStockIndexList, getTradeProduct } from '~/api/home/home';
-import { LineOption } from '~/utils/indexLineStyle';
 
 const { t } = useI18n();
 
@@ -145,20 +144,6 @@ const goNewsDetail = (item) => {
   }
 };
 
-const changeLineTypeData = (data: Array<number | null>) => {
-  const result = Array(100)
-    .fill(null)
-    .map((_, i) => data[i] ?? null);
-
-  for (let i = 1; i < 100; i++) {
-    if (result[i] == null) {
-      result[i] = result[i - 1];
-    }
-  }
-
-  return result;
-};
-
 const goTrade = (item: Record<string, unknown>) => {
   useSocketStore.currentCoin = item;
   router.push('/trade');
@@ -286,49 +271,27 @@ onMounted(() => {
                   </button>
                 </div>
 
-                <div class="moverStage">
+                <div class="grid gap-3">
                   <template v-if="showSeketLoading">
-                    <div class="productSkeleton" v-for="item in 3" :key="item"></div>
+                    <div class="h-[86px] rounded-[18px] border border-white/10 bg-[rgba(255,255,255,0.04)]" v-for="item in 4" :key="item"></div>
                   </template>
                   <template v-else>
-                    <button type="button" class="leadMoverCard" v-if="lineDataList[0]" @click="goTrade(lineDataList[0])">
-                      <div class="leadMoverHead">
-                        <div class="productInfo">
-                          <div class="productName">{{ lineDataList[0].pro_name }}</div>
-                          <div class="productCode">{{ lineDataList[0].pro_code }}</div>
+                    <div v-if="lineDataList.length" class="grid gap-3 renderBudgetDense">
+                      <button
+                        type="button"
+                        class="grid w-full grid-cols-[minmax(0,1fr)_auto] items-start gap-3 rounded-[18px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.022))] px-4 py-4 text-left transition-[transform,background-color,border-color] duration-200 ease-out hover:border-[rgba(212,154,58,0.22)] hover:bg-white/[0.045] active:scale-[0.99]"
+                        v-for="item in lineDataList"
+                        :key="item.id || item.pro_code"
+                        @click="goTrade(item)"
+                      >
+                        <div class="min-w-0">
+                          <div class="truncate text-[1rem] font-semibold leading-[1.45] text-[var(--text-primary)]">{{ item.pro_name }}</div>
+                          <div class="mt-1 text-[0.9375rem] leading-[1.45] text-[var(--text-secondary)]">{{ item.pro_code }}</div>
                         </div>
-                        <div class="productPriceBlock" :class="lineDataList[0].is_rise > 1 ? 'colorUp' : 'colorDown'">
-                          <div class="productPrice">{{ lineDataList[0].price }}</div>
-                          <div class="productDelta">
-                            <Icon :name="lineDataList[0].is_rise > 1 ? 'solar:alt-arrow-up-bold' : 'solar:alt-arrow-down-bold'" class="productTrendIcon" />
-                            <span>{{ getNumberType(true, lineDataList[0].is_rise) + lineDataList[0].rise_rate }}%</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="productChart">
-                        <ClientOnly>
-                          <apexchart
-                            width="100%"
-                            height="72"
-                            type="area"
-                            :options="LineOption(lineDataList[0].is_rise)"
-                            :series="[{ data: changeLineTypeData(lineDataList[0].chart.indicators.quote[0].close) }]"
-                          />
-                        </ClientOnly>
-                      </div>
-                    </button>
-
-                    <div class="moverCompactList renderBudgetDense" v-if="lineDataList.length > 1">
-                      <button type="button" class="moverRow" v-for="item in lineDataList.slice(1, 4)" :key="item.id || item.pro_code" @click="goTrade(item)">
-                        <div class="productInfo">
-                          <div class="productName compact">{{ item.pro_name }}</div>
-                          <div class="productCode">{{ item.pro_code }}</div>
-                        </div>
-                        <div class="productPriceBlock compact" :class="item.is_rise > 1 ? 'colorUp' : 'colorDown'">
-                          <div class="productPrice compact">{{ item.price }}</div>
-                          <div class="productDelta compact">
-                            <Icon :name="item.is_rise > 1 ? 'solar:alt-arrow-up-bold' : 'solar:alt-arrow-down-bold'" class="productTrendIcon" />
+                        <div class="min-w-fit text-right" :class="item.is_rise > 1 ? 'colorUp' : 'colorDown'">
+                          <div class="text-[1rem] font-extrabold leading-[1.15]">{{ item.price }}</div>
+                          <div class="mt-2 inline-flex items-center gap-1 text-[0.9375rem] font-bold leading-[1.2]">
+                            <Icon :name="item.is_rise > 1 ? 'solar:alt-arrow-up-bold' : 'solar:alt-arrow-down-bold'" class="h-3.5 w-3.5" />
                             <span>{{ getNumberType(true, item.is_rise) + item.rise_rate }}%</span>
                           </div>
                         </div>
@@ -347,26 +310,23 @@ onMounted(() => {
                   </button>
                 </div>
 
-                <div class="newsList">
+                <div class="grid gap-3">
                   <template v-if="showNewsSeketLoading">
-                    <div class="newsSkeleton" v-for="(item, index) in 3" :key="index"></div>
+                    <div class="h-[84px] rounded-[18px] border border-white/10 bg-[rgba(255,255,255,0.04)]" v-for="(item, index) in 4" :key="index"></div>
                   </template>
                   <template v-else>
-                    <button type="button" class="newsLeadCard" v-if="newsList[0]" @click="goNewsDetail(newsList[0])">
-                      <div class="newsLeadEyebrow">{{ $t('theme.featured') }}</div>
-                      <div class="newsLeadTitle">{{ newsList[0].name }}</div>
-                      <div class="newsMeta">{{ newsList[0].show_time_format }}</div>
-                    </button>
-                    <div class="newsCompactList renderBudgetDense" v-if="newsList.length > 1">
-                      <button type="button" class="newsCard compact" v-for="(item, index) in newsList.slice(1, 4)" :key="index" @click="goNewsDetail(item)">
-                        <div class="newsTitle">{{ item.name }}</div>
-                        <div class="newsMeta">{{ item.show_time_format }}</div>
+                    <div v-if="newsList.length" class="grid gap-3 renderBudgetDense">
+                      <button
+                        type="button"
+                        class="grid w-full gap-2 rounded-[18px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.022))] px-4 py-4 text-left transition-[transform,background-color,border-color] duration-200 ease-out hover:border-[rgba(212,154,58,0.2)] hover:bg-white/[0.045] active:scale-[0.99]"
+                        v-for="(item, index) in newsList"
+                        :key="index"
+                        @click="goNewsDetail(item)"
+                      >
+                        <div class="text-[1rem] font-semibold leading-[1.58] text-[var(--text-primary)]">{{ item.name }}</div>
+                        <div class="text-[0.875rem] leading-[1.45] text-[var(--text-secondary)]">{{ item.show_time_format }}</div>
                       </button>
                     </div>
-                    <button type="button" class="sectionLink mt-4" @click="changePage('/tabbar/news')">
-                      {{ $t('theme.latestCoverage') }}
-                      <Icon name="solar:alt-arrow-right-linear" size="16" />
-                    </button>
                   </template>
                 </div>
               </div>
@@ -730,249 +690,8 @@ onMounted(() => {
     transform var(--motion-fast);
 }
 
-.newsList {
-  display: grid;
-  gap: var(--space-xs);
-}
-
-.moverStage {
-  display: grid;
-  gap: var(--space-xs);
-}
-
-.leadMoverCard {
-  appearance: none;
-  width: 100%;
-  padding: 16px;
-  border-radius: 22px;
-  background: rgba(255, 255, 255, 0.025);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  text-align: left;
-  cursor: pointer;
-  transition:
-    transform var(--motion-fast),
-    border-color var(--motion-fast),
-    background-color var(--motion-fast);
-}
-
-.leadMoverHead {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.moverCompactList {
-  display: grid;
-  gap: 0;
-}
-
-.moverRow {
-  appearance: none;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-  width: 100%;
-  padding: 14px 0;
-  background: transparent;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  border-left: 0;
-  border-right: 0;
-  border-top: 0;
-  text-align: left;
-  cursor: pointer;
-  transition:
-    transform var(--motion-fast),
-    border-color var(--motion-fast);
-}
-
-.moverRow:last-child {
-  border-bottom: 0;
-  padding-bottom: 0;
-}
-
-.productTop {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.productInfo {
-  flex: 1;
-  min-width: 0;
-}
-
-.productName {
-  color: var(--text-primary);
-  font-size: 1rem;
-  line-height: var(--leading-body);
-  font-weight: var(--weight-bold);
-  word-break: break-word;
-}
-
-.productCode {
-  margin-top: 4px;
-  color: var(--text-secondary);
-  font-size: var(--text-label);
-  line-height: 1.45;
-}
-
-.productPriceBlock {
-  flex-shrink: 0;
-  text-align: right;
-  min-width: 96px;
-}
-
-.productPriceBlock.compact {
-  min-width: 88px;
-}
-
-.productPrice {
-  color: inherit;
-  font-family: var(--font-family-display);
-  font-size: 1.25rem;
-  font-weight: var(--weight-heavy);
-  letter-spacing: var(--tracking-dense);
-}
-
-.productPrice.compact {
-  font-size: 1.125rem;
-}
-
-.productDelta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 4px;
-  margin-top: 6px;
-  font-size: var(--text-label);
-  font-weight: var(--weight-bold);
-}
-
-.productDelta.compact {
-  margin-top: 4px;
-}
-
-.productTrendIcon {
-  width: 14px;
-  height: 14px;
-}
-
-.productChart {
-  margin-top: 10px;
-  overflow: hidden;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.015);
-  border: 1px solid rgba(255, 255, 255, 0.035);
-}
-
-.productName.compact {
-  font-size: var(--text-body-compact);
-  line-height: 1.55;
-  font-weight: var(--weight-semibold);
-}
-
-.newsCard {
-  appearance: none;
-  width: 100%;
-  padding: 14px;
-  border-radius: 18px;
-  background: transparent;
-  border: 0;
-  text-align: left;
-  cursor: pointer;
-  transition:
-    transform var(--motion-fast),
-    border-color var(--motion-fast);
-}
-
-.newsLeadCard {
-  appearance: none;
-  width: 100%;
-  padding: 14px 0 16px 16px;
-  border-radius: 0;
-  background: transparent;
-  border-left: 2px solid rgba(212, 154, 58, 0.24);
-  border-top: 0;
-  border-right: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  text-align: left;
-  cursor: pointer;
-  transition:
-    transform var(--motion-fast),
-    border-color var(--motion-fast),
-    background-color var(--motion-fast);
-}
-
-.newsLeadEyebrow {
-  color: var(--brand-primary);
-  font-size: var(--text-caption);
-  font-weight: var(--weight-bold);
-  letter-spacing: var(--tracking-eyebrow);
-  text-transform: uppercase;
-}
-
-.newsLeadTitle {
-  margin-top: 8px;
-  color: var(--text-primary);
-  font-family: var(--font-family-display);
-  font-size: 1.125rem;
-  line-height: 1.42;
-  font-weight: var(--weight-heavy);
-  letter-spacing: var(--tracking-dense);
-  max-width: 24ch;
-}
-
-.newsCompactList {
-  display: grid;
-  gap: 0;
-  margin-top: var(--space-xs);
-}
-
-.newsCard.compact {
-  padding: 10px 0 10px 16px;
-  border-radius: 0;
-  background: transparent;
-  border-left: 2px solid rgba(255, 255, 255, 0.08);
-  border-top: 0;
-  border-right: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.newsTitle {
-  color: var(--text-primary);
-  font-size: 1rem;
-  line-height: var(--leading-body);
-  font-weight: var(--weight-semibold);
-}
-
-.newsMeta {
-  margin-top: 8px;
-  color: var(--text-secondary);
-  font-size: var(--text-label);
-  line-height: 1.5;
-}
-
-.newsSkeleton {
-  height: 88px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-soft);
-}
-
-.productSkeleton {
-  height: 132px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-soft);
-}
-
 .topAction:hover,
-.actionCard:hover,
-.leadMoverCard:hover,
-.newsLeadCard:hover {
+.actionCard:hover {
   background: rgba(255, 255, 255, 0.04);
   border-color: rgba(212, 154, 58, 0.2);
 }
@@ -983,11 +702,7 @@ onMounted(() => {
 
 .topAction:active,
 .actionCard:active,
-.sectionLink:active,
-.leadMoverCard:active,
-.moverRow:active,
-.newsLeadCard:active,
-.newsCard:active {
+.sectionLink:active {
   transform: scale(0.98);
 }
 
