@@ -115,7 +115,7 @@ const changePage = (url: string) => {
 }
 
 .searchTail {
-    color: var(--text-muted);
+    color: var(--brand-primary);
     flex-shrink: 0;
     margin-left: 8px;
 }

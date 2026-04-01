@@ -18,12 +18,14 @@ const showLoadingText = computed(() => {
           <div class="loadingSignal"></div>
           <div class="loadingMeta">{{ $t('theme.secureAccess') }}</div>
         </div>
-        <div class="loadingSpinner"></div>
+        <div class="loadingSpinnerShell">
+          <div class="loadingSpinner"></div>
+          <div class="loadingCenterIcon">
+            <Icon name="solar:shield-keyhole-linear" size="24" />
+          </div>
+        </div>
         <div class="loadingTitle">{{ showLoadingText }}</div>
         <div class="loadingSub">{{ $t('comm.c66') }}</div>
-        <div class="brandBox">
-          <img src="/ico.png" alt="HQBW " class="brandIcon" decoding="async" width="64" height="64">
-        </div>
       </div>
     </div>
   </ClientOnly>
@@ -81,15 +83,34 @@ const showLoadingText = computed(() => {
   text-transform: uppercase;
 }
 
-.loadingSpinner {
-  width: 64px;
-  height: 64px;
+.loadingSpinnerShell {
+  position: relative;
+  width: 76px;
+  height: 76px;
   margin: 22px auto 0;
+}
+
+.loadingSpinner {
+  width: 76px;
+  height: 76px;
   border-radius: 50%;
   border: 3px solid rgba(255, 255, 255, 0.08);
   border-top-color: var(--brand-primary);
   border-right-color: rgba(103, 183, 255, 0.8);
   animation: spin 0.9s linear infinite;
+}
+
+.loadingCenterIcon {
+  position: absolute;
+  inset: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  color: var(--brand-primary);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(125, 211, 252, 0.14);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .loadingTitle {
@@ -103,18 +124,6 @@ const showLoadingText = computed(() => {
   margin-top: 8px;
   color: var(--text-secondary);
   font-size: 14px;
-}
-
-.brandBox {
-  margin-top: 22px;
-  display: flex;
-  justify-content: center;
-}
-
-.brandIcon {
-  width: 64px;
-  height: 64px;
-  border-radius: 18px;
 }
 
 @keyframes spin {

@@ -18,20 +18,20 @@ const tabs = computed(() => {
     {
       name: t('comm.c78'),
       path: '/tabbar/market',
-      icon: 'solar:chart-2-linear',
-      activeIcon: 'solar:chart-2-bold',
+      icon: 'solar:chart-square-linear',
+      activeIcon: 'solar:chart-square-bold',
     },
     {
       name: t('comm.c79'),
       path: '/tabbar/invest',
-      icon: 'solar:wallet-money-linear',
-      activeIcon: 'solar:wallet-money-bold',
+      icon: 'solar:case-round-linear',
+      activeIcon: 'solar:case-round-bold',
     },
     {
       name: t('comm.c80'),
       path: '/tabbar/news',
-      icon: 'solar:document-text-linear',
-      activeIcon: 'solar:document-text-bold',
+      icon: 'solar:clipboard-text-linear',
+      activeIcon: 'solar:clipboard-text-bold',
     },
     {
       name: t('comm.c81'),
@@ -142,7 +142,8 @@ watch(() => route.path, () => {
   align-items: center;
   justify-content: center;
   color: var(--text-secondary);
-  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(148, 163, 184, 0.08);
   transition:
     transform var(--motion-fast) var(--ease-out-quart),
     background-color var(--motion-fast) var(--ease-out-quart),

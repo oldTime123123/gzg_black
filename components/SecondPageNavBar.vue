@@ -47,7 +47,9 @@ const changePage = (url: string) => {
                         class="navAction"
                         @click="props.rightClickHandle"
                         :aria-label="$t('comm.c84') || 'Secondary action'">
-                        <img :src="props.rightIcon" alt="" class="w-5 h-5" decoding="async" width="20" height="20" />
+                        <span class="navActionImageWrap">
+                          <img :src="props.rightIcon" alt="" class="navActionImage" decoding="async" width="20" height="20" />
+                        </span>
                     </button>
                 </div>
             </div>
@@ -97,6 +99,23 @@ const changePage = (url: string) => {
 .navAction:hover {
     background: rgba(255, 255, 255, 0.06);
     border-color: rgba(56, 189, 248, 0.18);
+}
+
+.navActionImageWrap {
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(14, 165, 233, 0.14), rgba(37, 99, 235, 0.08));
+}
+
+.navActionImage {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    filter: grayscale(1) brightness(1.8) hue-rotate(170deg);
 }
 
 .navTitleWrap {

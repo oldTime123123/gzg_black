@@ -1,10 +1,9 @@
 <template>
-  <div class="relative h-[250px] w-full">
+  <div class="klineHost relative h-[250px] w-full">
     <div id="klineChartBox" style="width: 100%; height: 250px"></div>
     <div v-if="showSkeletonLoading"
       class="absolute h-full w-full left-0 animate-pulse top-0 chartSkeleton"></div>
-
- </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -61,9 +60,16 @@ defineExpose({
 </script>
 
 <style scoped>
+.klineHost {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
 .chartSkeleton {
-  background: rgba(255, 255, 255, 0.035);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 12px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015)),
+    var(--surface-chart);
+  border: 1px solid rgba(125, 211, 252, 0.08);
+  border-radius: 16px;
 }
 </style>
