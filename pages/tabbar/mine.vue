@@ -16,36 +16,12 @@ const topFixedChange = (val: boolean) => {
 
 const myItemList = computed(() => {
   return [
-    {
-      name: t('mine.m3'),
-      icon: 'solar:card-2-linear',
-      url: '/setting/bankList',
-    },
-    {
-      name: t('mine.m4'),
-      icon: 'solar:shield-user-linear',
-      url: '/setting/identify',
-    },
-    {
-      name: t('mine.m5'),
-      icon: 'solar:key-linear',
-      url: '/setting/password?type=1',
-    },
-    {
-      name: t('mine.m6'),
-      icon: 'solar:headphones-round-sound-linear',
-      url: '/service',
-    },
-    {
-      name: t('mine.m7'),
-      icon: 'solar:bill-list-linear',
-      url: '/record/userBalanceRecord',
-    },
-    {
-      name: t('mine.m8'),
-      icon: 'solar:lock-password-linear',
-      url: '/setting/password?type=0',
-    },
+    { name: t('mine.m3'), icon: 'solar:card-2-linear', url: '/setting/bankList' },
+    { name: t('mine.m4'), icon: 'solar:shield-user-linear', url: '/setting/identify' },
+    { name: t('mine.m5'), icon: 'solar:key-linear', url: '/setting/password?type=1' },
+    { name: t('mine.m6'), icon: 'solar:headphones-round-sound-linear', url: '/service' },
+    { name: t('mine.m7'), icon: 'solar:bill-list-linear', url: '/record/userBalanceRecord' },
+    { name: t('mine.m8'), icon: 'solar:lock-password-linear', url: '/setting/password?type=0' },
   ];
 });
 
@@ -92,8 +68,7 @@ const fetchPageData = () => {
 };
 
 const goDeposit = (url: string) => {
-
-  if (rechargeTypeStatus.value.recharge_type.length === 0 && rechargeTypeStatus.value.recharge_unavailable_txt ) {
+  if (rechargeTypeStatus.value.recharge_type.length === 0 && rechargeTypeStatus.value.recharge_unavailable_txt) {
     showToast(rechargeTypeStatus.value.recharge_unavailable_txt);
     return;
   }
@@ -112,32 +87,13 @@ const formatMoney = (value: number) => {
   return showID.value ? Number(value).toLocaleString('en-US') : '****';
 };
 
-const fundStats = computed(() => {
+const accountFocusStats = computed(() => {
   return [
-    {
-      label: t('mine.m14'),
-      value: getCurrency() + formatMoney(account.value.totalAsset),
-      tone: 'primary',
-    },
-    {
-      label: t('mine.m15'),
-      value: getCurrency() + formatMoney(account.value.balance),
-      tone: 'default',
-    },
-    {
-      label: t('mine.m16'),
-      value: getCurrency() + formatMoney(account.value.frozenAmount),
-      tone: 'default',
-    },
-    {
-      label: t('mine.m17'),
-      value: getCurrency() + formatMoney(account.value.profit),
-      tone: 'profit',
-    },
+    { label: t('mine.m15'), value: getCurrency() + formatMoney(account.value.balance), tone: 'default' },
+    { label: t('mine.m16'), value: getCurrency() + formatMoney(account.value.frozenAmount), tone: 'default' },
+    { label: t('mine.m17'), value: getCurrency() + formatMoney(account.value.profit), tone: 'profit' },
   ];
 });
-
-const accountFocusStats = computed(() => fundStats.value.slice(1));
 
 onMounted(() => {
   fetchPageData();
@@ -150,10 +106,9 @@ onMounted(() => {
     <ClientOnly>
       <div class="hasNormalBg minePage pageShell">
         <van-sticky offset-top="0" @change="topFixedChange">
-          <div class="pageTopBar px-4 py-3 tabbarPageTopNav flex justify-between items-center"
-            :class="isSticky ? 'topStickyEl' : ''">
+          <div class="pageTopBar px-4 py-3 tabbarPageTopNav flex justify-between items-center" :class="isSticky ? 'topStickyEl' : ''">
             <div class="w-[40px]"></div>
-            <div class="flex-1 text-center colorfff pageTitle">
+            <div class="flex-1 text-center pageTitle">
               {{ $t('mine.m13') }}
             </div>
             <div class="w-[88px] flex flex-row-reverse gap-2">
@@ -168,116 +123,92 @@ onMounted(() => {
         </van-sticky>
 
         <div class="pageContainer px-3 pt-3 pb-6">
-          <div class="grid gap-3.5 rounded-[30px] border border-white/10 bg-[radial-gradient(circle_at_top_right,rgba(212,154,58,0.16),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.045),rgba(255,255,255,0.018))] px-[18px] pb-[18px] pt-[22px]">
-
-            <div class="flex w-full min-w-0 items-center gap-2">
-
-              <div
-                class=" min-w-0 flex-1 items-center gap-2 text-[12px] leading-[1.35] text-[var(--text-primary)] opacity-70">
-                <div class="shrink-0">{{ $t('theme.idLabel') }} {{ userStore.data.id }}</div>
-                <div class="min-w-0 truncate">{{ $t('login.l6') }} {{ userStore.data.phone }}</div>
-              </div>
-  <button type="button"
-                class="inline-flex min-h-8 shrink-0 items-center gap-1.5 rounded-full border border-white/10 bg-[radial-gradient(circle_at_left_center,rgba(212,154,58,0.08),transparent_36%),rgba(255,255,255,0.03)] px-2.5 py-1.5 text-[12px] leading-[1.2] text-[var(--text-secondary)] transition-[transform,border-color,background-color] duration-200 ease-out"
-                @click="showID = !showID" :aria-pressed="showID">
-                <Icon :name="showID ? 'solar:eye-closed-linear' : 'solar:eye-linear'" size="16" />
-                <span>{{ showID ? $t('theme.hideBalance') : $t('theme.showBalance') }}</span>
-              </button>
-            </div>
-            <div>
-              <div class="text-[12px] uppercase tracking-[0.06em] leading-[1.4] text-[var(--text-muted)]">{{
-                $t('mine.m14') }}</div>
-            </div>
-            <div class="w-full">
-              <div class="flex w-full items-end gap-2">
-                <span class="shrink-0 text-[26px] font-extrabold leading-[0.96] tracking-[-0.025em] text-[var(--text-primary)]">{{ getCurrency() }}</span>
-                <span class="min-w-0 flex-1 break-words text-[26px] font-extrabold leading-[0.92] tracking-[-0.03em] text-[var(--text-primary)] [overflow-wrap:anywhere]">{{ formatMoney(account.totalAsset) }}</span>
-              </div>
-            </div>
-            <div v-if="userStore.data.vip?.name"
-              class="inline-flex min-h-8 shrink-0 items-center gap-1.5 rounded-full border border-white/10 bg-[radial-gradient(circle_at_left_center,rgba(212,154,58,0.1),transparent_34%),rgba(255,255,255,0.03)] px-2.5 py-1.5 text-[12px] leading-[1.2] text-[var(--text-primary)]">
-              <img :src="userStore.data.vip?.pic" :alt="userStore.data.vip?.name || 'member badge'"
-                class="h-4 w-4 shrink-0 rounded-full object-cover" decoding="async">
-              <span>{{ userStore.data.vip?.name }}</span>
-            </div>
-
-            <div class="grid grid-cols-2 gap-2.5">
-              <div
-                v-for="(item, index) in accountFocusStats"
-                :key="index"
-                class="rounded-2xl border border-white/10"
-                :class="index === 0
-                  ? 'col-span-2 border-[rgba(212,154,58,0.16)] bg-[radial-gradient(circle_at_top_right,rgba(212,154,58,0.12),transparent_30%),rgba(255,255,255,0.035)] p-4'
-                  : 'bg-[rgba(255,255,255,0.025)] p-3.5'"
-              >
-                <div class="text-[12px] leading-[1.4] text-[var(--text-secondary)]">{{ item.label }}</div>
-                <div
-                  class="mt-2 break-words text-base font-bold leading-[1.35] text-[var(--text-primary)]"
-                  :class="item.tone === 'profit' ? '!text-[var(--color-up)]' : ''"
-                >
-                  {{ item.value }}
+          <div class="mineShell">
+            <section class="profileStage sectionCard">
+              <div class="profileStage__head">
+                <div>
+                  <div class="profileStage__eyebrow">{{ $t('theme.idLabel') }}</div>
+                  <div class="profileStage__meta">{{ userStore.data.id }}</div>
+                  <div class="profileStage__sub">{{ $t('login.l6') }} {{ userStore.data.phone }}</div>
                 </div>
+                <button type="button" class="visibilitySwitch" @click="showID = !showID" :aria-pressed="showID">
+                  <Icon :name="showID ? 'solar:eye-closed-linear' : 'solar:eye-linear'" size="16" />
+                  <span>{{ showID ? $t('theme.hideBalance') : $t('theme.showBalance') }}</span>
+                </button>
               </div>
-            </div>
 
-          </div>
-
-          <div class="actionCard sectionCard mt-4 p-3">
-            <div class="sectionHeading">
-              <div>
-                <div class="sectionTitle">{{ $t('theme.accountActions') }}</div>
+              <div class="profileStage__assetLabel">{{ $t('mine.m14') }}</div>
+              <div class="profileStage__assetValue">
+                <span class="profileStage__currency">{{ getCurrency() }}</span>
+                <span class="profileStage__amount">{{ formatMoney(account.totalAsset) }}</span>
               </div>
-            </div>
-            <div class="grid grid-cols-2 gap-3 mt-4">
-              <button type="button" class="actionButton actionDeposit" @click="goDeposit('/pay/deposit')">
-                <div class="iconFrame">
-                  <Icon name="solar:card-recive-linear" size="22" />
-                </div>
-                <div class="actionCopy">
-                  <div class="actionLabel">
-                    {{ $t('mine.m18') }}
+
+              <div v-if="userStore.data.vip?.name" class="memberBadge">
+                <img :src="userStore.data.vip?.pic" :alt="userStore.data.vip?.name || 'member badge'" class="memberBadge__avatar" decoding="async">
+                <span>{{ userStore.data.vip?.name }}</span>
+              </div>
+
+              <div class="profileStage__stats">
+                <div v-for="(item, index) in accountFocusStats" :key="index" class="assetPanel" :class="index === 0 ? 'assetPanelWide' : ''">
+                  <div class="assetPanel__label">{{ item.label }}</div>
+                  <div class="assetPanel__value" :class="item.tone === 'profit' ? 'assetPanel__valueProfit' : ''">
+                    {{ item.value }}
                   </div>
                 </div>
-              </button>
-
-              <button type="button" class="actionButton actionWithdraw" @click="changePage('/pay/withdraw')">
-                <div class="iconFrame">
-                  <Icon name="solar:card-send-linear" size="22" />
-                </div>
-                <div class="actionCopy">
-                  <div class="actionLabel">
-                    {{ $t('mine.m19') }}
-                  </div>
-                </div>
-              </button>
-            </div>
-          </div>
-
-          <div class="menuSection sectionCard mt-4 p-4">
-            <div class="sectionHeading">
-              <div>
-                <div class="sectionTitle">{{ $t('theme.toolsSettings') }}</div>
               </div>
-            </div>
-            <div class="menuGrid renderBudget mt-4">
-              <button type="button" class="menuItem" v-for="(item, index) in myItemList" :key="index" @click="changePage(item.url)">
-                <div class="iconFrame">
-                  <Icon :name="item.icon" size="20" />
-                </div>
-                <div class="menuContent">
-                  <div class="menuName">{{ item.name }}</div>
-                </div>
-                <Icon name="solar:alt-arrow-right-linear" size="18" class="menuArrow" />
-              </button>
-            </div>
-          </div>
+            </section>
 
-          <div class="logoutSection mt-6">
-            <div class="sectionCard p-3">
+            <section class="actionCard sectionCard">
+              <div class="sectionHeading">
+                <div>
+                  <div class="sectionTitle">{{ $t('theme.accountActions') }}</div>
+                </div>
+              </div>
+              <div class="quickActions">
+                <button type="button" class="actionButton actionButtonPrimary" @click="goDeposit('/pay/deposit')">
+                  <div class="iconFrame">
+                    <Icon name="solar:card-recive-linear" size="22" />
+                  </div>
+                  <div class="actionCopy">
+                    <div class="actionLabel">{{ $t('mine.m18') }}</div>
+                  </div>
+                </button>
+
+                <button type="button" class="actionButton" @click="changePage('/pay/withdraw')">
+                  <div class="iconFrame">
+                    <Icon name="solar:card-send-linear" size="22" />
+                  </div>
+                  <div class="actionCopy">
+                    <div class="actionLabel">{{ $t('mine.m19') }}</div>
+                  </div>
+                </button>
+              </div>
+            </section>
+
+            <section class="menuSection sectionCard">
+              <div class="sectionHeading">
+                <div>
+                  <div class="sectionTitle">{{ $t('theme.toolsSettings') }}</div>
+                </div>
+              </div>
+              <div class="menuGrid renderBudget mt-4">
+                <button type="button" class="menuItem" v-for="(item, index) in myItemList" :key="index" @click="changePage(item.url)">
+                  <div class="iconFrame">
+                    <Icon :name="item.icon" size="20" />
+                  </div>
+                  <div class="menuContent">
+                    <div class="menuName">{{ item.name }}</div>
+                  </div>
+                  <Icon name="solar:alt-arrow-right-linear" size="18" class="menuArrow" />
+                </button>
+              </div>
+            </section>
+
+            <section class="logoutSection sectionCard">
               <button type="button" class="contentBtn" @click="handleLogout">
                 {{ $t('mine.m20') }}
               </button>
-            </div>
+            </section>
           </div>
         </div>
       </div>
@@ -314,6 +245,11 @@ onMounted(() => {
   min-height: calc(100vh - 120px);
 }
 
+.mineShell {
+  display: grid;
+  gap: 14px;
+}
+
 .pageTitle {
   color: var(--text-primary);
   font-weight: 700;
@@ -330,28 +266,167 @@ onMounted(() => {
   border: 1px solid var(--border-soft);
   color: var(--text-primary);
   appearance: none;
-  transition:
-    transform var(--motion-fast) ease,
-    background-color var(--motion-fast) ease,
-    border-color var(--motion-fast) ease;
 }
 
-.heroEyebrow {
+.profileStage,
+.actionCard,
+.menuSection,
+.logoutSection {
+  background: rgba(8, 18, 31, 0.9);
+  border: 1px solid rgba(125, 211, 252, 0.1);
+}
+
+.profileStage {
+  display: grid;
+  gap: 16px;
+  background:
+    radial-gradient(circle at top right, rgba(56, 189, 248, 0.14), transparent 32%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018));
+}
+
+.profileStage__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.profileStage__eyebrow {
   color: var(--brand-primary);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
+.profileStage__meta {
+  margin-top: 8px;
+  color: var(--text-primary);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.profileStage__sub {
+  margin-top: 6px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.45;
+  word-break: break-all;
+}
+
+.visibilitySwitch {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  padding: 0 12px;
+  border: 1px solid rgba(125, 211, 252, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.profileStage__assetLabel {
+  color: var(--text-muted);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.profileStage__assetValue {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.profileStage__currency,
+.profileStage__amount {
+  color: var(--text-primary);
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+}
+
+.profileStage__amount {
+  min-width: 0;
+  flex: 1;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.memberBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  width: fit-content;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(125, 211, 252, 0.12);
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.memberBadge__avatar {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  object-fit: cover;
+}
+
+.profileStage__stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.assetPanel {
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.assetPanelWide {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.12), rgba(37, 99, 235, 0.08));
+  border-color: rgba(125, 211, 252, 0.16);
+}
+
+.assetPanel__label {
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.assetPanel__value {
+  margin-top: 10px;
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+.assetPanel__valueProfit {
+  color: var(--color-up);
+}
+
 .actionCard,
-.menuSection {
-  background: rgba(255, 255, 255, 0.025);
+.menuSection,
+.logoutSection {
   box-shadow: none;
 }
 
-.actionCard {
-  padding: 18px 16px !important;
+.quickActions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
 }
 
 .actionButton {
@@ -365,10 +440,11 @@ onMounted(() => {
   border: 1px solid rgba(255, 255, 255, 0.05);
   text-align: left;
   appearance: none;
-  transition:
-    transform var(--motion-fast) ease,
-    border-color var(--motion-fast) ease,
-    background-color var(--motion-fast) ease;
+}
+
+.actionButtonPrimary {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.12), rgba(37, 99, 235, 0.08));
+  border-color: rgba(125, 211, 252, 0.16);
 }
 
 .actionLabel {
@@ -393,10 +469,6 @@ onMounted(() => {
   width: 100%;
   text-align: left;
   appearance: none;
-  transition:
-    transform var(--motion-fast) ease,
-    border-color var(--motion-fast) ease,
-    background-color var(--motion-fast) ease;
 }
 
 .menuContent {
@@ -422,121 +494,7 @@ onMounted(() => {
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.dialogActions {
-  margin-top: 16px;
-}
-
-.fundTile {
-  padding: 14px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-
-  &.primary {
-    background: rgba(212, 154, 58, 0.12);
-    border-color: var(--brand-primary-border);
-  }
-
-  &.profit .fundValue {
-    color: var(--color-up);
-  }
-}
-
-.fundLabel {
-  color: var(--text-secondary);
-  font-size: 12px;
-}
-
-.fundValue {
-  margin-top: 8px;
-  color: var(--text-primary);
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-.visibilityToggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 16px;
-  color: var(--text-secondary);
-  font-size: 12px;
-}
-
-.actionButton {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px;
-  border-radius: 18px;
-  min-height: 70px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.actionDeposit {
-  background: rgba(212, 154, 58, 0.12);
-}
-
-.actionWithdraw {
-  background: rgba(255, 255, 255, 0.025);
-}
-
-.actionCard,
-.menuSection {
-  background: rgba(255, 255, 255, 0.018);
-  box-shadow: none;
-}
-
-.actionCopy {
-  min-width: 0;
-}
-
-.actionLabel {
-  color: var(--text-primary);
-  font-weight: 700;
-}
-
-.actionHint {
-  display: none;
-}
-
-.menuGrid {
-  display: grid;
-  gap: 12px;
-}
-
-.menuItem {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 13px 14px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.018);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.menuContent {
-  flex: 1;
-  min-width: 0;
-}
-
-.menuName {
-  color: var(--text-primary);
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.menuArrow {
-  color: var(--text-muted);
-}
-
 .dialogCard {
-  background:
-    radial-gradient(circle at top right, rgba(212, 154, 58, 0.12), transparent 30%),
-    linear-gradient(180deg, rgba(24, 33, 43, 0.98), rgba(13, 17, 23, 0.98));
-  border: 1px solid var(--border-soft);
-  box-shadow: var(--shadow-float);
   color: var(--text-primary);
 }
 
@@ -554,29 +512,15 @@ onMounted(() => {
   line-height: 1.35;
 }
 
-.dialogBody {
-  margin-top: 18px;
-  padding: 14px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.025);
-  border: 1px solid var(--border-soft);
-  color: var(--text-secondary);
-  text-align: center;
-}
+@media (max-width: 360px) {
+  .profileStage__head,
+  .quickActions,
+  .profileStage__stats {
+    grid-template-columns: 1fr;
+  }
 
-.topAction:active,
-.visibilityToggle:active,
-.actionButton:active,
-.menuItem:active {
-  transform: translateY(1px) scale(0.995);
-}
-
-@media (hover: hover) {
-  .topAction:hover,
-  .visibilityToggle:hover,
-  .actionButton:hover,
-  .menuItem:hover {
-    border-color: rgba(255, 255, 255, 0.12);
+  .profileStage__head {
+    display: grid;
   }
 }
 </style>

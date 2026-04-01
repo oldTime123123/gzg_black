@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { getStockIndexList } from "~/api/home/home";
-import { LineOption } from "~/utils/indexLineStyle";
+import { getStockIndexList } from '~/api/home/home';
+import { LineOption } from '~/utils/indexLineStyle';
+
 const { t } = useI18n();
 
 type MarketIndexItem = {
@@ -31,11 +32,10 @@ const tabs = ref([
 ]);
 
 const lineDataList = ref<MarketIndexItem[]>([]);
-const leadIndex = computed(() => lineDataList.value[0]);
-const supportIndexes = computed(() => lineDataList.value.slice(1));
+
 const getData = () => {
   getStockIndexList().then((res: { index: MarketIndexItem[] }) => {
-    lineDataList.value = Array.isArray(res.index) && res.index.length > 1 ? res.index.slice(0, 2) : res.index;
+    lineDataList.value = Array.isArray(res.index) ? res.index.slice(0, 2) : [];
   });
 };
 
@@ -62,11 +62,10 @@ const changeLineTypeData = (data: Array<number | null>) => {
 
 const pub = usePublicStore();
 const changeDataType = (type: number) => {
-  if (actRecordType.value == type) return;
+  if (actRecordType.value === type) return;
   actRecordType.value = type;
   pub.showLoading = true;
 };
-
 </script>
 
 <template>
@@ -75,79 +74,79 @@ const changeDataType = (type: number) => {
       <TabbarTopNavBar />
 
       <div class="pageContainer px-3 mt-3 pb-6">
-        <div class="marketStage mt-4" v-if="lineDataList.length " v-for=" chartItem in lineDataList">
-          <div class="stageHeader">
-            <div class="stageIntro">
-              <!-- <div class="heroEyebrow">{{ $t('theme.marketBoardSubtext') }}</div> -->
-              <div class="stageTitle">{{ chartItem.exchange_name }}</div>
-            </div>
-            <div class="stageMeta" :class="chartItem.is_rise == 2 ? 'colorUp' : 'colorDown'">
-              <div class="stageMetaRow">
-                <Icon :name="chartItem.is_rise == 2 ? 'solar:alt-arrow-up-bold' : 'solar:alt-arrow-down-bold'"
-                  class="trendIcon" />
-                {{ getNumberType(true, chartItem.is_rise) + UseExchangeNumber(chartItem.chart?.rise) }}
+        <div class="marketShell">
+          <div class="marketHero sectionCard">
+            <div class="marketHero__head">
+              <div>
+                <div class="marketHero__eyebrow">{{ $t('theme.marketBoardSubtext') }}</div>
+                <div class="marketHero__title">{{ $t('index.i21') }}</div>
               </div>
-              <div class="stageMetaBadge">
-                {{ getNumberType(true, chartItem.is_rise) }} {{ chartItem.rise_rate }}%
+              <div class="marketHero__caption">{{ $t('theme.chronologicalNewsFlow') }}</div>
+            </div>
+
+            <div class="marketHero__grid" v-if="lineDataList.length">
+              <div class="marketStage" v-for="chartItem in lineDataList" :key="chartItem.exchange_name">
+                <div class="stageHeader">
+                  <div class="stageIntro">
+                    <div class="stageTitle">{{ chartItem.exchange_name }}</div>
+                  </div>
+                  <div class="stageMeta" :class="chartItem.is_rise == 2 ? 'colorUp' : 'colorDown'">
+                    <div class="stageMetaRow">
+                      <Icon :name="chartItem.is_rise == 2 ? 'solar:alt-arrow-up-bold' : 'solar:alt-arrow-down-bold'" class="trendIcon" />
+                      {{ getNumberType(true, chartItem.is_rise) + UseExchangeNumber(chartItem.chart?.rise) }}
+                    </div>
+                    <div class="stageMetaBadge">
+                      {{ getNumberType(true, chartItem.is_rise) }} {{ chartItem.rise_rate }}%
+                    </div>
+                  </div>
+                </div>
+
+                <div class="stagePrice">{{ chartItem.price }}</div>
+
+                <div class="stageChart">
+                  <ClientOnly>
+                    <apexchart
+                      width="100%"
+                      height="116"
+                      type="area"
+                      :options="LineOption(chartItem.is_rise)"
+                      :series="[
+                        {
+                          data: changeLineTypeData(chartItem.chart.indicators.quote[0].close),
+                        },
+                      ]"
+                    />
+                  </ClientOnly>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="stagePrice">{{ chartItem.price }}</div>
-
-          <div class="stageChart">
-            <ClientOnly>
-              <apexchart width="100%" height="116" type="area" :options="LineOption(chartItem.is_rise)" :series="[
-                {
-                  data: changeLineTypeData(chartItem.chart.indicators.quote[0].close),
-                },
-              ]" />
-            </ClientOnly>
-          </div>
-<!--
-          <div class="briefStrip" v-if="supportIndexes.length">
-            <div class="" v-for="(item, index) in supportIndexes" :key="index">
-            <div class="briefCard" >
-              <div class="briefName">{{ item.exchange_name }}</div>
-              <div class="briefValue">{{ item.price }}</div>
-              <div class="briefDelta" :class="item.is_rise == 2 ? 'colorUp' : 'colorDown'">
-                <Icon :name="item.is_rise == 2 ? 'solar:alt-arrow-up-bold' : 'solar:alt-arrow-down-bold'"
-                  class="briefIcon" />
-                <span>{{ getNumberType(true, item.is_rise) }}{{ item.rise_rate }}%</span>
+          <div class="marketSection sectionCard">
+            <div class="sectionTop">
+              <div>
+                <div class="sectionTitle">{{ actRecordType < 1 ? $t('market.m1') : $t('market.m2') }}</div>
               </div>
-
+              <div class="sectionCaption">{{ $t('theme.chronologicalNewsFlow') }}</div>
             </div>
-              <div class="w-full stageChart">
-                <ClientOnly>
-                  <apexchart width="100%" height="116" type="area" :options="LineOption(item.is_rise)" :series="[
-                    {
-                      data: changeLineTypeData(item.chart.indicators.quote[0].close),
-                    },
-                  ]" />
-                </ClientOnly>
-              </div>
+
+            <div class="tabRail mt-4">
+              <button
+                type="button"
+                v-for="(tab, index) in tabs"
+                :class="actRecordType == tab.type ? 'tabChip active' : 'tabChip'"
+                :key="index"
+                :aria-pressed="actRecordType == tab.type"
+                @click="changeDataType(tab.type)"
+              >
+                {{ tab.text }}
+              </button>
             </div>
-          </div> -->
-        </div>
 
-        <div class="marketSection mt-4">
-          <div class="sectionTop">
-            <div>
-              <div class="sectionTitle">{{ actRecordType < 1 ? $t('market.m1') : $t('market.m2') }}</div>
+            <div class="marketLedger renderBudget mt-4">
+              <MarketRecordList v-if="actRecordType < 1" />
+              <CollectStockList v-else @changeDataType="changeDataType" />
             </div>
-            <div class="sectionCaption">{{ $t('theme.chronologicalNewsFlow') }}</div>
-          </div>
-
-          <div class="tabRail mt-4">
-            <button type="button" v-for="(tab, index) in tabs" :class="actRecordType == tab.type ? 'tabChip active' : 'tabChip'"
-              :key="index" :aria-pressed="actRecordType == tab.type" @click="changeDataType(tab.type)">
-              {{ tab.text }}
-            </button>
-          </div>
-
-          <div class="marketLedger renderBudget mt-4">
-            <MarketRecordList v-if="actRecordType < 1" />
-            <CollectStockList v-else @changeDataType="changeDataType" />
           </div>
         </div>
       </div>
@@ -162,21 +161,68 @@ const changeDataType = (type: number) => {
   min-height: calc(100vh - 130px);
 }
 
-.heroEyebrow {
+.marketShell {
+  display: grid;
+  gap: 14px;
+}
+
+.marketHero,
+.marketSection {
+  background: rgba(8, 18, 31, 0.9);
+  border: 1px solid rgba(125, 211, 252, 0.1);
+}
+
+.marketHero {
+  display: grid;
+  gap: 16px;
+}
+
+.marketHero__head,
+.sectionTop {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.marketHero__eyebrow {
   color: var(--brand-primary);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+}
+
+.marketHero__title,
+.sectionTitle {
+  margin-top: 8px;
+  color: var(--text-primary);
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.marketHero__caption,
+.sectionCaption {
+  max-width: 122px;
+  color: var(--text-secondary);
+  font-size: 11px;
+  line-height: 1.45;
+  text-align: right;
+}
+
+.marketHero__grid {
+  display: grid;
+  gap: 12px;
 }
 
 .marketStage {
   padding: 18px 16px 16px;
-  border-radius: 28px;
+  border-radius: 24px;
   background:
-    radial-gradient(circle at top right, rgba(212, 154, 58, 0.12), transparent 28%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
-  border: 1px solid rgba(255, 255, 255, 0.06);
+    radial-gradient(circle at top right, rgba(56, 189, 248, 0.14), transparent 30%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(125, 211, 252, 0.12);
 }
 
 .stageHeader {
@@ -191,7 +237,6 @@ const changeDataType = (type: number) => {
 }
 
 .stageTitle {
-  margin-top: 8px;
   color: var(--text-primary);
   font-size: 18px;
   line-height: 1.35;
@@ -239,47 +284,6 @@ const changeDataType = (type: number) => {
   margin-top: 12px;
 }
 
-.briefStrip {
-  display: grid;
-  gap: 10px;
-  margin-top: 14px;
-  padding-top: 14px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.briefCard {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
-  align-items: center;
-  gap: 10px;
-}
-
-.briefName {
-  min-width: 0;
-  color: var(--text-secondary);
-  font-size: 12px;
-  line-height: 1.4;
-}
-
-.briefValue {
-  color: var(--text-primary);
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.28;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-}
-
-.briefDelta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 4px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.briefIcon,
 .trendIcon {
   width: 14px;
   height: 14px;
@@ -287,30 +291,7 @@ const changeDataType = (type: number) => {
 }
 
 .marketSection {
-  padding: 0 2px 8px;
-}
-
-.sectionTop {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.sectionTitle {
-  margin-top: 8px;
-  color: var(--text-primary);
-  font-size: 20px;
-  line-height: 1.2;
-  font-weight: 700;
-}
-
-.sectionCaption {
-  max-width: 122px;
-  color: var(--text-secondary);
-  font-size: 11px;
-  line-height: 1.45;
-  text-align: right;
+  padding: 18px 16px;
 }
 
 .tabRail {

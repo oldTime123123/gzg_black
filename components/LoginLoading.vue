@@ -14,7 +14,10 @@ const showLoadingText = computed(() => {
   <ClientOnly>
     <div class="loginLoadingPage" v-if="showLoading">
       <div class="loadingShell">
-        <div class="loadingBadge">{{ $t('theme.secureAccess') }}</div>
+        <div class="loadingHead">
+          <div class="loadingSignal"></div>
+          <div class="loadingMeta">{{ $t('theme.secureAccess') }}</div>
+        </div>
         <div class="loadingSpinner"></div>
         <div class="loadingTitle">{{ showLoadingText }}</div>
         <div class="loadingSub">{{ $t('comm.c66') }}</div>
@@ -32,9 +35,9 @@ const showLoadingText = computed(() => {
   inset: 0;
   z-index: 9999;
   background:
-    radial-gradient(circle at top left, rgba(212, 154, 58, 0.18), transparent 28%),
-    radial-gradient(circle at top right, rgba(103, 183, 255, 0.14), transparent 24%),
-    linear-gradient(180deg, #18212b 0%, #101721 28%, #0d1117 100%);
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 28%),
+    radial-gradient(circle at top right, rgba(37, 99, 235, 0.14), transparent 24%),
+    linear-gradient(180deg, #101b2f 0%, #0a1321 28%, #08101b 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -44,24 +47,38 @@ const showLoadingText = computed(() => {
   width: min(320px, calc(100vw - 32px));
   padding: 28px 22px;
   border-radius: 28px;
-  background: rgba(19, 26, 34, 0.86);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(8, 18, 31, 0.88);
+  border: 1px solid rgba(125, 211, 252, 0.12);
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
   text-align: center;
   backdrop-filter: blur(18px);
 }
 
-.loadingBadge {
+.loadingHead {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: 8px;
   min-height: 30px;
   padding: 0 12px;
   border-radius: 999px;
-  background: var(--brand-primary-soft);
-  color: var(--brand-primary);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(125, 211, 252, 0.12);
+}
+
+.loadingSignal {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--brand-primary);
+  box-shadow: 0 0 0 6px rgba(56, 189, 248, 0.12);
+}
+
+.loadingMeta {
+  color: var(--text-secondary);
   font-size: 12px;
   font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .loadingSpinner {

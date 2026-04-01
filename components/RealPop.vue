@@ -28,18 +28,18 @@
 </template>
 
 <script setup lang="ts">
-const pub = usePublicStore()
+const pub = usePublicStore();
 const { t } = useI18n();
-const router = useRouter()
+const router = useRouter();
 const showModalPop = computed({
-    get: () => pub.show209PopFlag,
+  get: () => pub.show209PopFlag,
 });
 const closePop = (type: number) => {
-    pub.show209Modal(false)
-    if (type > 1) {
-        router.push('/setting/identify')
-    }
-}
+  pub.show209Modal(false);
+  if (type > 1) {
+    router.push('/setting/identify');
+  }
+};
 </script>
 
 <style scoped>
@@ -62,10 +62,10 @@ const closePop = (type: number) => {
   border-radius: 28px;
   overflow: hidden;
   background:
-    radial-gradient(circle at top left, rgba(212, 154, 58, 0.16), transparent 28%),
-    radial-gradient(circle at top right, rgba(103, 183, 255, 0.14), transparent 24%),
-    linear-gradient(180deg, #18212b 0%, #101721 100%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 28%),
+    radial-gradient(circle at top right, rgba(37, 99, 235, 0.14), transparent 24%),
+    linear-gradient(180deg, #101b2f 0%, #0a1321 100%);
+  border: 1px solid rgba(125, 211, 252, 0.12);
   box-shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
 }
 
