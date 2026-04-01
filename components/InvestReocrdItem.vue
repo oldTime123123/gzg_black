@@ -327,19 +327,15 @@ const confirmClosePositionHandle = () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  padding: 16px;
 }
 
 .dialogCard {
   width: min(360px, 100%);
   padding: 18px;
   border-radius: 24px;
-  background:
-    radial-gradient(circle at top right, rgba(56, 189, 248, 0.12), transparent 28%),
-    linear-gradient(180deg, rgba(24, 33, 43, 0.98), rgba(13, 17, 23, 0.98));
-  border: 1px solid var(--border-soft);
-  box-shadow: var(--shadow-float);
+  background: transparent;
+  border: 1px solid var(--overlay-panel-border);
+  box-shadow: var(--overlay-panel-shadow);
 }
 
 .dialogTitle {

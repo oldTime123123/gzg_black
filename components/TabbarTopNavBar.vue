@@ -36,6 +36,7 @@ const changePage = (url: string) => {
 
 <style lang="less" scoped>
 .tabbarPageTopNav {
+    position: relative;
     width: 100%;
     max-width: var(--pageWidth);
     margin: 0 auto;
@@ -53,9 +54,9 @@ const changePage = (url: string) => {
     padding-right: 12px;
     background:
       radial-gradient(circle at left center, rgba(103, 214, 255, 0.18), transparent 32%),
-      linear-gradient(180deg, rgba(33, 58, 86, 0.84), rgba(24, 43, 65, 0.78));
-    border: 1px solid rgba(125, 211, 252, 0.14);
-    box-shadow: 0 12px 26px rgba(5, 12, 22, 0.12);
+      linear-gradient(180deg, rgba(39, 68, 99, 0.88), rgba(28, 51, 76, 0.84));
+    border: 1px solid rgba(125, 211, 252, 0.16);
+    box-shadow: 0 12px 26px rgba(5, 12, 22, 0.1);
     backdrop-filter: blur(18px);
     box-sizing: border-box;
 

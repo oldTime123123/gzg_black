@@ -21,10 +21,19 @@
   --surface-card: #214160;
   --surface-card-soft: #27496b;
   --surface-elevated: #31597e;
-  --surface-overlay: rgba(18, 36, 57, 0.78);
-  --surface-overlay-strong: rgba(20, 40, 62, 0.92);
+  --surface-overlay: rgba(22, 43, 66, 0.78);
+  --surface-overlay-strong: rgba(27, 49, 73, 0.94);
   --surface-frost: rgba(255, 255, 255, 0.062);
   --surface-frost-strong: rgba(255, 255, 255, 0.1);
+  --overlay-scrim: rgba(10, 20, 32, 0.56);
+  --overlay-scrim-strong: rgba(8, 16, 28, 0.74);
+  --overlay-panel-top: rgba(52, 86, 122, 0.98);
+  --overlay-panel-bottom: rgba(26, 48, 73, 0.985);
+  --overlay-panel-highlight: rgba(103, 214, 255, 0.18);
+  --overlay-panel-border: rgba(125, 211, 252, 0.16);
+  --overlay-panel-shadow: 0 26px 80px rgba(4, 12, 24, 0.34);
+  --surface-interactive-soft: rgba(255, 255, 255, 0.045);
+  --surface-interactive-strong: rgba(255, 255, 255, 0.072);
   --surface-module: linear-gradient(180deg, rgba(29, 52, 78, 0.94) 0%, rgba(22, 42, 65, 0.92) 100%);
   --surface-card-hero: linear-gradient(180deg, rgba(35, 61, 92, 0.96) 0%, rgba(25, 47, 73, 0.94) 100%);
   --surface-chart: linear-gradient(180deg, rgba(28, 51, 76, 0.82) 0%, rgba(20, 38, 59, 0.9) 100%);
@@ -131,14 +140,29 @@
   background: url('~/assets/images/icon/langIcon.png') no-repeat 100%/100%;
 }
 .topStickyEl{
-  background: linear-gradient(180deg, rgba(22, 39, 59, 0.82), rgba(15, 28, 43, 0.74));
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(180deg, rgba(31, 55, 82, 0.94), rgba(24, 45, 69, 0.9));
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(125, 211, 252, 0.1);
-  box-shadow: 0 12px 28px rgba(6, 12, 22, 0.16);
+  border-bottom: 1px solid rgba(125, 211, 252, 0.12);
+  box-shadow: 0 12px 28px rgba(6, 12, 22, 0.14);
   transition:
     background-color var(--motion-base) var(--ease-out-quart),
     border-color var(--motion-base) var(--ease-out-quart),
     backdrop-filter var(--motion-base) var(--ease-out-quart);
+}
+
+.topStickyEl::before {
+  content: "";
+  position: absolute;
+  inset: 0 calc((100vw - min(100vw, var(--pageWidth))) / -2);
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(29, 52, 78, 0.96), rgba(23, 42, 63, 0.92)),
+    radial-gradient(circle at 20% 0%, rgba(103, 214, 255, 0.12), transparent 34%);
+  border-bottom: 1px solid rgba(125, 211, 252, 0.08);
+  box-shadow: 0 16px 30px rgba(6, 12, 22, 0.08);
+  pointer-events: none;
 }
 html{
   scroll-behavior: smooth;
@@ -176,8 +200,10 @@ body {
   --van-tabbar-item-text-color: var(--text-muted);
   --van-tabbar-item-active-color: var(--brand-primary);
   --van-border-color: var(--border-soft);
-  --van-overlay-background: rgba(14, 28, 44, 0.72);
-  --van-popup-background: var(--surface-card);
+  --van-overlay-background:
+    radial-gradient(circle at 50% 14%, rgba(103, 214, 255, 0.14), transparent 32%),
+    linear-gradient(180deg, var(--overlay-scrim), var(--overlay-scrim-strong));
+  --van-popup-background: transparent;
   --van-picker-background: transparent;
   --van-picker-mask-color: linear-gradient(180deg, rgba(30, 53, 79, 0.92), rgba(30, 53, 79, 0.58)),
     linear-gradient(0deg, rgba(30, 53, 79, 0.92), rgba(30, 53, 79, 0.58));
@@ -253,12 +279,12 @@ select,
 
 .van-popup--bottom {
   overflow: hidden;
-  border-radius: 24px 24px 0 0 !important;
+  border-radius: 28px 28px 0 0 !important;
   background:
-    radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 26%),
-    linear-gradient(180deg, #1b3553 0%, #132740 100%) !important;
-  border-top: 1px solid var(--border-soft);
-  box-shadow: 0 -18px 48px rgba(4, 12, 24, 0.26);
+    radial-gradient(circle at top left, rgba(103, 214, 255, 0.16), transparent 28%),
+    linear-gradient(180deg, var(--overlay-panel-top) 0%, var(--overlay-panel-bottom) 100%) !important;
+  border-top: 1px solid var(--overlay-panel-border);
+  box-shadow: 0 -22px 56px rgba(4, 12, 24, 0.3);
 }
 
 .van-popup--bottom .van-picker {
@@ -923,12 +949,45 @@ select,
 }
 
 .overlayWrap {
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: calc(env(safe-area-inset-top, 0px) + 16px) 16px calc(env(safe-area-inset-bottom, 0px) + 16px);
   animation: motion-soft-fade 180ms var(--ease-out-quart) both;
 }
 
 .dialogCard {
+  position: relative;
+  overflow: hidden;
   transform-origin: 50% 100%;
   animation: motion-dialog-in 320ms var(--ease-out-expo) both;
+}
+
+.dialogCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top right, var(--overlay-panel-highlight), transparent 30%),
+    linear-gradient(180deg, var(--overlay-panel-top), var(--overlay-panel-bottom));
+  pointer-events: none;
+}
+
+.dialogCard > * {
+  position: relative;
+  z-index: 1;
+}
+
+.van-overlay {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.van-popup,
+.van-dialog {
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid var(--overlay-panel-border);
+  box-shadow: var(--overlay-panel-shadow);
 }
 
 .nullData {

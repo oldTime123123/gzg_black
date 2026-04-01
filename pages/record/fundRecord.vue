@@ -224,16 +224,16 @@ const showCancelConfirm = () => {
 }
 .detailRow strong { color: var(--text-primary); text-align: right; }
 .overlayWrap {
-  display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 16px;
+  display: flex; align-items: center; justify-content: center;
 }
 .dialogCard {
-  width: min(350px, 100%); border-radius: 24px; background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.12), transparent 30%), linear-gradient(180deg, rgba(24, 33, 43, 0.98), rgba(13, 17, 23, 0.98));
-  border: 1px solid var(--border-soft); box-shadow: var(--shadow-float);
+  width: min(350px, 100%); border-radius: 24px; background: transparent;
+  border: 1px solid var(--overlay-panel-border); box-shadow: var(--overlay-panel-shadow);
 }
 .dialogHead { position: relative; padding: 18px 18px 10px; }
 .dialogTitle { color: var(--text-primary); font-size: 18px; font-weight: 800; }
-.closeBtn { position: absolute; right: 14px; top: 14px; width: 40px; height: 40px; border-radius: 14px; display: inline-flex; align-items: center; justify-content: center; color: var(--text-secondary); appearance: none; background: rgba(255,255,255,.025); border: 1px solid rgba(255,255,255,.08); transition: transform .18s ease, border-color .18s ease, color .18s ease; }
-.closeBtn:hover { border-color: rgba(56,189,248,.18); color: var(--brand-primary); }
+.closeBtn { position: absolute; right: 14px; top: 14px; width: 40px; height: 40px; border-radius: 14px; display: inline-flex; align-items: center; justify-content: center; color: var(--text-secondary); appearance: none; background: var(--surface-interactive-soft); border: 1px solid var(--border-soft); transition: transform .18s ease, border-color .18s ease, color .18s ease; }
+.closeBtn:hover { border-color: var(--brand-primary-border); color: var(--brand-primary); }
 .closeBtn:active { transform: scale(.96); }
 .dialogBody { padding: 0 18px 18px; }
 .dialogMessage {

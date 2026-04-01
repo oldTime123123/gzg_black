@@ -731,8 +731,8 @@ const collectHandle = () => {
   min-height: 64px;
   padding: 10px;
   border-radius: 16px;
-  background: rgba(13, 20, 27, 0.72);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: linear-gradient(180deg, rgba(31, 55, 82, 0.78), rgba(24, 43, 66, 0.72));
+  border: 1px solid var(--border-soft);
 }
 
 .stepperBtn {
@@ -828,11 +828,26 @@ const collectHandle = () => {
 }
 
 .popupWrap {
-  padding: 20px;
-  background:
-    radial-gradient(circle at top right, rgba(56, 189, 248, 0.12), transparent 30%),
-    linear-gradient(180deg, rgba(24, 33, 43, 0.98), rgba(13, 17, 23, 0.98));
+  position: relative;
+  overflow: hidden;
+  padding: 20px 20px calc(env(safe-area-inset-bottom, 0px) + 20px);
+  background: transparent;
   color: var(--text-primary);
+}
+
+.popupWrap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top right, var(--overlay-panel-highlight), transparent 30%),
+    linear-gradient(180deg, var(--overlay-panel-top), var(--overlay-panel-bottom));
+  pointer-events: none;
+}
+
+.popupWrap > * {
+  position: relative;
+  z-index: 1;
 }
 
 .popupTitle {

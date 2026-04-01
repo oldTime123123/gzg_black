@@ -68,11 +68,23 @@ const changePage = (url: string) => {
 }
 
 .navSolid {
-    background: rgba(22, 42, 64, 0.9);
+    position: relative;
+    isolation: isolate;
+    background: linear-gradient(180deg, rgba(32, 57, 84, 0.94), rgba(24, 45, 69, 0.9));
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     border-bottom: 1px solid var(--border-soft);
-    box-shadow: 0 10px 24px rgba(4, 12, 24, 0.14);
+    box-shadow: 0 10px 24px rgba(4, 12, 24, 0.1);
+}
+
+.navSolid::before {
+    content: "";
+    position: absolute;
+    inset: 0 calc((100vw - min(100vw, var(--pageWidth))) / -2);
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(30, 53, 79, 0.96), rgba(22, 41, 62, 0.92));
+    border-bottom: 1px solid rgba(125, 211, 252, 0.08);
+    pointer-events: none;
 }
 
 .navAction {
