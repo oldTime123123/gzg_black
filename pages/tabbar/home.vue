@@ -45,9 +45,6 @@ const commList = computed(() => {
   ];
 });
 
-const primaryQuickActions = computed(() => commList.value.slice(0, 2));
-const secondaryQuickActions = computed(() => commList.value.slice(2));
-
 const isSticky = ref(false);
 const topFixedChange = (val: boolean) => {
   isSticky.value = val;
@@ -62,11 +59,11 @@ const changePage = (url: string) => {
   }
 };
 
-const newsList = ref([]);
-const lineDataList = ref([]);
+const newsList = ref<HomeNewsItem[]>([]);
+const lineDataList = ref<any[]>([]);
 const pub = usePublicStore();
 const noticeTxt = ref('');
-const selectStockInfo = ref({
+const selectStockInfo = ref<any>({
   price: 0,
   chart: {
     rise_rate: 0,
@@ -89,6 +86,47 @@ const showSeketLoading = ref(true);
 const selfData = ref({
   high: 0,
   low: 0,
+});
+
+const heroStats = computed(() => {
+  return [
+    {
+      label: t('index.i17'),
+      value: UseExchangeNumber(homeKlineEmitData.value.open),
+    },
+    {
+      label: t('index.i18'),
+      value: UseExchangeNumber(homeKlineEmitData.value.close),
+    },
+    {
+      label: t('index.i19'),
+      value: UseExchangeNumber(selfData.value.high),
+    },
+    {
+      label: t('index.i20'),
+      value: UseExchangeNumber(selfData.value.low),
+    },
+  ];
+});
+
+const pulseMetrics = computed(() => {
+  return [
+    {
+      label: t('theme.marketBoardSubtext'),
+      value: selectStockInfo.value.exchange_name || 'Market Board',
+      tone: 'neutral',
+    },
+    {
+      label: t('theme.accountActions'),
+      value: `${commList.value.length}`,
+      tone: 'primary',
+    },
+    {
+      label: t('x.a8'),
+      value: `${newsList.value.length}`,
+      tone: 'neutral',
+    },
+  ];
 });
 
 const getData = () => {
@@ -131,11 +169,11 @@ const getData = () => {
     });
 };
 
-const updateHomeKlineTopData = (data) => {
+const updateHomeKlineTopData = (data: any) => {
   homeKlineEmitData.value = data;
 };
 
-const goNewsDetail = (item) => {
+const goNewsDetail = (item: HomeNewsItem) => {
   if (item.type !== 2) {
     pub.selectNews = item;
     router.push('/mine/newsDetail');
@@ -165,14 +203,15 @@ onMounted(() => {
 <template>
   <section>
     <ClientOnly>
-      <div class="hasNormalBg pageShell">
+      <div class="pageShell homeShell">
         <van-sticky offset-top="0" @change="topFixedChange">
-          <div class="homeTopBar px-3 py-3 tabbarPageTopNav" :class="isSticky ? 'topStickyEl' : ''">
+          <div class="homeTopBar px-3 py-3" :class="isSticky ? 'topStickyEl' : ''">
             <div class="noticeBar">
               <div class="noticeIcon">
                 <Icon name="solar:bell-bing-linear" size="18" />
               </div>
               <div class="noticeContent">
+                <div class="noticeMeta">{{ $t('theme.marketBoardSubtext') }}</div>
                 <van-notice-bar scrollable :text="noticeTxt" background="transparent" color="var(--text-primary)" />
               </div>
             </div>
@@ -188,148 +227,153 @@ onMounted(() => {
           </div>
         </van-sticky>
 
-        <div class="pageContainer pageStack px-3 mt-3 pb-6">
-          <div class="homeGrid">
-            <div class="marketBoard sectionCard">
-              <div class="sectionHeading">
+        <div class="pageContainer pageStack px-3 pb-6">
+          <div class="overviewStack">
+            <div class="heroConsole sectionCard">
+              <div class="heroConsole__backdrop"></div>
+              <div class="heroConsole__header">
                 <div>
-                  <div class="heroEyebrow">{{ $t('theme.marketBoardSubtext') }}</div>
-                  <div class="boardTitle">{{ selectStockInfo.exchange_name || 'Market Board' }}</div>
+                  <div class="heroEyebrow">{{ $t('theme.brandBadge') }}</div>
+                  <div class="heroTitle">{{ selectStockInfo.exchange_name || $t('theme.appName') }}</div>
+                  <div class="heroDesc">{{ $t('theme.marketBoardSubtext') }}</div>
+                </div>
+                <button type="button" class="heroShortcut" @click="changePage('/tabbar/market')">
+                  <Icon name="solar:chart-square-linear" size="18" />
+                  <span>{{ $t('index.i23') }}</span>
+                </button>
+              </div>
+
+              <div class="heroConsole__body">
+                <div class="heroSpotlight">
+                  <div class="spotlightTone" :class="selectStockInfo.is_rise > 1 ? 'colorUp' : 'colorDown'">
+                    <Icon :name="selectStockInfo.is_rise > 1 ? 'solar:alt-arrow-up-bold' : 'solar:alt-arrow-down-bold'" size="16" />
+                    <span>{{ getNumberType(true, selectStockInfo.is_rise) + selectStockInfo.rise_rate }}%</span>
+                  </div>
+                  <div class="spotlightPrice">{{ UseExchangeNumber(selectStockInfo.price) }}</div>
+                  <div class="spotlightDelta" :class="selectStockInfo.is_rise > 1 ? 'colorUp' : 'colorDown'">
+                    {{ getNumberType(true, selectStockInfo.is_rise) + UseExchangeNumber(selectStockInfo.chart.rise) }}
+                  </div>
+                </div>
+
+                <div class="heroPulseRail">
+                  <div v-for="item in pulseMetrics" :key="item.label" class="pulseCard" :class="item.tone === 'primary' ? 'pulseCardPrimary' : ''">
+                    <span>{{ item.label }}</span>
+                    <strong>{{ item.value }}</strong>
+                  </div>
                 </div>
               </div>
 
-              <div class="marketBoardBody">
-                <div class="marketMeta">
-                  <div class="marketPriceBlock" :class="selectStockInfo.is_rise > 1 ? 'colorUp' : 'colorDown'">
-                    <div class="marketPrice">{{ UseExchangeNumber(selectStockInfo.price) }}</div>
-                    <div class="marketChange">
-                      <span>{{ getNumberType(true, selectStockInfo.is_rise) + UseExchangeNumber(selectStockInfo.chart.rise) }}</span>
-                      <span>{{ getNumberType(true, selectStockInfo.is_rise) + selectStockInfo.rise_rate }}%</span>
-                    </div>
-                  </div>
-
-                  <div class="statsGrid">
-                    <div class="statItem">
-                      <span>{{ $t('index.i17') }}</span>
-                      <strong>{{ UseExchangeNumber(homeKlineEmitData.open) }}</strong>
-                    </div>
-                    <div class="statItem">
-                      <span>{{ $t('index.i18') }}</span>
-                      <strong>{{ UseExchangeNumber(homeKlineEmitData.close) }}</strong>
-                    </div>
-                    <div class="statItem">
-                      <span>{{ $t('index.i19') }}</span>
-                      <strong>{{ UseExchangeNumber(selfData.high) }}</strong>
-                    </div>
-                    <div class="statItem">
-                      <span>{{ $t('index.i20') }}</span>
-                      <strong>{{ UseExchangeNumber(selfData.low) }}</strong>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="chartShell">
-                  <HomeKLine ref="HomeKlineRef" @updateHomeKlineTopData="updateHomeKlineTopData" />
-                </div>
-
-                <div class="boardActionRow">
-                  <div class="boardActionHead">
-                    <div class="boardActionNote">{{ $t('theme.accountActions') }}</div>
-                  </div>
-                  <div class="actionHeroRail">
-                    <button type="button" class="actionCard actionCardPrimary" v-for="(item, index) in primaryQuickActions" :key="index" @click="changePage(item.url)">
-                      <div class="iconFrame">
-                        <Icon :name="item.icon" size="20" />
-                      </div>
-                      <div class="actionCopy">
-                        <div class="actionName">{{ item.name }}</div>
-                        <div class="actionHint">{{ $t('theme.tradingAccess') }}</div>
-                      </div>
-                    </button>
-                  </div>
-                  <div class="actionRail">
-                    <button type="button" class="actionCard" v-for="(item, index) in secondaryQuickActions" :key="item.url" @click="changePage(item.url)">
-                      <div class="iconFrame">
-                        <Icon :name="item.icon" size="20" />
-                      </div>
-                      <div class="actionCopy">
-                        <div class="actionName">{{ item.name }}</div>
-                      </div>
-                    </button>
-                  </div>
+              <div class="heroStatsGrid">
+                <div v-for="item in heroStats" :key="item.label" class="heroStatItem">
+                  <span>{{ item.label }}</span>
+                  <strong>{{ item.value }}</strong>
                 </div>
               </div>
             </div>
 
-            <div class="sidebarStack">
-              <div class="sectionCard sectionBlock moversBlock">
-                <div class="sectionHeading">
-                  <div class="sectionTitle">{{ $t('index.i21') }}</div>
-                  <button type="button" class="sectionLink" @click="changePage('/tabbar/market?type=1')">
-                    {{ $t('index.i23') }}
-                    <Icon name="solar:alt-arrow-right-linear" size="16" />
-                  </button>
-                </div>
-
-                <div class="grid gap-3">
-                  <template v-if="showSeketLoading">
-                    <div class="h-[86px] rounded-[18px] border border-white/10 bg-[rgba(255,255,255,0.04)]" v-for="item in 4" :key="item"></div>
-                  </template>
-                  <template v-else>
-                    <div v-if="lineDataList.length" class="grid gap-3 renderBudgetDense">
-                      <button
-                        type="button"
-                        class="grid w-full grid-cols-[minmax(0,1fr)_auto] items-start gap-3 rounded-[18px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.022))] px-4 py-4 text-left transition-[transform,background-color,border-color] duration-200 ease-out hover:border-[rgba(212,154,58,0.22)] hover:bg-white/[0.045] active:scale-[0.99]"
-                        v-for="item in lineDataList"
-                        :key="item.id || item.pro_code"
-                        @click="goTrade(item)"
-                      >
-                        <div class="min-w-0">
-                          <div class="truncate text-[1rem] font-semibold leading-[1.45] text-[var(--text-primary)]">{{ item.pro_name }}</div>
-                          <div class="mt-1 text-[0.9375rem] leading-[1.45] text-[var(--text-secondary)]">{{ item.pro_code }}</div>
-                        </div>
-                        <div class="min-w-fit text-right" :class="item.is_rise > 1 ? 'colorUp' : 'colorDown'">
-                          <div class="text-[1rem] font-extrabold leading-[1.15]">{{ item.price }}</div>
-                          <div class="mt-2 inline-flex items-center gap-1 text-[0.9375rem] font-bold leading-[1.2]">
-                            <Icon :name="item.is_rise > 1 ? 'solar:alt-arrow-up-bold' : 'solar:alt-arrow-down-bold'" class="h-3.5 w-3.5" />
-                            <span>{{ getNumberType(true, item.is_rise) + item.rise_rate }}%</span>
-                          </div>
-                        </div>
-                      </button>
-                    </div>
-                  </template>
+            <div class="commandDeck sectionCard">
+              <div class="sectionHeading">
+                <div>
+                  <div class="sectionTitle">{{ $t('theme.accountActions') }}</div>
+                  <div class="sectionSubtext">{{ $t('theme.tradingAccess') }}</div>
                 </div>
               </div>
 
-              <div class="sectionCard sectionBlock newsBlock">
-                <div class="sectionHeading">
-                  <div class="sectionTitle">{{ t('x.a8') }}</div>
-                  <button type="button" class="sectionLink" @click="changePage('/tabbar/news')">
-                    {{ $t('index.i23') }}
-                    <Icon name="solar:alt-arrow-right-linear" size="16" />
-                  </button>
-                </div>
-
-                <div class="grid gap-3">
-                  <template v-if="showNewsSeketLoading">
-                    <div class="h-[84px] rounded-[18px] border border-white/10 bg-[rgba(255,255,255,0.04)]" v-for="(item, index) in 4" :key="index"></div>
-                  </template>
-                  <template v-else>
-                    <div v-if="newsList.length" class="grid gap-3 renderBudgetDense">
-                      <button
-                        type="button"
-                        class="grid w-full gap-2 rounded-[18px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.022))] px-4 py-4 text-left transition-[transform,background-color,border-color] duration-200 ease-out hover:border-[rgba(212,154,58,0.2)] hover:bg-white/[0.045] active:scale-[0.99]"
-                        v-for="(item, index) in newsList"
-                        :key="index"
-                        @click="goNewsDetail(item)"
-                      >
-                        <div class="text-[1rem] font-semibold leading-[1.58] text-[var(--text-primary)]">{{ item.name }}</div>
-                        <div class="text-[0.875rem] leading-[1.45] text-[var(--text-secondary)]">{{ item.show_time_format }}</div>
-                      </button>
-                    </div>
-                  </template>
-                </div>
+              <div class="commandDeck__grid">
+                <button
+                  type="button"
+                  class="commandCard"
+                  :class="index < 2 ? 'commandCardPrimary' : ''"
+                  v-for="(item, index) in commList"
+                  :key="item.url"
+                  @click="changePage(item.url)"
+                >
+                  <div class="iconFrame">
+                    <Icon :name="item.icon" size="20" />
+                  </div>
+                  <div class="commandCopy">
+                    <div class="commandName">{{ item.name }}</div>
+                    <div class="commandHint">{{ index < 2 ? $t('theme.marketBoardSubtext') : $t('theme.tradingAccess') }}</div>
+                  </div>
+                  <Icon name="solar:alt-arrow-right-linear" size="18" class="commandArrow" />
+                </button>
               </div>
+            </div>
+          </div>
+
+          <div class="sectionCard analyticsDeck">
+            <div class="sectionHeading">
+              <div>
+                <div class="sectionTitle">{{ $t('index.i21') }}</div>
+                <div class="sectionSubtext">{{ $t('theme.chronologicalNewsFlow') }}</div>
+              </div>
+              <button type="button" class="sectionLink" @click="changePage('/tabbar/market?type=1')">
+                {{ $t('index.i23') }}
+                <Icon name="solar:alt-arrow-right-linear" size="16" />
+              </button>
+            </div>
+
+            <div class="analyticsDeck__chart">
+              <HomeKLine ref="HomeKlineRef" @updateHomeKlineTopData="updateHomeKlineTopData" />
+            </div>
+
+            <div class="analyticsDeck__list renderBudgetDense">
+              <template v-if="showSeketLoading">
+                <div class="skeletonRow" v-for="item in 4" :key="item"></div>
+              </template>
+              <template v-else>
+                <button
+                  type="button"
+                  class="marketRow"
+                  v-for="item in lineDataList"
+                  :key="item.id || item.pro_code"
+                  @click="goTrade(item)"
+                >
+                  <div class="marketRow__identity">
+                    <div class="marketRow__name">{{ item.pro_name }}</div>
+                    <div class="marketRow__code">{{ item.pro_code }}</div>
+                  </div>
+                  <div class="marketRow__price">{{ item.price }}</div>
+                  <div class="marketRow__delta" :class="item.is_rise > 1 ? 'colorUp' : 'colorDown'">
+                    <Icon :name="item.is_rise > 1 ? 'solar:alt-arrow-up-bold' : 'solar:alt-arrow-down-bold'" class="marketRow__deltaIcon" />
+                    <span>{{ getNumberType(true, item.is_rise) + item.rise_rate }}%</span>
+                  </div>
+                </button>
+              </template>
+            </div>
+          </div>
+
+          <div class="sectionCard newsDeck">
+            <div class="sectionHeading">
+              <div>
+                <div class="sectionTitle">{{ t('x.a8') }}</div>
+                <div class="sectionSubtext">{{ $t('theme.chronologicalNewsFlow') }}</div>
+              </div>
+              <button type="button" class="sectionLink" @click="changePage('/tabbar/news')">
+                {{ $t('index.i23') }}
+                <Icon name="solar:alt-arrow-right-linear" size="16" />
+              </button>
+            </div>
+
+            <div class="newsDeck__list renderBudgetDense">
+              <template v-if="showNewsSeketLoading">
+                <div class="newsSkeleton" v-for="item in 4" :key="item"></div>
+              </template>
+              <template v-else>
+                <button
+                  type="button"
+                  class="newsRow"
+                  v-for="(item, index) in newsList"
+                  :key="index"
+                  @click="goNewsDetail(item)"
+                >
+                  <div class="newsRow__meta">
+                    <span class="newsRow__badge">{{ $t('theme.brandBadge') }}</span>
+                    <span class="newsRow__time">{{ item.show_time_format }}</span>
+                  </div>
+                  <div class="newsRow__title">{{ item.name }}</div>
+                </button>
+              </template>
             </div>
           </div>
         </div>
@@ -342,11 +386,11 @@ onMounted(() => {
 <style lang="less" scoped>
 :deep(.apexcharts-tooltip-candlestick) {
   padding: 10px;
-  background: rgba(19, 26, 34, 0.94);
+  background: rgba(7, 16, 29, 0.96);
   color: var(--text-primary);
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 12px;
-  border: 1px solid var(--border-soft);
+  border: 1px solid rgba(125, 211, 252, 0.16);
 }
 
 :deep(.apexcharts-tooltip-candlestick div) {
@@ -356,7 +400,12 @@ onMounted(() => {
 }
 
 .pageContainer {
-  min-height: calc(100vh - 120px);
+  min-height: calc(100vh - 130px);
+  padding-top: 12px;
+}
+
+.homeShell {
+  background: transparent;
 }
 
 .homeTopBar {
@@ -370,24 +419,32 @@ onMounted(() => {
   min-width: 0;
   display: flex;
   align-items: center;
-  gap: 10px;
-  min-height: 54px;
-  padding: 0 12px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.025);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: none;
+  gap: 12px;
+  min-height: 58px;
+  padding: 0 14px;
+  border-radius: 20px;
+  background: rgba(7, 16, 29, 0.74);
+  border: 1px solid rgba(125, 211, 252, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.noticeMeta {
+  color: var(--text-muted);
+  font-size: 11px;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .noticeIcon {
-  width: 34px;
-  height: 34px;
-  border-radius: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--brand-primary);
-  background: rgba(212, 154, 58, 0.12);
+  color: #d9f7ff;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.24), rgba(37, 99, 235, 0.24));
   flex-shrink: 0;
 }
 
@@ -403,274 +460,371 @@ onMounted(() => {
 
 .topAction {
   appearance: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 14px;
+  width: 42px;
+  height: 42px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.025);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: none;
-  cursor: pointer;
-  transition:
-    transform var(--motion-fast),
-    background-color var(--motion-fast),
-    border-color var(--motion-fast),
-    color var(--motion-fast);
+  background: rgba(7, 16, 29, 0.74);
+  border: 1px solid rgba(125, 211, 252, 0.12);
 }
 
-.heroPanel {
+.overviewStack {
   display: grid;
-  gap: 18px;
-  padding: 18px 16px;
-  border-radius: 28px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: none;
+  gap: var(--space-m);
+}
+
+.heroConsole {
+  position: relative;
+  overflow: hidden;
+  padding: 22px 18px 18px;
+  background: linear-gradient(180deg, rgba(9, 20, 36, 0.96), rgba(7, 16, 29, 0.92));
+  border: 1px solid rgba(125, 211, 252, 0.12);
+}
+
+.heroConsole__backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.2), transparent 34%),
+    radial-gradient(circle at 100% 12%, rgba(59, 130, 246, 0.22), transparent 30%),
+    radial-gradient(circle at 50% 100%, rgba(14, 165, 233, 0.12), transparent 24%);
+  pointer-events: none;
+}
+
+.heroConsole__header,
+.heroConsole__body,
+.heroStatsGrid {
+  position: relative;
+  z-index: 1;
+}
+
+.heroConsole__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
 }
 
 .heroEyebrow {
-  color: var(--brand-primary);
-  font-size: var(--text-caption);
-  font-weight: var(--weight-bold);
-  letter-spacing: var(--tracking-eyebrow);
+  color: #7dd3fc;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-.heroDesc {
+.heroTitle {
   margin-top: 10px;
+  color: var(--text-primary);
+  font-family: var(--font-family-display);
+  font-size: clamp(1.5rem, 7vw, 2rem);
+  line-height: 1.02;
+  font-weight: var(--weight-heavy);
+  letter-spacing: -0.04em;
+}
+
+.heroDesc {
+  margin-top: 8px;
+  max-width: 20ch;
   color: var(--text-secondary);
   font-size: 13px;
   line-height: 1.5;
 }
 
-.heroQuote {
-  padding: 16px;
-  border-radius: 22px;
-  background: rgba(255, 255, 255, 0.035);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.quoteName {
-  color: var(--text-secondary);
-  font-size: 12px;
-}
-
-.quotePrice {
-  margin-top: 8px;
+.heroShortcut {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 38px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(125, 211, 252, 0.16);
   color: var(--text-primary);
-  font-size: 28px;
-  line-height: 1.05;
-  font-weight: 800;
-  word-break: break-word;
-  overflow-wrap: anywhere;
+  flex-shrink: 0;
 }
 
-.quoteDelta {
-  display: flex;
-  gap: 10px;
-  margin-top: 12px;
-  font-size: 13px;
+.heroConsole__body {
+  display: grid;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.heroSpotlight {
+  padding: 18px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(125, 211, 252, 0.14);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.spotlightTone {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 12px;
   font-weight: 700;
-
-
 }
 
-.boardActionRow {
+.spotlightPrice {
+  margin-top: 14px;
+  color: var(--text-primary);
+  font-family: var(--font-family-display);
+  font-size: clamp(2rem, 10vw, 2.8rem);
+  line-height: 0.98;
+  font-weight: var(--weight-heavy);
+  letter-spacing: -0.05em;
+  word-break: break-word;
+}
+
+.spotlightDelta {
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.heroPulseRail {
   display: grid;
-  gap: var(--space-s);
-  padding-top: var(--space-l);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
 }
 
-.boardActionHead {
-  display: grid;
-  gap: 4px;
-}
-
-.boardActionNote {
-  color: var(--text-muted);
-  font-size: 13px;
-  line-height: 1.45;
-}
-
-.actionHeroRail {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-xs);
-}
-
-.actionRail {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-xs);
-}
-
-.actionCard {
-  appearance: none;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  width: 100%;
-  min-height: 98px;
-  padding: 16px 14px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.025);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: none;
-  text-align: left;
-  cursor: pointer;
-  transition:
-    transform var(--motion-fast),
-    border-color var(--motion-fast),
-    background-color var(--motion-fast);
-}
-
-.actionCardPrimary {
-  min-height: 112px;
-  border-color: rgba(212, 154, 58, 0.14);
-  background:
-    radial-gradient(circle at top left, rgba(212, 154, 58, 0.08), transparent 36%),
-    rgba(255, 255, 255, 0.03);
-}
-
-.actionCopy {
+.pulseCard {
   min-width: 0;
   display: grid;
-  gap: 4px;
-  align-content: start;
+  gap: 8px;
+  padding: 14px 12px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.actionName {
+.pulseCard span {
+  color: var(--text-muted);
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.pulseCard strong {
   color: var(--text-primary);
-  font-size: 0.9375rem;
-  font-weight: var(--weight-semibold);
-  line-height: 1.42;
-  max-width: 9ch;
-  text-wrap: balance;
+  font-size: 14px;
+  line-height: 1.25;
+  font-weight: 700;
+  word-break: break-word;
 }
 
-.actionHint {
+.pulseCardPrimary {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.16), rgba(37, 99, 235, 0.16));
+  border-color: rgba(125, 211, 252, 0.18);
+}
+
+.heroStatsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.heroStatItem {
+  display: grid;
+  gap: 6px;
+  padding: 14px 12px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.heroStatItem span {
   color: var(--text-muted);
   font-size: 12px;
   line-height: 1.35;
 }
 
-.homeGrid {
-  display: grid;
-  gap: var(--space-l);
-}
-
-.marketBoard {
-  padding: clamp(20px, 5vw, 24px) clamp(18px, 4vw, 22px);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.02));
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: none;
-}
-
-.marketBoardBody {
-  display: grid;
-  gap: var(--space-m);
-  margin-top: var(--space-m);
-}
-
-.boardTitle {
-  margin-top: 8px;
+.heroStatItem strong {
   color: var(--text-primary);
-  font-family: var(--font-family-display);
-  font-size: var(--text-heading);
-  line-height: var(--leading-tight);
-  font-weight: var(--weight-heavy);
-  letter-spacing: var(--tracking-tight);
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: 700;
 }
 
-.marketMeta {
+.commandDeck {
   display: grid;
-  gap: var(--space-m);
+  gap: 16px;
+  background: rgba(8, 18, 31, 0.9);
+  border: 1px solid rgba(125, 211, 252, 0.1);
 }
 
-.marketPriceBlock {
-  padding: 0 0 14px;
-  border-radius: 0;
-  background: transparent;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-
-  .marketPrice {
-    color: var(--text-primary);
-    font-family: var(--font-family-display);
-    font-size: 1.75rem;
-    font-weight: var(--weight-heavy);
-    line-height: 1.06;
-    letter-spacing: var(--tracking-tight);
-    word-break: break-word;
-    overflow-wrap: anywhere;
-  }
-
-  .marketChange {
-    display: flex;
-    gap: 12px;
-    margin-top: 8px;
-    font-size: var(--text-body-compact);
-    font-weight: var(--weight-bold);
-  }
-}
-
-.statsGrid {
+.commandDeck__grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0 var(--space-s);
+  gap: 12px;
 }
 
-.statItem {
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-
-  span {
-    display: block;
-    color: var(--text-secondary);
-    font-size: var(--text-label);
-    line-height: 1.5;
-  }
-
-  strong {
-    display: block;
-    margin-top: 6px;
-    color: var(--text-primary);
-    font-size: 1rem;
-    font-weight: var(--weight-bold);
-    line-height: 1.4;
-  }
+.commandCard {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 14px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  text-align: left;
 }
 
-.statItem:nth-last-child(-n + 2) {
-  border-bottom: 0;
+.commandCardPrimary {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.12), rgba(37, 99, 235, 0.08));
+  border-color: rgba(125, 211, 252, 0.16);
 }
 
-.chartShell {
+.commandCopy {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.commandName {
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 700;
+}
+
+.commandHint {
+  color: var(--text-muted);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.commandArrow {
+  color: var(--text-muted);
+}
+
+.analyticsDeck,
+.newsDeck {
+  display: grid;
+  gap: 16px;
+  background: rgba(8, 18, 31, 0.9);
+  border: 1px solid rgba(125, 211, 252, 0.1);
+}
+
+.analyticsDeck__chart {
   overflow: hidden;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.analyticsDeck__list,
+.newsDeck__list {
+  display: grid;
+  gap: 10px;
+}
+
+.marketRow,
+.newsRow {
+  width: 100%;
+  text-align: left;
+}
+
+.marketRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 14px;
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.018);
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.025));
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.sidebarStack {
+.marketRow__identity {
+  min-width: 0;
+}
+
+.marketRow__name {
+  color: var(--text-primary);
+  font-size: 15px;
+  line-height: 1.35;
+  font-weight: 700;
+}
+
+.marketRow__code {
+  margin-top: 4px;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.marketRow__price {
+  color: var(--text-primary);
+  font-size: 15px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.marketRow__delta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.marketRow__deltaIcon {
+  width: 14px;
+  height: 14px;
+}
+
+.newsRow {
   display: grid;
-  gap: var(--space-m);
+  gap: 10px;
+  padding: 16px 14px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.022));
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.sectionBlock {
-  padding: clamp(18px, 4vw, 22px);
-  background: rgba(255, 255, 255, 0.025);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: none;
+.newsRow__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
 }
 
-.moversBlock,
-.newsBlock {
-  display: grid;
-  gap: var(--space-s);
+.newsRow__badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgba(14, 165, 233, 0.14);
+  color: #7dd3fc;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.newsRow__time {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.newsRow__title {
+  color: var(--text-primary);
+  font-size: 15px;
+  line-height: 1.55;
+  font-weight: 600;
 }
 
 .sectionLink {
@@ -679,31 +833,34 @@ onMounted(() => {
   align-items: center;
   gap: 4px;
   padding: 0;
-  color: var(--brand-primary);
+  color: #7dd3fc;
   font-size: var(--text-label);
   font-weight: var(--weight-bold);
   background: transparent;
   border: 0;
-  cursor: pointer;
-  transition:
-    color var(--motion-fast),
-    transform var(--motion-fast);
 }
 
-.topAction:hover,
-.actionCard:hover {
+.skeletonRow,
+.newsSkeleton {
+  height: 84px;
+  border-radius: 18px;
   background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(212, 154, 58, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.04);
 }
 
-.sectionLink:hover {
-  color: color-mix(in srgb, var(--brand-primary) 85%, white 15%);
-}
+@media (max-width: 360px) {
+  .heroPulseRail,
+  .commandDeck__grid {
+    grid-template-columns: 1fr;
+  }
 
-.topAction:active,
-.actionCard:active,
-.sectionLink:active {
-  transform: scale(0.98);
-}
+  .marketRow {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
 
+  .marketRow__delta {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+  }
+}
 </style>

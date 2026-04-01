@@ -2,7 +2,7 @@
 :root {
   --pageWidth: 430px;
   --pagePading: 16px;
-  --focus-ring: 0 0 0 3px rgba(212, 154, 58, 0.18);
+  --focus-ring: 0 0 0 3px rgba(56, 189, 248, 0.22);
   --motion-fast: 160ms;
   --motion-base: 220ms;
   --motion-slow: 340ms;
@@ -10,23 +10,23 @@
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
   --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --brand-primary: #d49a3a;
-  --brand-primary-hover: #e1ad58;
-  --brand-primary-active: #bf8426;
-  --brand-primary-soft: rgba(212, 154, 58, 0.14);
-  --brand-primary-border: rgba(212, 154, 58, 0.24);
+  --brand-primary: #38bdf8;
+  --brand-primary-hover: #67d6ff;
+  --brand-primary-active: #0ea5e9;
+  --brand-primary-soft: rgba(56, 189, 248, 0.14);
+  --brand-primary-border: rgba(56, 189, 248, 0.28);
 
-  --surface-page: #0d1117;
-  --surface-panel: #131a22;
-  --surface-card: #18212b;
-  --surface-card-soft: #1d2834;
-  --surface-elevated: #243140;
+  --surface-page: #06111f;
+  --surface-panel: #091726;
+  --surface-card: #0d1d31;
+  --surface-card-soft: #13263d;
+  --surface-elevated: #19324d;
 
-  --text-primary: #f3f7fb;
-  --text-secondary: #a8b3c2;
-  --text-muted: #738091;
-  --text-placeholder: #5d6978;
-  --text-inverse: #0d1117;
+  --text-primary: #eff6ff;
+  --text-secondary: #b7c8de;
+  --text-muted: #7f93ad;
+  --text-placeholder: #637892;
+  --text-inverse: #06111f;
 
   --font-family-sans: "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Noto Sans JP", "Noto Sans KR", "Helvetica Neue", sans-serif;
   --font-family-display: "SF Pro Display", "PingFang SC", "Hiragino Sans GB", "Noto Sans JP", "Noto Sans KR", "Helvetica Neue", sans-serif;
@@ -57,12 +57,12 @@
 
   --color-up: #f04452;
   --color-down: #18c37e;
-  --color-warning: #f4b740;
-  --color-info: #67b7ff;
+  --color-warning: #fbbf24;
+  --color-info: #7dd3fc;
 
-  --border-soft: rgba(255, 255, 255, 0.06);
-  --border-default: rgba(255, 255, 255, 0.1);
-  --border-strong: rgba(212, 154, 58, 0.22);
+  --border-soft: rgba(148, 163, 184, 0.18);
+  --border-default: rgba(148, 163, 184, 0.24);
+  --border-strong: rgba(56, 189, 248, 0.28);
 
   --radius-s: 12px;
   --radius-m: 18px;
@@ -75,15 +75,20 @@
   --space-l: clamp(24px, 5vw, 30px);
   --space-xl: clamp(32px, 7vw, 40px);
 
-  --shadow-card: 0 18px 48px rgba(0, 0, 0, 0.28);
-  --shadow-float: 0 18px 60px rgba(0, 0, 0, 0.36);
+  --shadow-card: 0 18px 48px rgba(2, 8, 20, 0.34);
+  --shadow-float: 0 18px 60px rgba(2, 8, 20, 0.42);
+  --shadow-glow: 0 16px 40px rgba(14, 165, 233, 0.22);
 
-  --gradient-brand: linear-gradient(135deg, #c57f2f 0%, #e6b559 100%);
-  --gradient-panel: linear-gradient(180deg, #1a2430 0%, #131a22 100%);
+  --gradient-brand: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+  --gradient-panel: linear-gradient(180deg, #0d1d31 0%, #091726 100%);
   --gradient-hero:
-    radial-gradient(circle at top left, rgba(212, 154, 58, 0.18), transparent 36%),
-    radial-gradient(circle at top right, rgba(115, 163, 214, 0.12), transparent 24%),
-    linear-gradient(180deg, #18212b 0%, #0d1117 100%);
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.2), transparent 36%),
+    radial-gradient(circle at top right, rgba(37, 99, 235, 0.18), transparent 26%),
+    linear-gradient(180deg, #0c1a2d 0%, #06111f 100%);
+  --gradient-mesh:
+    radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.18), transparent 28%),
+    radial-gradient(circle at 100% 0%, rgba(37, 99, 235, 0.16), transparent 24%),
+    linear-gradient(180deg, #0c1a2d 0%, #06111f 100%);
 
   // 兼容旧变量，逐步迁移时不打断现有页面
   --mainColor: var(--brand-primary);
@@ -133,8 +138,8 @@ body {
   padding: 0;
   color: var(--textMain);
   background:
-    radial-gradient(circle at top, rgba(212, 154, 58, 0.08), transparent 24%),
-    linear-gradient(180deg, #111823 0%, var(--bodyBgColor) 16%, var(--bodyBgColor) 100%);
+    radial-gradient(circle at top, rgba(56, 189, 248, 0.12), transparent 24%),
+    linear-gradient(180deg, #0b1627 0%, var(--bodyBgColor) 16%, var(--bodyBgColor) 100%);
   overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
   font-family: var(--font-family-sans);
@@ -338,8 +343,8 @@ select,
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(circle at 0% 0%, rgba(212, 154, 58, 0.08), transparent 24%),
-    radial-gradient(circle at 100% 0%, rgba(115, 163, 214, 0.08), transparent 20%);
+    radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.12), transparent 26%),
+    radial-gradient(circle at 100% 0%, rgba(37, 99, 235, 0.12), transparent 22%);
   pointer-events: none;
 }
 
@@ -481,7 +486,7 @@ select,
   width: 44px;
   height: 44px;
   border-radius: 14px;
-  background: rgba(212, 154, 58, 0.12);
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.16), rgba(37, 99, 235, 0.12));
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -544,10 +549,7 @@ select,
 
 
 .hasNormalBg{
-  background:
-    radial-gradient(circle at top left, rgba(212, 154, 58, 0.16), transparent 28%),
-    radial-gradient(circle at top right, rgba(115, 163, 214, 0.14), transparent 24%),
-    linear-gradient(180deg, #18212b 0%, #111823 18%, var(--surface-page) 100%);
+  background: var(--gradient-mesh);
   min-height: 100vh;
   .tabbarPageTopNav{
     height: 60px;
@@ -555,9 +557,9 @@ select,
 }
 .minePage{
   background:
-    radial-gradient(circle at top left, rgba(212, 154, 58, 0.16), transparent 26%),
-    radial-gradient(circle at 85% 10%, rgba(115, 163, 214, 0.14), transparent 20%),
-    linear-gradient(180deg, #1a2430 0%, #111823 24%, var(--surface-page) 100%);
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 26%),
+    radial-gradient(circle at 85% 10%, rgba(37, 99, 235, 0.14), transparent 20%),
+    linear-gradient(180deg, #102139 0%, #0b1627 24%, var(--surface-page) 100%);
 
 }
 /* ================ 通用卡片组件（你原来的 pageBoxEl） ================ */

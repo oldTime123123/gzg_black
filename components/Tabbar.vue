@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useRouter, useRoute } from 'vue-router'
 import { watch } from 'vue'
+
 const router = useRouter()
-import { useI18n } from "vue-i18n";
-const { t } = useI18n();
 const route = useRoute()
 const active = ref(0)
+const { t } = useI18n()
 
 const tabs = computed(() => {
   return [
@@ -42,13 +42,11 @@ const tabs = computed(() => {
   ]
 })
 
-
 const onChange = (index: number) => {
   active.value = index
   router.push(tabs.value[index].path)
 }
 
-// 根据当前路由设置激活的标签
 const setActiveTab = () => {
   const currentPath = route.path
   const index = tabs.value.findIndex(tab => tab.path === currentPath)
@@ -56,162 +54,144 @@ const setActiveTab = () => {
     active.value = index
   }
 }
+
 watch(() => route.path, () => {
   setActiveTab()
 }, { immediate: true })
-
-
 </script>
 
 <template>
-  <div>
+  <div class="tabbarWrap">
     <van-tabbar v-model="active" @change="onChange" class="tabbar" :safe-area-inset-bottom="true">
-      <van-tabbar-item :name="0" :index="0">
+      <van-tabbar-item v-for="(tab, index) in tabs" :key="tab.path" :name="index" :index="index">
         <template #icon="props">
           <div class="tabbar-item-box" :class="props.active ? 'is-active' : ''">
             <div class="tabbar-icon-shell">
-              <Icon :name="props.active ? tabs[0].activeIcon : tabs[0].icon" class="tabbar-icon" />
+              <Icon :name="props.active ? tab.activeIcon : tab.icon" class="tabbar-icon" />
             </div>
-            <div class="f12">{{ tabs[0].name }}</div>
-          </div>
-        </template>
-      </van-tabbar-item>
-      <van-tabbar-item :index="1" :name="1" :dot="false">
-        <template #icon="props">
-          <div class="tabbar-item-box" :class="props.active ? 'is-active' : ''">
-            <div class="tabbar-icon-shell">
-              <Icon :name="props.active ? tabs[1].activeIcon : tabs[1].icon" class="tabbar-icon" />
-            </div>
-            <div class="f12">{{ tabs[1].name }}</div>
-          </div>
-        </template>
-      </van-tabbar-item>
-      <van-tabbar-item :index="2" :name="2">
-        <template #icon="props">
-          <div class="tabbar-item-box" :class="props.active ? 'is-active' : ''">
-            <div class="tabbar-icon-shell">
-              <Icon :name="props.active ? tabs[2].activeIcon : tabs[2].icon" class="tabbar-icon" />
-            </div>
-            <div class="f12">{{ tabs[2].name }}</div>
-          </div>
-        </template>
-      </van-tabbar-item>
-      <van-tabbar-item :index="3" :name="3">
-        <template #icon="props">
-          <div class="tabbar-item-box" :class="props.active ? 'is-active' : ''">
-            <div class="tabbar-icon-shell">
-              <Icon :name="props.active ? tabs[3].activeIcon : tabs[3].icon" class="tabbar-icon" />
-            </div>
-            <div class="f12">{{ tabs[3].name }}</div>
-          </div>
-        </template>
-      </van-tabbar-item>
-      <van-tabbar-item :index="4" :name="4">
-        <template #icon="props">
-          <div class="tabbar-item-box" :class="props.active ? 'is-active' : ''">
-            <div class="tabbar-icon-shell">
-              <Icon :name="props.active ? tabs[4].activeIcon : tabs[4].icon" class="tabbar-icon" />
-            </div>
-            <div class="f12">{{ tabs[4].name }}</div>
+            <div class="tabbar-label">{{ tab.name }}</div>
           </div>
         </template>
       </van-tabbar-item>
     </van-tabbar>
-    <div style="height: 78px;"></div>
+    <div class="tabbarSpacer"></div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.tabbarWrap {
+  position: relative;
+}
+
 .tabbar {
-  bottom: 0 !important;
-  max-width: var(--pageWidth);
-  width: 100%;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 10px) !important;
   left: 50%;
-  z-index: 100 !important;
+  z-index: 110 !important;
+  width: calc(100% - 20px);
+  max-width: calc(var(--pageWidth) - 20px);
+  height: 74px;
   transform: translateX(-50%);
-  background: rgba(19, 26, 34, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-bottom: 0;
-  backdrop-filter: blur(18px);
-  border-radius: 26px 26px 0 0;
-  box-shadow: 0 -16px 42px rgba(0, 0, 0, 0.34);
+  padding: 8px 10px;
+  border: 1px solid rgba(125, 211, 252, 0.18);
+  border-radius: 30px;
+  background:
+    linear-gradient(180deg, rgba(8, 20, 36, 0.94), rgba(7, 16, 29, 0.98)),
+    rgba(10, 20, 34, 0.92);
+  box-shadow:
+    0 18px 44px rgba(2, 8, 20, 0.48),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
   overflow: hidden;
+
+  :deep(.van-tabbar-item) {
+    min-width: 0;
+    padding-top: 0;
+    background: transparent;
+    color: var(--text-muted);
+  }
 
   :deep(.van-tabbar-item--active) {
     background: transparent;
   }
 
-  :deep(.van-tabbar-item) {
-    color: var(--text-muted);
-    padding-top: 10px;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at top center, rgba(56, 189, 248, 0.16), transparent 44%);
+    pointer-events: none;
   }
-
-  height: 68px;
 }
 
 .tabbar-item-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 3px;
   width: 100%;
   min-width: 0;
+  padding: 2px 0;
 }
 
 .tabbar-icon-shell {
-  width: 40px;
-  height: 40px;
-  border-radius: 14px;
+  width: 42px;
+  height: 42px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--text-secondary);
+  border: 1px solid transparent;
   transition:
-    transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
-    background-color 0.2s cubic-bezier(0.25, 1, 0.5, 1),
-    color 0.2s cubic-bezier(0.25, 1, 0.5, 1),
-    box-shadow 0.2s cubic-bezier(0.25, 1, 0.5, 1);
-
-
+    transform var(--motion-fast) var(--ease-out-quart),
+    background-color var(--motion-fast) var(--ease-out-quart),
+    color var(--motion-fast) var(--ease-out-quart),
+    border-color var(--motion-fast) var(--ease-out-quart),
+    box-shadow var(--motion-fast) var(--ease-out-quart);
 }
+
+.tabbar-label {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+  font-size: 11px;
+  line-height: 1.2;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.01em;
+  color: var(--text-muted);
+  transition: color var(--motion-fast) var(--ease-out-quart);
+}
+
 .is-active {
-   .f12 {
-     color: #e6b559 !important;
-   }
+  .tabbar-label {
+    color: var(--text-primary);
+  }
 
-   .tabbar-icon-shell {
-     background: var(--gradient-brand);
-     color: #fff7dc;
-     box-shadow: 0 10px 22px rgba(212, 154, 58, 0.22);
-   }
- }
-
+  .tabbar-icon-shell {
+    color: #ecfeff;
+    border-color: rgba(56, 189, 248, 0.24);
+    background: linear-gradient(135deg, rgba(14, 165, 233, 0.9), rgba(37, 99, 235, 0.96));
+    box-shadow:
+      0 12px 24px rgba(14, 165, 233, 0.24),
+      inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  }
+}
 
 .tabbar-icon {
   width: 22px;
   height: 22px;
 }
 
-.f12 {
-  text-align: center;
-  font-size: var(--text-caption);
-  line-height: 1.2;
-  // color: inherit;
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.01em;
-  width: 100%;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.tabbarSpacer {
+  height: 98px;
 }
 
 :deep(.van-tabbar-item__icon) {
   width: 100%;
-}
-
-:deep(.van-tabbar-item) {
-  min-width: 0;
+  margin-bottom: 0;
 }
 </style>
