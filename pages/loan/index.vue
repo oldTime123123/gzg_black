@@ -149,25 +149,25 @@ onBeforeMount(() => {
 
 <style scoped>
 .pageWrap{min-height:calc(100vh - 60px)}
-.heroCard{display:grid;gap:18px;padding:22px 18px}
+.heroCard{display:grid;gap:18px;padding:22px 18px;background:var(--surface-card-hero);border:1px solid rgba(125,211,252,.14);box-shadow:var(--shadow-card)}
 .heroTop{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .heroEyebrow{color:var(--brand-primary);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
 .ghostAction{appearance:none;display:inline-flex;align-items:center;gap:6px;padding:10px 12px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid var(--border-soft);color:var(--text-secondary);font-size:12px;cursor:pointer;transition:transform var(--motion-fast),border-color var(--motion-fast),background-color var(--motion-fast)}
 .heroValue{color:var(--text-primary);font-size:clamp(1.9rem,6.1vw,2.45rem);font-weight:800;line-height:1.06;word-break:break-word;overflow-wrap:anywhere;max-width:10ch}
 .heroLabel{color:var(--text-secondary);font-size:13px;line-height:1.45}
-.featureGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:14px;border-radius:20px;background:rgba(255,255,255,.018);border:1px solid rgba(255,255,255,.05)}
-.featureCard{padding:10px 8px;border-radius:16px;background:rgba(255,255,255,.02);text-align:center}
+.featureGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:14px;border-radius:20px;background:rgba(255,255,255,.032);border:1px solid rgba(255,255,255,.08)}
+.featureCard{padding:10px 8px;border-radius:16px;background:rgba(255,255,255,.04);text-align:center}
 .featureIcon{width:32px;height:32px;margin:0 auto;display:flex;align-items:center;justify-content:center;border-radius:10px;background:var(--brand-primary-soft);color:var(--brand-primary)}
 .featureName{margin-top:10px;color:var(--text-secondary);font-size:12px;line-height:1.4}
 .loanActionStack{display:grid;gap:12px;padding-top:6px}
-.repayCard{padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;cursor:pointer;transition:transform var(--motion-fast),border-color var(--motion-fast),background-color var(--motion-fast);border-radius:20px;background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.06)}
+.repayCard{padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;cursor:pointer;transition:transform var(--motion-fast),border-color var(--motion-fast),background-color var(--motion-fast);border-radius:20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
 .repayLeft{display:flex;align-items:center;gap:12px}.repayIcon{width:40px;height:40px;border-radius:14px;background:var(--brand-primary-soft);display:flex;align-items:center;justify-content:center;color:var(--brand-primary)}
 .repayTitle{color:var(--text-primary);font-weight:700;line-height:1.35}.repayDesc{margin-top:6px;color:var(--text-secondary);font-size:12px;line-height:1.45}.repayArrow{color:var(--text-secondary)}
 .overlayWrap{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:16px}
-.dialogCard{width:min(350px,100%);border-radius:24px;background:radial-gradient(circle at top right, rgba(56,189,248,.12), transparent 30%),linear-gradient(180deg, rgba(24,33,43,.98), rgba(13,17,23,.98));border:1px solid var(--border-soft);box-shadow:var(--shadow-float)}
+.dialogCard{width:min(350px,100%);border-radius:24px;background:radial-gradient(circle at top right, rgba(56,189,248,.16), transparent 32%),linear-gradient(180deg, rgba(32,57,84,.98), rgba(21,40,61,.98));border:1px solid var(--border-soft);box-shadow:var(--shadow-float)}
 .dialogHead{position:relative;padding:20px 20px 12px}.dialogTitle{color:var(--text-primary);font-size:20px;font-weight:800}.closeBtn{position:absolute;right:14px;top:14px;width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);color:var(--text-secondary);cursor:pointer;transition:transform var(--motion-fast),border-color var(--motion-fast),background-color var(--motion-fast)}
-.dialogBody{padding:0 20px 20px}.detailRow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.025);color:var(--text-secondary);font-size:13px}.detailRow strong{color:var(--text-primary)}
-.fieldLabel{color:var(--text-primary);font-size:15px;font-weight:700;line-height:1.4}.authInput{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px}.authInput :deep(.van-field__body){min-height:52px}.authInput :deep(.van-field__control){color:var(--text-primary)}
+.dialogBody{padding:0 20px 20px}.detailRow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.04);color:var(--text-secondary);font-size:13px}.detailRow strong{color:var(--text-primary)}
+.fieldLabel{color:var(--text-primary);font-size:15px;font-weight:700;line-height:1.4}.authInput{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:18px}.authInput :deep(.van-field__body){min-height:52px}.authInput :deep(.van-field__control){color:var(--text-primary)}
 .dialogActions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.disBtn{background:#6b7280!important;color:#d1d5db!important}
 .ghostAction:active,.repayCard:active,.closeBtn:active{transform:scale(.98)}
 

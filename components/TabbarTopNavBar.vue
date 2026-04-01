@@ -52,9 +52,9 @@ const changePage = (url: string) => {
     padding-left: 10px;
     padding-right: 12px;
     background:
-      radial-gradient(circle at left center, rgba(103, 214, 255, 0.14), transparent 30%),
-      linear-gradient(180deg, rgba(24, 43, 64, 0.78), rgba(17, 31, 48, 0.72));
-    border: 1px solid rgba(125, 211, 252, 0.1);
+      radial-gradient(circle at left center, rgba(103, 214, 255, 0.18), transparent 32%),
+      linear-gradient(180deg, rgba(33, 58, 86, 0.84), rgba(24, 43, 65, 0.78));
+    border: 1px solid rgba(125, 211, 252, 0.14);
     box-shadow: 0 12px 26px rgba(5, 12, 22, 0.12);
     backdrop-filter: blur(18px);
     box-sizing: border-box;
@@ -78,9 +78,9 @@ const changePage = (url: string) => {
 .searchBox:hover {
     border-color: rgba(103, 214, 255, 0.18);
     background:
-      radial-gradient(circle at left center, rgba(103, 214, 255, 0.16), transparent 32%),
-      linear-gradient(180deg, rgba(27, 48, 71, 0.84), rgba(19, 35, 53, 0.78));
-    box-shadow: 0 14px 28px rgba(5, 12, 22, 0.14);
+      radial-gradient(circle at left center, rgba(103, 214, 255, 0.2), transparent 34%),
+      linear-gradient(180deg, rgba(38, 66, 97, 0.88), rgba(28, 50, 74, 0.82));
+    box-shadow: 0 14px 28px rgba(6, 16, 30, 0.12);
 }
 
 .searchBox:active {

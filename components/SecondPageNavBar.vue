@@ -68,11 +68,11 @@ const changePage = (url: string) => {
 }
 
 .navSolid {
-    background: rgba(13, 17, 23, 0.88);
+    background: rgba(22, 42, 64, 0.9);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     border-bottom: 1px solid var(--border-soft);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
+    box-shadow: 0 10px 24px rgba(4, 12, 24, 0.14);
 }
 
 .navAction {
@@ -82,7 +82,7 @@ const changePage = (url: string) => {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.06);
     border: 1px solid var(--border-soft);
     color: var(--text-primary);
     appearance: none;

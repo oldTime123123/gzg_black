@@ -45,7 +45,7 @@ useHead({
       content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover',
     },
     { name: 'application-name', content: siteName },
-    { name: 'theme-color', content: '#06111f' },
+    { name: 'theme-color', content: '#13233a' },
     { name: 'mobile-web-app-capable', content: 'yes' },
     { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' }
   ]
@@ -175,7 +175,7 @@ onUnmounted(() => {
 
 <style>
 .van-toast {
-  background: rgba(19, 26, 34, 0.92) !important;
+  background: rgba(26, 48, 73, 0.92) !important;
   color: #f3f7fb !important;
   border: 1px solid rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(18px);

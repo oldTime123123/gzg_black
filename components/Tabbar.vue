@@ -95,11 +95,11 @@ watch(() => route.path, () => {
   border: 1px solid rgba(125, 211, 252, 0.18);
   border-radius: 30px;
   background:
-    linear-gradient(180deg, rgba(8, 20, 36, 0.94), rgba(7, 16, 29, 0.98)),
-    rgba(10, 20, 34, 0.92);
+    linear-gradient(180deg, rgba(26, 49, 76, 0.95), rgba(20, 39, 61, 0.98)),
+    rgba(22, 43, 66, 0.94);
   box-shadow:
-    0 18px 44px rgba(2, 8, 20, 0.48),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    0 18px 44px rgba(4, 12, 24, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
   backdrop-filter: blur(20px);
   overflow: hidden;
 
@@ -142,8 +142,8 @@ watch(() => route.path, () => {
   align-items: center;
   justify-content: center;
   color: var(--text-secondary);
-  background: rgba(255, 255, 255, 0.025);
-  border: 1px solid rgba(148, 163, 184, 0.08);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(148, 163, 184, 0.12);
   transition:
     transform var(--motion-fast) var(--ease-out-quart),
     background-color var(--motion-fast) var(--ease-out-quart),

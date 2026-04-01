@@ -86,10 +86,10 @@ const getBodyHeight = (index: number) => {
   border-radius: 24px;
   overflow: hidden;
   background:
-    radial-gradient(circle at top left, rgba(56, 189, 248, 0.14), transparent 28%),
-    radial-gradient(circle at top right, rgba(103, 183, 255, 0.1), transparent 24%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.015)),
-    linear-gradient(180deg, #161f29 0%, #10171f 100%);
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 30%),
+    radial-gradient(circle at top right, rgba(103, 183, 255, 0.14), transparent 26%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02)),
+    linear-gradient(180deg, #1e3a58 0%, #162b43 100%);
   border: 1px solid rgba(255, 255, 255, 0.06);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
   contain: content;
@@ -159,7 +159,7 @@ const getBodyHeight = (index: number) => {
   min-height: 180px;
   padding: 18px 38px 28px 12px;
   border-radius: 20px;
-  background: rgba(8, 12, 18, 0.36);
+  background: rgba(24, 45, 69, 0.42);
   border: 1px solid rgba(255, 255, 255, 0.04);
 }
 

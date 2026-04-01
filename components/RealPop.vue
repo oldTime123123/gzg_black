@@ -51,7 +51,7 @@ const closePop = (type: number) => {
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background: rgba(4, 7, 12, 0.72);
+  background: rgba(14, 28, 44, 0.72);
   backdrop-filter: blur(8px);
 }
 
@@ -62,11 +62,11 @@ const closePop = (type: number) => {
   border-radius: 28px;
   overflow: hidden;
   background:
-    radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 28%),
-    radial-gradient(circle at top right, rgba(37, 99, 235, 0.14), transparent 24%),
-    linear-gradient(180deg, #101b2f 0%, #0a1321 100%);
-  border: 1px solid rgba(125, 211, 252, 0.12);
-  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 30%),
+    radial-gradient(circle at top right, rgba(55, 114, 246, 0.16), transparent 26%),
+    linear-gradient(180deg, #1b3553 0%, #132740 100%);
+  border: 1px solid rgba(125, 211, 252, 0.14);
+  box-shadow: 0 28px 80px rgba(4, 12, 24, 0.3);
 }
 
 .realModalClose {

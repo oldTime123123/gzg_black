@@ -16,18 +16,18 @@
   --brand-primary-soft: rgba(56, 189, 248, 0.14);
   --brand-primary-border: rgba(56, 189, 248, 0.28);
 
-  --surface-page: #0c1626;
-  --surface-panel: #112033;
-  --surface-card: #18304a;
-  --surface-card-soft: #1b3754;
-  --surface-elevated: #224261;
-  --surface-overlay: rgba(15, 29, 45, 0.72);
-  --surface-overlay-strong: rgba(16, 30, 47, 0.9);
-  --surface-frost: rgba(255, 255, 255, 0.044);
-  --surface-frost-strong: rgba(255, 255, 255, 0.078);
-  --surface-module: linear-gradient(180deg, rgba(21, 39, 59, 0.92) 0%, rgba(15, 29, 46, 0.9) 100%);
-  --surface-card-hero: linear-gradient(180deg, rgba(26, 47, 71, 0.94) 0%, rgba(18, 34, 52, 0.92) 100%);
-  --surface-chart: linear-gradient(180deg, rgba(17, 33, 50, 0.74) 0%, rgba(12, 24, 38, 0.84) 100%);
+  --surface-page: #13233a;
+  --surface-panel: #18304d;
+  --surface-card: #214160;
+  --surface-card-soft: #27496b;
+  --surface-elevated: #31597e;
+  --surface-overlay: rgba(18, 36, 57, 0.78);
+  --surface-overlay-strong: rgba(20, 40, 62, 0.92);
+  --surface-frost: rgba(255, 255, 255, 0.062);
+  --surface-frost-strong: rgba(255, 255, 255, 0.1);
+  --surface-module: linear-gradient(180deg, rgba(29, 52, 78, 0.94) 0%, rgba(22, 42, 65, 0.92) 100%);
+  --surface-card-hero: linear-gradient(180deg, rgba(35, 61, 92, 0.96) 0%, rgba(25, 47, 73, 0.94) 100%);
+  --surface-chart: linear-gradient(180deg, rgba(28, 51, 76, 0.82) 0%, rgba(20, 38, 59, 0.9) 100%);
 
   --text-primary: #eff6ff;
   --text-secondary: #b7c8de;
@@ -83,21 +83,21 @@
   --space-l: clamp(24px, 5vw, 30px);
   --space-xl: clamp(32px, 7vw, 40px);
 
-  --shadow-card: 0 18px 48px rgba(2, 8, 20, 0.34);
-  --shadow-float: 0 18px 60px rgba(2, 8, 20, 0.42);
-  --shadow-glow: 0 16px 40px rgba(14, 165, 233, 0.22);
+  --shadow-card: 0 18px 48px rgba(3, 9, 20, 0.24);
+  --shadow-float: 0 18px 60px rgba(4, 12, 24, 0.32);
+  --shadow-glow: 0 16px 40px rgba(14, 165, 233, 0.24);
 
-  --gradient-brand: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
-  --gradient-brand-soft: linear-gradient(135deg, rgba(14, 165, 233, 0.18) 0%, rgba(37, 99, 235, 0.14) 100%);
-  --gradient-panel: linear-gradient(180deg, #10233a 0%, #0a1626 100%);
+  --gradient-brand: linear-gradient(135deg, #18b7f7 0%, #3772f6 100%);
+  --gradient-brand-soft: linear-gradient(135deg, rgba(24, 183, 247, 0.2) 0%, rgba(55, 114, 246, 0.16) 100%);
+  --gradient-panel: linear-gradient(180deg, #18314d 0%, #112238 100%);
   --gradient-hero:
-    radial-gradient(circle at top left, rgba(56, 189, 248, 0.2), transparent 36%),
-    radial-gradient(circle at top right, rgba(37, 99, 235, 0.18), transparent 26%),
-    linear-gradient(180deg, #0c1a2d 0%, #06111f 100%);
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.24), transparent 38%),
+    radial-gradient(circle at top right, rgba(55, 114, 246, 0.2), transparent 28%),
+    linear-gradient(180deg, #17304d 0%, #12243b 100%);
   --gradient-mesh:
-    radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.18), transparent 28%),
-    radial-gradient(circle at 100% 0%, rgba(37, 99, 235, 0.16), transparent 24%),
-    linear-gradient(180deg, #0c1a2d 0%, #06111f 100%);
+    radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.2), transparent 30%),
+    radial-gradient(circle at 100% 0%, rgba(55, 114, 246, 0.18), transparent 26%),
+    linear-gradient(180deg, #17304d 0%, #12243b 100%);
 
   // 兼容旧变量，逐步迁移时不打断现有页面
   --mainColor: var(--brand-primary);
@@ -155,10 +155,10 @@ body {
   padding: 0;
   color: var(--textMain);
   background:
-    radial-gradient(circle at 16% 0%, rgba(103, 214, 255, 0.18), transparent 24%),
-    radial-gradient(circle at 84% 2%, rgba(37, 99, 235, 0.16), transparent 22%),
-    radial-gradient(circle at 50% 22%, rgba(56, 189, 248, 0.08), transparent 32%),
-    linear-gradient(180deg, #132338 0%, #0f1d2f 18%, #0c1626 52%, var(--surface-page) 100%);
+    radial-gradient(circle at 16% 0%, rgba(103, 214, 255, 0.22), transparent 28%),
+    radial-gradient(circle at 84% 2%, rgba(55, 114, 246, 0.2), transparent 24%),
+    radial-gradient(circle at 50% 22%, rgba(56, 189, 248, 0.1), transparent 34%),
+    linear-gradient(180deg, #1a3451 0%, #17304b 18%, #142840 52%, var(--surface-page) 100%);
   overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
   font-family: var(--font-family-sans);
@@ -172,15 +172,15 @@ body {
   --van-back-top-background:var(--mainColor);
   --van-text-color: var(--text-primary);
   --van-primary-color: var(--brand-primary);
-  --van-tabbar-background: rgba(19, 26, 34, 0.94);
+  --van-tabbar-background: rgba(23, 44, 69, 0.94);
   --van-tabbar-item-text-color: var(--text-muted);
   --van-tabbar-item-active-color: var(--brand-primary);
   --van-border-color: var(--border-soft);
-  --van-overlay-background: rgba(4, 7, 12, 0.72);
+  --van-overlay-background: rgba(14, 28, 44, 0.72);
   --van-popup-background: var(--surface-card);
   --van-picker-background: transparent;
-  --van-picker-mask-color: linear-gradient(180deg, rgba(24, 33, 43, 0.92), rgba(24, 33, 43, 0.56)),
-    linear-gradient(0deg, rgba(24, 33, 43, 0.92), rgba(24, 33, 43, 0.56));
+  --van-picker-mask-color: linear-gradient(180deg, rgba(30, 53, 79, 0.92), rgba(30, 53, 79, 0.58)),
+    linear-gradient(0deg, rgba(30, 53, 79, 0.92), rgba(30, 53, 79, 0.58));
   --van-picker-option-text-color: var(--text-secondary);
   --van-picker-option-selected-text-color: var(--text-primary);
   --van-picker-confirm-action-color: var(--brand-primary);
@@ -255,10 +255,10 @@ select,
   overflow: hidden;
   border-radius: 24px 24px 0 0 !important;
   background:
-    radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), transparent 24%),
-    linear-gradient(180deg, #13233a 0%, #0a1321 100%) !important;
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 26%),
+    linear-gradient(180deg, #1b3553 0%, #132740 100%) !important;
   border-top: 1px solid var(--border-soft);
-  box-shadow: 0 -18px 48px rgba(0, 0, 0, 0.36);
+  box-shadow: 0 -18px 48px rgba(4, 12, 24, 0.26);
 }
 
 .van-popup--bottom .van-picker {
@@ -322,7 +322,7 @@ select,
   left: 12px !important;
   right: 12px !important;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 /* 带背景色的文字标签默认具备防溢出能力，避免非独占一行时撑破布局 */
@@ -379,9 +379,9 @@ select,
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(circle at 14% 0%, rgba(103, 214, 255, 0.16), transparent 24%),
-    radial-gradient(circle at 86% 2%, rgba(37, 99, 235, 0.14), transparent 22%),
-    linear-gradient(180deg, rgba(20, 35, 54, 0.2), rgba(12, 22, 36, 0.02) 44%, rgba(12, 22, 38, 0));
+    radial-gradient(circle at 14% 0%, rgba(103, 214, 255, 0.2), transparent 26%),
+    radial-gradient(circle at 86% 2%, rgba(55, 114, 246, 0.18), transparent 24%),
+    linear-gradient(180deg, rgba(28, 50, 76, 0.24), rgba(20, 37, 58, 0.06) 44%, rgba(20, 38, 59, 0));
   pointer-events: none;
 }
 
@@ -394,8 +394,8 @@ select,
   border-left: 1px solid rgba(125, 211, 252, 0.05);
   border-right: 1px solid rgba(125, 211, 252, 0.05);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.024), rgba(255, 255, 255, 0.01) 18%, rgba(255, 255, 255, 0) 34%),
-    linear-gradient(180deg, rgba(18, 35, 53, 0.2), rgba(18, 35, 53, 0.06) 36%, rgba(18, 35, 53, 0));
+    linear-gradient(180deg, rgba(255, 255, 255, 0.032), rgba(255, 255, 255, 0.014) 18%, rgba(255, 255, 255, 0) 34%),
+    linear-gradient(180deg, rgba(28, 50, 76, 0.24), rgba(28, 50, 76, 0.08) 36%, rgba(28, 50, 76, 0));
   pointer-events: none;
   z-index: 0;
 }
@@ -494,7 +494,7 @@ select,
   background: var(--surface-module);
   border: 1px solid rgba(125, 211, 252, 0.1);
   border-radius: var(--radius-m);
-  box-shadow: 0 16px 34px rgba(5, 12, 22, 0.16);
+  box-shadow: 0 16px 34px rgba(6, 16, 30, 0.14);
   padding: var(--space-m);
   transition:
     transform var(--motion-base) var(--ease-out-quart),
@@ -531,7 +531,7 @@ select,
 }
 
 .glassPanel {
-  background: rgba(29, 40, 52, 0.72);
+  background: rgba(35, 57, 83, 0.74);
   border: 1px solid var(--border-soft);
   backdrop-filter: blur(18px);
 }
@@ -616,7 +616,7 @@ select,
   background:
     radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 26%),
     radial-gradient(circle at 85% 10%, rgba(37, 99, 235, 0.14), transparent 20%),
-    linear-gradient(180deg, #102139 0%, #0b1627 24%, var(--surface-page) 100%);
+    linear-gradient(180deg, #1a3553 0%, #142940 24%, var(--surface-page) 100%);
 
 }
 /* ================ 通用卡片组件（你原来的 pageBoxEl） ================ */
@@ -652,7 +652,7 @@ select,
   transform: translateX(-50%);
   width: 100%;
   max-width: var(--pageWidth);
-  background: rgba(13, 17, 23, 0.95);
+  background: rgba(23, 41, 62, 0.95);
   padding: 15px var(--pagePading) 20px;
   z-index: 999;
   border-top: 1px solid var(--border-soft);
