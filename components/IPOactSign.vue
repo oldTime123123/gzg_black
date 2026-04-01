@@ -13,7 +13,7 @@
             <Icon name="solar:bell-bing-linear" size="18" />
             <span>{{ t('x.a4') }}</span>
           </div>
-          <div class="mt-4 pr-8 text-[24px] font-extrabold leading-[1.25] text-[var(--text-primary)]">
+          <div class="mt-4 pr-8 text-[22px] font-extrabold leading-[1.25] text-[var(--text-primary)]">
             {{ ipoNoticeData.product?.pro_name }}
           </div>
           <div class="mt-2 text-[13px] text-[var(--text-secondary)]">
@@ -32,7 +32,7 @@
           <div class="rounded-[20px] border border-white/8 bg-white/4 p-4">
             <div class="flex items-center justify-between gap-4">
               <span class="text-[13px] text-[var(--text-secondary)]">{{ t('x.a5') }}</span>
-              <strong class="text-right text-[18px] font-extrabold leading-none text-[var(--text-primary)]">
+              <strong class="text-right text-[16px] font-extrabold leading-none text-[var(--text-primary)]">
                 {{ ipoNoticeData.buy_number }}
               </strong>
             </div>
@@ -41,7 +41,7 @@
           <div class="rounded-[20px] border border-white/8 bg-white/4 p-4">
             <div class="flex items-center justify-between gap-4">
               <span class="text-[13px] text-[var(--text-secondary)]">{{ t('x.a6') }}</span>
-              <strong class="text-right text-[18px] font-extrabold leading-none text-[var(--text-primary)]">
+              <strong class="text-right text-[16px] font-extrabold leading-none text-[var(--text-primary)]">
                 {{ ipoNoticeData.number }}
               </strong>
             </div>

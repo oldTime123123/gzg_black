@@ -131,8 +131,8 @@ onBeforeMount(() => {
             </div>
 
             <div class="flex w-full items-end gap-2">
-              <span class="shrink-0 text-[clamp(2.35rem,7vw,3rem)] font-extrabold leading-[0.94] tracking-[-0.03em] text-[var(--text-primary)]">{{ getCurrency() }}</span>
-              <span class="min-w-0 flex-1 break-words text-[clamp(2.55rem,8vw,3.25rem)] font-extrabold leading-[0.9] tracking-[-0.04em] text-[var(--text-primary)] [overflow-wrap:anywhere]">
+              <span class="shrink-0 text-[clamp(1.95rem,6vw,2.35rem)] font-extrabold leading-[0.96] tracking-[-0.025em] text-[var(--text-primary)]">{{ getCurrency() }}</span>
+              <span class="min-w-0 flex-1 break-words text-[clamp(2.15rem,6.8vw,2.7rem)] font-extrabold leading-[0.92] tracking-[-0.03em] text-[var(--text-primary)] [overflow-wrap:anywhere]">
                 {{ showBalance ? '*****' : UseExchangeNumber(balanceList.totalAsset) }}
               </span>
             </div>

@@ -600,9 +600,9 @@ onMounted(() => {
   .marketPrice {
     color: var(--text-primary);
     font-family: var(--font-family-display);
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: var(--weight-heavy);
-    line-height: 1.02;
+    line-height: 1.06;
     letter-spacing: var(--tracking-tight);
     word-break: break-word;
     overflow-wrap: anywhere;

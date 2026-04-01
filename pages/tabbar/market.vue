@@ -75,36 +75,36 @@ const changeDataType = (type: number) => {
       <TabbarTopNavBar />
 
       <div class="pageContainer px-3 mt-3 pb-6">
-        <div class="marketStage mt-4" v-if="leadIndex">
+        <div class="marketStage mt-4" v-if="lineDataList.length " v-for=" chartItem in lineDataList">
           <div class="stageHeader">
             <div class="stageIntro">
-              <div class="heroEyebrow">{{ $t('theme.marketBoardSubtext') }}</div>
-              <div class="stageTitle">{{ leadIndex.exchange_name }}</div>
+              <!-- <div class="heroEyebrow">{{ $t('theme.marketBoardSubtext') }}</div> -->
+              <div class="stageTitle">{{ chartItem.exchange_name }}</div>
             </div>
-            <div class="stageMeta" :class="leadIndex.is_rise == 2 ? 'colorUp' : 'colorDown'">
+            <div class="stageMeta" :class="chartItem.is_rise == 2 ? 'colorUp' : 'colorDown'">
               <div class="stageMetaRow">
-                <Icon :name="leadIndex.is_rise == 2 ? 'solar:alt-arrow-up-bold' : 'solar:alt-arrow-down-bold'"
+                <Icon :name="chartItem.is_rise == 2 ? 'solar:alt-arrow-up-bold' : 'solar:alt-arrow-down-bold'"
                   class="trendIcon" />
-                {{ getNumberType(true, leadIndex.is_rise) + UseExchangeNumber(leadIndex.chart?.rise) }}
+                {{ getNumberType(true, chartItem.is_rise) + UseExchangeNumber(chartItem.chart?.rise) }}
               </div>
               <div class="stageMetaBadge">
-                {{ getNumberType(true, leadIndex.is_rise) }} {{ leadIndex.rise_rate }}%
+                {{ getNumberType(true, chartItem.is_rise) }} {{ chartItem.rise_rate }}%
               </div>
             </div>
           </div>
 
-          <div class="stagePrice">{{ leadIndex.price }}</div>
+          <div class="stagePrice">{{ chartItem.price }}</div>
 
           <div class="stageChart">
             <ClientOnly>
-              <apexchart width="100%" height="116" type="area" :options="LineOption(leadIndex.is_rise)" :series="[
+              <apexchart width="100%" height="116" type="area" :options="LineOption(chartItem.is_rise)" :series="[
                 {
-                  data: changeLineTypeData(leadIndex.chart.indicators.quote[0].close),
+                  data: changeLineTypeData(chartItem.chart.indicators.quote[0].close),
                 },
               ]" />
             </ClientOnly>
           </div>
-
+<!--
           <div class="briefStrip" v-if="supportIndexes.length">
             <div class="" v-for="(item, index) in supportIndexes" :key="index">
             <div class="briefCard" >
@@ -127,7 +127,7 @@ const changeDataType = (type: number) => {
                 </ClientOnly>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
 
         <div class="marketSection mt-4">

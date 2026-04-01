@@ -238,7 +238,7 @@ const userRealText = ref<Record<number, { text: string; icon: string; tone: stri
   </div>
 </template>
 
-<style scoped>
+<style lang="less" scoped>
 .pageWrap {
   min-height: calc(100vh - 60px);
 }
@@ -443,5 +443,8 @@ const userRealText = ref<Record<number, { text: string; icon: string; tone: stri
   width: 150px !important;
   height: 150px !important;
   border-radius: 18px;
+  img{
+    object-fit: fill !important;
+  }
 }
 </style>
