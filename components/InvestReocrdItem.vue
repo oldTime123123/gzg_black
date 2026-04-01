@@ -336,7 +336,7 @@ const confirmClosePositionHandle = () => {
   padding: 18px;
   border-radius: 24px;
   background:
-    radial-gradient(circle at top right, rgba(212, 154, 58, 0.12), transparent 28%),
+    radial-gradient(circle at top right, rgba(56, 189, 248, 0.12), transparent 28%),
     linear-gradient(180deg, rgba(24, 33, 43, 0.98), rgba(13, 17, 23, 0.98));
   border: 1px solid var(--border-soft);
   box-shadow: var(--shadow-float);

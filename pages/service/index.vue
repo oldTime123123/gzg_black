@@ -108,7 +108,7 @@ onBeforeMount(() => {
   padding: 18px 16px 14px;
   border-radius: 24px;
   background:
-    radial-gradient(circle at top right, rgba(212, 154, 58, 0.09), transparent 26%),
+    radial-gradient(circle at top right, rgba(56, 189, 248, 0.09), transparent 26%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.02));
   border: 1px solid var(--border-soft);
   box-shadow: none;
@@ -123,7 +123,7 @@ onBeforeMount(() => {
 }
 
 .serviceCard:hover {
-  border-color: rgba(212, 154, 58, 0.18);
+  border-color: rgba(56, 189, 248, 0.18);
 }
 
 .serviceTop {

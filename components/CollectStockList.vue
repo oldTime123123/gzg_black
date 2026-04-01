@@ -110,7 +110,7 @@ const changeDataType = () => {
 }
 
 .addBtnIcon {
-  color: rgba(255, 247, 220, 0.92);
+  color: rgba(125, 211, 252, 0.92);
   flex-shrink: 0;
 }
 

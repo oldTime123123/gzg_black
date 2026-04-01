@@ -67,7 +67,7 @@ onBeforeMount(() => {
 .heroDesc{margin-top:8px;color:var(--text-secondary);font-size:13px;line-height:1.55}
 .serviceList{display:grid;gap:14px}
 .serviceCard{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;padding:16px 18px;border-radius:20px;background:rgba(255,255,255,.025);border:1px solid var(--border-soft);box-shadow:none;cursor:pointer;appearance:none;text-align:left;transition:transform .18s ease,border-color .18s ease,background .18s ease}
-.serviceCard:hover{border-color:rgba(212,154,58,.18)}
+.serviceCard:hover{border-color:rgba(56,189,248,.18)}
 .serviceCard:active{transform:scale(.99)}
 .serviceLeft{display:flex;align-items:center;gap:12px;min-width:0}
 .serviceAvatar{width:44px;height:44px;border-radius:16px;overflow:hidden;background:rgba(255,255,255,.04);border:1px solid var(--border-soft)}

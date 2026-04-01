@@ -42,7 +42,7 @@ const showLoadingText = computed(() => loginStore.loadingText);
           <div class="bootMeta">{{ $t('theme.secureAccess') }}</div>
         </div>
         <div class="bootLogo">
-          <img src="/ico.png" alt="QSoe Pro" class="bootIcon" decoding="async" width="72" height="72">
+          <img src="/ico.png" alt="HQBW " class="bootIcon" decoding="async" width="72" height="72">
         </div>
         <div class="bootTitle">{{ showLoadingText || $t('theme.appName') }}</div>
         <div class="bootSub">{{ $t('comm.c66') }}</div>

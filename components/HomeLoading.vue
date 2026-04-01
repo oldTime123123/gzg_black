@@ -31,7 +31,7 @@
   padding: 24px 18px 20px;
   border-radius: 26px;
   background:
-    radial-gradient(circle at top, rgba(212, 154, 58, 0.12), transparent 34%),
+    radial-gradient(circle at top, rgba(56, 189, 248, 0.12), transparent 34%),
     rgba(19, 26, 34, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
@@ -47,7 +47,7 @@
   width: 108px;
   height: 108px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(212, 154, 58, 0.24), transparent 64%);
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.24), transparent 64%);
   filter: blur(6px);
   opacity: 0.9;
 }

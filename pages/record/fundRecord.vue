@@ -125,7 +125,7 @@ const showCancelConfirm = () => {
             <div class="historyCard" v-for="(item, index) in recordList" :key="index">
               <div class="historyTop">
                 <div class="itemTitle">{{ item.order_no }}</div>
-                <div class="statusBadge gold">{{ statusEnum[item.status] }}</div>
+                <div class="statusBadge accent">{{ statusEnum[item.status] }}</div>
               </div>
 
               <div class="detailList">
@@ -215,7 +215,7 @@ const showCancelConfirm = () => {
 .statusBadge {
   padding: 8px 12px; border-radius: 999px; font-size: 12px; font-weight: 700;
 }
-.statusBadge.gold { background: rgba(244,183,64,0.16); color: var(--color-warning); }
+.statusBadge.accent { background: var(--brand-primary-soft); color: var(--brand-primary); }
 .detailList { display: grid; gap: 8px; margin-top: 14px; }
 .detailRow {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
@@ -227,13 +227,13 @@ const showCancelConfirm = () => {
   display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 16px;
 }
 .dialogCard {
-  width: min(350px, 100%); border-radius: 24px; background: radial-gradient(circle at top right, rgba(212, 154, 58, 0.12), transparent 30%), linear-gradient(180deg, rgba(24, 33, 43, 0.98), rgba(13, 17, 23, 0.98));
+  width: min(350px, 100%); border-radius: 24px; background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.12), transparent 30%), linear-gradient(180deg, rgba(24, 33, 43, 0.98), rgba(13, 17, 23, 0.98));
   border: 1px solid var(--border-soft); box-shadow: var(--shadow-float);
 }
 .dialogHead { position: relative; padding: 18px 18px 10px; }
 .dialogTitle { color: var(--text-primary); font-size: 18px; font-weight: 800; }
 .closeBtn { position: absolute; right: 14px; top: 14px; width: 40px; height: 40px; border-radius: 14px; display: inline-flex; align-items: center; justify-content: center; color: var(--text-secondary); appearance: none; background: rgba(255,255,255,.025); border: 1px solid rgba(255,255,255,.08); transition: transform .18s ease, border-color .18s ease, color .18s ease; }
-.closeBtn:hover { border-color: rgba(212,154,58,.18); color: var(--brand-primary); }
+.closeBtn:hover { border-color: rgba(56,189,248,.18); color: var(--brand-primary); }
 .closeBtn:active { transform: scale(.96); }
 .dialogBody { padding: 0 18px 18px; }
 .dialogMessage {

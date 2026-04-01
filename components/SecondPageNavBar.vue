@@ -96,7 +96,7 @@ const changePage = (url: string) => {
 
 .navAction:hover {
     background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(212, 154, 58, 0.18);
+    border-color: rgba(56, 189, 248, 0.18);
 }
 
 .navTitleWrap {

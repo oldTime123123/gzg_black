@@ -121,7 +121,7 @@ onBeforeMount(() => {
               </div>
               <button
                 type="button"
-                class="inline-flex min-h-8 shrink-0 items-center gap-1.5 rounded-full border border-white/10 bg-[radial-gradient(circle_at_left_center,rgba(212,154,58,0.08),transparent_36%),rgba(255,255,255,0.03)] px-2.5 py-1.5 text-[12px] leading-[1.2] text-[var(--text-secondary)] transition-[transform,border-color,background-color] duration-200 ease-out"
+                class="inline-flex min-h-8 shrink-0 items-center gap-1.5 rounded-full border border-white/10 bg-[radial-gradient(circle_at_left_center,rgba(56,189,248,0.08),transparent_36%),rgba(255,255,255,0.03)] px-2.5 py-1.5 text-[12px] leading-[1.2] text-[var(--text-secondary)] transition-[transform,border-color,background-color] duration-200 ease-out"
                 :aria-pressed="showBalance"
                 @click="showBalance = !showBalance"
               >
@@ -318,7 +318,7 @@ onBeforeMount(() => {
     color var(--motion-fast);
 
   &.active {
-    background: rgba(212, 154, 58, 0.12);
+    background: rgba(56, 189, 248, 0.12);
     color: var(--brand-primary);
   }
 }
@@ -339,7 +339,7 @@ onBeforeMount(() => {
 }
 
 .addBtnIcon {
-  color: rgba(255, 247, 220, 0.92);
+  color: rgba(125, 211, 252, 0.92);
   flex-shrink: 0;
 }
 

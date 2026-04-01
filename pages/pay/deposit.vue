@@ -135,9 +135,9 @@ onMounted(() => {
 
 .payOption.isActive {
   background:
-    radial-gradient(circle at top right, rgba(212, 154, 58, 0.1), transparent 28%),
+    radial-gradient(circle at top right, rgba(56, 189, 248, 0.1), transparent 28%),
     rgba(255, 255, 255, 0.03);
-  border-color: rgba(212, 154, 58, 0.18);
+  border-color: rgba(56, 189, 248, 0.18);
 }
 
 .optionLeft {

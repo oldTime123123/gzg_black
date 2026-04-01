@@ -140,7 +140,7 @@ onMounted(() => {
 .heroHeading{display:grid;gap:10px;min-width:0;width:100%}
 .heroEyebrow{color:var(--brand-primary);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
 .heroTitle{color:var(--text-primary);font-size:22px;font-weight:800;line-height:1.25;word-break:break-word}
-.vipPill{display:inline-flex;align-items:center;max-width:100%;width:max-content;padding:8px 12px;border-radius:999px;background:rgba(244,183,64,.14);color:var(--color-warning);font-size:12px;font-weight:700;line-height:1.35;flex-wrap:wrap}
+.vipPill{display:inline-flex;align-items:center;max-width:100%;width:max-content;padding:8px 12px;border-radius:999px;background:var(--brand-primary-soft);color:var(--brand-primary);font-size:12px;font-weight:700;line-height:1.35;flex-wrap:wrap}
 .heroStats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}
 .statBox{padding:16px;border-radius:18px;background:rgba(255,255,255,.025);display:grid;gap:8px;text-align:center}
 .statBox strong{color:var(--text-primary);font-size:18px;line-height:1.24;word-break:break-word;overflow-wrap:anywhere}

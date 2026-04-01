@@ -70,8 +70,8 @@ const changePage = (url: string) => {
 }
 
 .authInput:focus-within {
-  border-color: rgba(212, 154, 58, 0.42);
-  box-shadow: 0 0 0 3px rgba(212, 154, 58, 0.12);
+  border-color: rgba(56, 189, 248, 0.42);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
   background: rgba(255, 255, 255, 0.05);
 }
 
@@ -107,7 +107,7 @@ const changePage = (url: string) => {
 
 .infoCard {
   padding: 2px 0 0 14px;
-  border-left: 2px solid rgba(212, 154, 58, 0.28);
+  border-left: 2px solid rgba(56, 189, 248, 0.28);
 }
 
 .infoTitle {

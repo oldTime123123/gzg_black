@@ -476,7 +476,7 @@ onMounted(() => {
   width: min(100%, 400px);
   border-radius: 30px;
   background:
-    radial-gradient(circle at top, rgba(212, 154, 58, 0.14), transparent 42%),
+    radial-gradient(circle at top, rgba(56, 189, 248, 0.14), transparent 42%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)),
     linear-gradient(180deg, #17212c 0%, #121922 100%);
   border: 1px solid var(--border-soft);

@@ -80,7 +80,7 @@ onBeforeMount(() => {
                   @click="goNewsDetail(item)"
                 >
                   <div class="flex flex-col items-center gap-2 pt-1">
-                    <span class="h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--brand-primary)] shadow-[0_0_0_4px_rgba(212,154,58,0.12)]"></span>
+                    <span class="h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--brand-primary)] shadow-[0_0_0_4px_rgba(56,189,248,0.12)]"></span>
                     <span class="w-px flex-1 bg-white/10" :class="index === recordList.length - 1 ? 'opacity-0' : 'opacity-100'"></span>
                   </div>
                   <div class="border-b border-white/10 pb-4">

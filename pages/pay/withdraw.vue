@@ -237,7 +237,7 @@ onBeforeMount(() => {
   padding: 18px 16px 16px;
   border-radius: 28px;
   background:
-    radial-gradient(circle at top right, rgba(212, 154, 58, 0.12), transparent 28%),
+    radial-gradient(circle at top right, rgba(56, 189, 248, 0.12), transparent 28%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
@@ -291,7 +291,7 @@ onBeforeMount(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(212, 154, 58, 0.14);
+  background: rgba(56, 189, 248, 0.14);
   color: var(--brand-primary);
 }
 
@@ -483,12 +483,12 @@ onBeforeMount(() => {
 
 .bankPickerItem.isActive {
   background:
-    radial-gradient(circle at top left, rgba(212, 154, 58, 0.12), transparent 42%),
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), transparent 42%),
     rgba(255, 255, 255, 0.06);
-  border-color: rgba(212, 154, 58, 0.34);
+  border-color: rgba(56, 189, 248, 0.34);
   box-shadow:
-    inset 0 0 0 1px rgba(212, 154, 58, 0.14),
-    0 8px 24px rgba(212, 154, 58, 0.12);
+    inset 0 0 0 1px rgba(56, 189, 248, 0.14),
+    0 8px 24px rgba(56, 189, 248, 0.12);
   transform: translateY(-1px);
 }
 
@@ -502,7 +502,7 @@ onBeforeMount(() => {
   height: 10px;
   border-radius: 999px;
   background: var(--brand-primary);
-  box-shadow: 0 0 0 4px rgba(212, 154, 58, 0.14);
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.14);
 }
 
 .bankPickerName {

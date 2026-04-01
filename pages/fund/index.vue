@@ -153,7 +153,7 @@ onBeforeMount(() => {
 .metaRow strong{color:var(--text-primary);line-height:1.35}
 .richCard{padding:18px;border-radius:20px;background:rgba(255,255,255,.025);color:var(--text-secondary);font-size:1rem;line-height:1.82;max-width:65ch}
 .disBtn{background:#6b7280!important;color:#d1d5db!important}
-.navActionIcon:hover{border-color:rgba(212,154,58,.18);background:rgba(255,255,255,.055)}
+.navActionIcon:hover{border-color:rgba(56,189,248,.18);background:rgba(255,255,255,.055)}
 .navActionIcon:active,.productCard .contentBtn:active{transform:scale(.98)}
 
 </style>

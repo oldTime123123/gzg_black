@@ -510,7 +510,7 @@ const collectHandle = () => {
   padding: 18px 16px 16px;
   border-radius: 28px;
   background:
-    radial-gradient(circle at top right, rgba(212, 154, 58, 0.12), transparent 28%),
+    radial-gradient(circle at top right, rgba(56, 189, 248, 0.12), transparent 28%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
@@ -557,7 +557,7 @@ const collectHandle = () => {
   padding: 10px 12px;
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(212, 154, 58, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.12);
   text-align: right;
   font-size: 13px;
   font-weight: 700;
@@ -795,7 +795,7 @@ const collectHandle = () => {
 }
 
 .collectToggle:hover {
-  border-color: rgba(212, 154, 58, 0.2);
+  border-color: rgba(56, 189, 248, 0.2);
 }
 
 .collectToggle:active {
@@ -830,7 +830,7 @@ const collectHandle = () => {
 .popupWrap {
   padding: 20px;
   background:
-    radial-gradient(circle at top right, rgba(212, 154, 58, 0.12), transparent 30%),
+    radial-gradient(circle at top right, rgba(56, 189, 248, 0.12), transparent 30%),
     linear-gradient(180deg, rgba(24, 33, 43, 0.98), rgba(13, 17, 23, 0.98));
   color: var(--text-primary);
 }

@@ -272,7 +272,7 @@ const userRealText = ref<Record<number, { text: string; icon: string; tone: stri
 }
 
 .heroStatusIcon.pending {
-  color: var(--color-warning);
+  color: var(--brand-primary);
 }
 
 .heroStatusIcon.success {
@@ -308,8 +308,8 @@ const userRealText = ref<Record<number, { text: string; icon: string; tone: stri
 }
 
 .authInput:focus-within {
-  border-color: rgba(212, 154, 58, 0.42);
-  box-shadow: 0 0 0 3px rgba(212, 154, 58, 0.12);
+  border-color: rgba(56, 189, 248, 0.42);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
   background: rgba(255, 255, 255, 0.05);
 }
 

@@ -58,8 +58,8 @@ onMounted(() => {
   width: fit-content;
   padding: 8px 12px;
   border-radius: 999px;
-  background: rgba(212, 154, 58, 0.12);
-  border: 1px solid rgba(212, 154, 58, 0.18);
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.18);
   color: var(--brand-primary);
   font-size: 12px;
   font-weight: 700;
@@ -72,7 +72,7 @@ onMounted(() => {
   height: 8px;
   border-radius: 999px;
   background: var(--brand-primary);
-  box-shadow: 0 0 0 4px rgba(212, 154, 58, 0.12);
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.12);
 }
 
 .heroMeta {

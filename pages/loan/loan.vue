@@ -91,9 +91,9 @@ onMounted(() => {
 .pageWrap{min-height:calc(100vh - 60px)}
 .heroEyebrow{color:var(--brand-primary);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.heroValue{margin-top:20px;color:var(--text-primary);font-size:30px;font-weight:800;line-height:1.08;word-break:break-word;overflow-wrap:anywhere}.heroLabel{margin-top:8px;color:var(--text-secondary);font-size:13px;line-height:1.45}
 .copyCard{padding:20px}.copyText{min-height:72px;color:var(--text-secondary);font-size:14px;line-height:1.75}
-.overlayWrap{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:16px}.dialogCard{width:min(350px,100%);border-radius:24px;background:radial-gradient(circle at top right, rgba(212,154,58,.12), transparent 30%),linear-gradient(180deg, rgba(24,33,43,.98), rgba(13,17,23,.98));border:1px solid var(--border-soft);box-shadow:var(--shadow-float)}
+.overlayWrap{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:16px}.dialogCard{width:min(350px,100%);border-radius:24px;background:radial-gradient(circle at top right, rgba(56,189,248,.12), transparent 30%),linear-gradient(180deg, rgba(24,33,43,.98), rgba(13,17,23,.98));border:1px solid var(--border-soft);box-shadow:var(--shadow-float)}
 .dialogHead{position:relative;padding:20px 20px 12px}.dialogTitle{color:var(--text-primary);font-size:20px;font-weight:800}.closeBtn{position:absolute;right:14px;top:14px;width:40px;height:40px;border-radius:14px;display:inline-flex;align-items:center;justify-content:center;color:var(--text-secondary);appearance:none;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.08);transition:transform .18s ease,border-color .18s ease,color .18s ease}
-.closeBtn:hover{border-color:rgba(212,154,58,.18);color:var(--brand-primary)}
+.closeBtn:hover{border-color:rgba(56,189,248,.18);color:var(--brand-primary)}
 .closeBtn:active{transform:scale(.96)}
 .dialogBody{padding:0 20px 20px}.fieldLabel{color:var(--text-primary);font-size:15px;font-weight:700;line-height:1.4}.authInput{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px}.authInput :deep(.van-field__body){min-height:52px}.authInput :deep(.van-field__control){color:var(--text-primary)}
 .dialogActions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
