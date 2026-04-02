@@ -22,7 +22,10 @@ onMounted(() => {
   if (import.meta.client && storage.getItem('token')) {
 
     router.push('/tabbar/home');
+    setTimeout(() => {
+      loginStore.loading = false
 
+    }, 2000);
 
 
   } else {
