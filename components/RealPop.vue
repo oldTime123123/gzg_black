@@ -51,38 +51,51 @@ const closePop = (type: number) => {
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background: linear-gradient(180deg, var(--overlay-scrim), var(--overlay-scrim-strong));
-  backdrop-filter: blur(8px);
+  background:
+    radial-gradient(circle at 50% 12%, rgba(103, 214, 255, 0.12), transparent 28%),
+    linear-gradient(180deg, var(--overlay-scrim), var(--overlay-scrim-strong));
+  backdrop-filter: blur(14px) saturate(118%);
+  -webkit-backdrop-filter: blur(14px) saturate(118%);
 }
 
 .realModalCard {
   position: relative;
-  width: min(360px, 100%);
-  padding: 24px 20px 20px;
-  border-radius: 28px;
+  width: min(364px, 100%);
+  padding: 26px 20px 20px;
+  border-radius: var(--overlay-panel-radius);
   overflow: hidden;
   background:
     radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 30%),
     radial-gradient(circle at top right, rgba(55, 114, 246, 0.16), transparent 26%),
     var(--surface-modal-panel);
-  border: 1px solid rgba(125, 211, 252, 0.14);
-  box-shadow: 0 28px 80px rgba(4, 12, 24, 0.3);
+  border: 1px solid rgba(125, 211, 252, 0.16);
+  box-shadow: var(--overlay-panel-shadow-strong), var(--overlay-panel-inner-stroke);
+}
+
+.realModalCard::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.045);
+  pointer-events: none;
 }
 
 .realModalClose {
   position: absolute;
   top: 16px;
   right: 16px;
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: 999px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.055);
   color: var(--text-secondary);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  transition: transform .18s ease, border-color .18s ease, color .18s ease;
+  border: 1px solid rgba(125, 211, 252, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: transform .18s ease, border-color .18s ease, color .18s ease, background-color .18s ease;
 }
 
 .realModalClose:active {
@@ -100,6 +113,7 @@ const closePop = (type: number) => {
   color: var(--brand-primary);
   font-size: 12px;
   font-weight: 700;
+  border: 1px solid rgba(125, 211, 252, 0.12);
 }
 
 .realModalTitle {
@@ -107,20 +121,20 @@ const closePop = (type: number) => {
   color: var(--text-primary);
   font-size: 24px;
   font-weight: 800;
-  line-height: 1.2;
+  line-height: 1.22;
 }
 
 .realModalDesc {
   margin-top: 12px;
   color: var(--text-secondary);
   font-size: 14px;
-  line-height: 1.7;
+  line-height: 1.72;
 }
 
 .realModalActions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
-  margin-top: 22px;
+  margin-top: 24px;
 }
 </style>

@@ -39,32 +39,58 @@ const showLoadingText = computed(() => {
   background:
     radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 28%),
     radial-gradient(circle at top right, rgba(37, 99, 235, 0.14), transparent 24%),
+    linear-gradient(180deg, rgba(7, 15, 27, 0.18), rgba(7, 15, 27, 0.32)),
     var(--surface-auth-shell);
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 18px;
+  backdrop-filter: blur(12px) saturate(118%);
+  -webkit-backdrop-filter: blur(12px) saturate(118%);
 }
 
 .loadingShell {
-  width: min(320px, calc(100vw - 32px));
-  padding: 28px 22px;
-  border-radius: 28px;
-  background: var(--surface-loading-panel);
-  border: 1px solid rgba(125, 211, 252, 0.12);
-  box-shadow: var(--shadow-soft-dark);
+  position: relative;
+  overflow: hidden;
+  width: min(332px, calc(100vw - 36px));
+  padding: 30px 22px 24px;
+  border-radius: var(--overlay-panel-radius);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(103, 214, 255, 0.16), transparent 34%),
+    var(--surface-loading-panel);
+  border: 1px solid rgba(125, 211, 252, 0.16);
+  box-shadow: var(--overlay-panel-shadow-strong), var(--overlay-panel-inner-stroke);
   text-align: center;
   backdrop-filter: blur(18px);
+}
+
+.loadingShell::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.045);
+  pointer-events: none;
+}
+
+.loadingHead,
+.loadingSpinnerShell,
+.loadingTitle,
+.loadingSub {
+  position: relative;
+  z-index: 1;
 }
 
 .loadingHead {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  min-height: 30px;
-  padding: 0 12px;
+  min-height: 32px;
+  padding: 0 13px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(125, 211, 252, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(125, 211, 252, 0.14);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .loadingSignal {
@@ -72,7 +98,7 @@ const showLoadingText = computed(() => {
   height: 8px;
   border-radius: 999px;
   background: var(--brand-primary);
-  box-shadow: 0 0 0 6px rgba(56, 189, 248, 0.12);
+  box-shadow: 0 0 0 7px rgba(56, 189, 248, 0.12);
 }
 
 .loadingMeta {
@@ -85,45 +111,58 @@ const showLoadingText = computed(() => {
 
 .loadingSpinnerShell {
   position: relative;
-  width: 76px;
-  height: 76px;
-  margin: 22px auto 0;
+  width: 88px;
+  height: 88px;
+  margin: 24px auto 0;
+}
+
+.loadingSpinnerShell::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(103, 214, 255, 0.18), transparent 64%);
+  filter: blur(8px);
 }
 
 .loadingSpinner {
-  width: 76px;
-  height: 76px;
+  position: relative;
+  width: 88px;
+  height: 88px;
   border-radius: 50%;
   border: 3px solid rgba(255, 255, 255, 0.08);
   border-top-color: var(--brand-primary);
-  border-right-color: rgba(103, 183, 255, 0.8);
-  animation: spin 0.9s linear infinite;
+  border-right-color: rgba(103, 214, 255, 0.84);
+  box-shadow: 0 0 0 10px var(--loading-orbit-soft);
+  animation: spin 0.95s linear infinite;
 }
 
 .loadingCenterIcon {
   position: absolute;
-  inset: 14px;
+  inset: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 999px;
   color: var(--brand-primary);
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(125, 211, 252, 0.14);
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(125, 211, 252, 0.16);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .loadingTitle {
-  margin-top: 18px;
+  margin-top: 20px;
   color: var(--text-primary);
   font-size: 24px;
   font-weight: 800;
+  line-height: 1.24;
 }
 
 .loadingSub {
-  margin-top: 8px;
+  margin-top: 10px;
   color: var(--text-secondary);
   font-size: 14px;
+  line-height: 1.6;
 }
 
 @keyframes spin {

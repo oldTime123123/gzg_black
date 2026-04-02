@@ -33,7 +33,13 @@
   --overlay-panel-highlight: rgba(103, 214, 255, 0.18);
   --overlay-panel-border: rgba(125, 211, 252, 0.16);
   --overlay-panel-shadow: 0 26px 80px rgba(4, 12, 24, 0.34);
+  --overlay-panel-shadow-strong: 0 32px 96px rgba(4, 12, 24, 0.42);
+  --overlay-panel-inner-stroke: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --overlay-panel-radius: 30px;
+  --overlay-panel-radius-compact: 26px;
   --shadow-soft-dark: 0 20px 56px rgba(5, 14, 26, 0.28);
+  --loading-orbit: rgba(103, 214, 255, 0.26);
+  --loading-orbit-soft: rgba(56, 189, 248, 0.1);
   --surface-interactive-soft: rgba(255, 255, 255, 0.045);
   --surface-interactive-strong: rgba(255, 255, 255, 0.072);
   --surface-module: linear-gradient(180deg, rgba(29, 52, 78, 0.94) 0%, rgba(22, 42, 65, 0.92) 100%);
@@ -956,15 +962,21 @@ select,
 .overlayWrap {
   min-height: 100vh;
   min-height: 100dvh;
-  padding: calc(env(safe-area-inset-top, 0px) + 16px) 16px calc(env(safe-area-inset-bottom, 0px) + 16px);
-  animation: motion-soft-fade 180ms var(--ease-out-quart) both;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(env(safe-area-inset-top, 0px) + 18px) 16px calc(env(safe-area-inset-bottom, 0px) + 18px);
+  animation: motion-soft-fade 220ms var(--ease-out-quart) both;
 }
 
 .dialogCard {
   position: relative;
   overflow: hidden;
   transform-origin: 50% 100%;
-  animation: motion-dialog-in 320ms var(--ease-out-expo) both;
+  background: transparent;
+  border-radius: var(--overlay-panel-radius);
+  box-shadow: var(--overlay-panel-shadow-strong), var(--overlay-panel-inner-stroke);
+  animation: motion-dialog-in 360ms var(--ease-out-expo) both;
 }
 
 .dialogCard::before {
@@ -972,8 +984,18 @@ select,
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at top right, var(--overlay-panel-highlight), transparent 30%),
+    radial-gradient(circle at 14% 0%, rgba(103, 214, 255, 0.18), transparent 34%),
+    radial-gradient(circle at 100% 0%, var(--overlay-panel-highlight), transparent 32%),
     linear-gradient(180deg, var(--overlay-panel-top), var(--overlay-panel-bottom));
+  pointer-events: none;
+}
+
+.dialogCard::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.045);
   pointer-events: none;
 }
 
@@ -983,8 +1005,11 @@ select,
 }
 
 .van-overlay {
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  background:
+    radial-gradient(circle at 50% 10%, rgba(103, 214, 255, 0.1), transparent 28%),
+    linear-gradient(180deg, var(--overlay-scrim), var(--overlay-scrim-strong));
+  backdrop-filter: blur(18px) saturate(120%);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
 }
 
 .van-popup,
@@ -992,7 +1017,15 @@ select,
   overflow: hidden;
   isolation: isolate;
   border: 1px solid var(--overlay-panel-border);
-  box-shadow: var(--overlay-panel-shadow);
+  border-radius: var(--overlay-panel-radius) !important;
+  box-shadow: var(--overlay-panel-shadow-strong);
+}
+
+.van-dialog {
+  background:
+    radial-gradient(circle at top right, rgba(103, 214, 255, 0.16), transparent 30%),
+    linear-gradient(180deg, var(--overlay-panel-top), var(--overlay-panel-bottom)) !important;
+  color: var(--text-primary);
 }
 
 .nullData {

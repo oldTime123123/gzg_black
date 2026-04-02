@@ -837,12 +837,13 @@ const collectHandle = () => {
 
 .confirmPopup {
   background: transparent;
+  border-radius: var(--overlay-panel-radius) var(--overlay-panel-radius) 0 0 !important;
 }
 
 .popupWrap {
   position: relative;
   overflow: hidden;
-  padding: 20px 20px calc(env(safe-area-inset-bottom, 0px) + 20px);
+  padding: 22px 20px calc(env(safe-area-inset-bottom, 0px) + 22px);
   background: transparent;
   color: var(--text-primary);
 }
@@ -852,8 +853,19 @@ const collectHandle = () => {
   position: absolute;
   inset: 0;
   background:
+    radial-gradient(circle at 18% 0%, rgba(103, 214, 255, 0.16), transparent 28%),
     radial-gradient(circle at top right, var(--overlay-panel-highlight), transparent 30%),
     linear-gradient(180deg, var(--overlay-panel-top), var(--overlay-panel-bottom));
+  pointer-events: none;
+}
+
+.popupWrap::after {
+  content: "";
+  position: absolute;
+  inset: 1px 1px 0;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.045);
+  border-bottom: 0;
   pointer-events: none;
 }
 
@@ -864,17 +876,17 @@ const collectHandle = () => {
 
 .popupTitle {
   text-align: center;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.35;
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.32;
 }
 
 .popupSubline {
-  margin-top: 8px;
+  margin-top: 10px;
   text-align: center;
   color: var(--text-secondary);
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .summaryList {
