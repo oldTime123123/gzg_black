@@ -15,7 +15,7 @@ const getData = () => {
 onMounted(() => {
     pub.showLoading = false
     getData()
-}) 
+})
 </script>
 
 <template>
@@ -27,7 +27,7 @@ onMounted(() => {
                 <div class="heroEyebrow">{{ $t('theme.intelligenceHub') }}</div>
                 <div class="heroTitle">{{ selectNews.name }}</div>
                 <div class="metaRow">
-                    <div class="typeBadge">{{ $t('mine.m2') }}</div>
+                    <div class="typeBadge" v-if="selectNews.type >1">{{ $t('mine.m2') }}</div>
                     <div class="metaTime">{{ selectNews.show_time_format }}</div>
                 </div>
             </div>

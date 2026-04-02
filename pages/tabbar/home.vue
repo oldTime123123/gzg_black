@@ -256,19 +256,18 @@ onMounted(() => {
               <div class="heroMatrix__header">
                 <div class="heroMatrix__titleWrap">
                   <div class="heroMatrix__eyebrow">{{ $t('theme.marketBoardSubtext') }}</div>
-                  <h1 class="heroMatrix__title">{{ selectStockInfo.exchange_name || $t('theme.appName') }}</h1>
+                  <!-- <h1 class="heroMatrix__title">{{ selectStockInfo.exchange_name || $t('theme.appName') }}</h1> -->
                 </div>
-                <button type="button" class="heroMatrix__link" @click="changePage('/tabbar/market')">
-                  <span>{{ $t('index.i23') }}</span>
-                  <Icon name="solar:alt-arrow-right-linear" size="16" />
-                </button>
               </div>
 
               <div class="heroMatrix__lead">
                 <div class="heroSpotlight">
                   <div class="heroSpotlight__head">
                     <div class="heroSpotlight__valueBlock">
-                    <div class="heroSpotlight__price">{{ UseExchangeNumber(selectStockInfo.price) }}</div>
+                    <div class="heroSpotlight__price">{{ UseExchangeNumber(selectStockInfo.price) }}
+
+                      <span class="text-[18px]">{{ selectStockInfo.exchange_name }}</span>
+                    </div>
                    <div class="flex items-center mt-1">
                         <div class="heroSpotlight__delta"
                           :class="selectStockInfo.is_rise > 1 ? 'colorUp' : 'colorDown'">
@@ -304,9 +303,6 @@ onMounted(() => {
             <section class="sectionCard overviewDeck">
               <div class="overviewDeck__groups">
                 <div v-for="group in actionGroups" :key="group.title" class="actionColumn">
-                  <div class="actionColumn__header">
-                    <div class="actionColumn__title">{{ group.title }}</div>
-                  </div>
                   <div class="actionColumn__list">
                     <button
                       v-for="item in group.items"
@@ -333,10 +329,7 @@ onMounted(() => {
                 <div>
                   <div class="sectionTitle">{{ $t('index.i21') }}</div>
                 </div>
-                <button type="button" class="sectionLink" @click="changePage('/tabbar/market?type=1')">
-                  {{ $t('index.i23') }}
-                  <Icon name="solar:alt-arrow-right-linear" size="16" />
-                </button>
+
               </div>
 
               <div class="marketDeck__list renderBudgetDense">

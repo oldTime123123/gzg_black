@@ -121,7 +121,7 @@ const groupedActions = computed(() => {
       title: t('theme.onlineCustomerService'),
       items: [
         { name: t('mine.m6'), icon: 'solar:headphones-round-sound-linear', url: '/service' },
-        { name: t('comm.c83'), icon: 'solar:global-linear', url: '/mine/language' },
+        { name: t('mine.m21'), icon: 'solar:global-linear', url: '/mine/language' },
       ],
     },
   ];
@@ -190,7 +190,7 @@ onMounted(() => {
                   @click="showID = !showID"
                   :aria-pressed="showID"
                 >
-                  <Icon :name="showID ? 'solar:eye-closed-linear' : 'solar:eye-linear'" size="16" />
+                  <Icon :name="!showID ? 'solar:eye-closed-linear' : 'solar:eye-linear'" size="16" />
                   <span>{{ showID ? $t('theme.hideBalance') : $t('theme.showBalance') }}</span>
                 </button>
               </div>

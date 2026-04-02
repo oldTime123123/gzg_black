@@ -14,7 +14,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
   if (import.meta.client) {
     cancelAllPendingRequests();
   }
-
+  pub.showLoading = true;
   if (import.meta.client) {
     if (to.path !== "/") {
       pub.isLoginFlag = false;

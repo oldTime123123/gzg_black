@@ -3,6 +3,10 @@ import { uploadFile } from '~/utils';
 import * as v from 'valibot';
 import { getUserRealInfo, realNameService } from '~/api/setting';
 import { showToast } from 'vant';
+import img1 from '~/assets/images/img/identify-status-idle.svg';
+import img2 from '~/assets/images/img/identify-status-pending.svg';
+import img3 from '~/assets/images/img/identify-status-approved.svg';
+import img4 from '~/assets/images/img/identify-status-rejected.svg';
 
 const { t } = useI18n();
 const publicStore = usePublicStore();
@@ -165,6 +169,13 @@ const userRealText = ref<Record<number, { text: string; icon: string; tone: stri
   2: { text: t('setting.s33'), icon: 'solar:verified-check-linear', tone: 'success' },
   3: { text: t('setting.s34'), icon: 'solar:danger-triangle-linear', tone: 'danger' },
 });
+
+const identifyStatusBannerMap: Record<number, string> = {
+  0: img1,
+  1: img2,
+  2: img3,
+  3: img4,
+};
 </script>
 
 <template>
@@ -172,6 +183,13 @@ const userRealText = ref<Record<number, { text: string; icon: string; tone: stri
     <SecondPageNavBar :title="$t('setting.s35')" :hasNoBg="true" />
 
     <div class="pageWrap px-3 pb-6">
+      <div class="statusHero mt-4">
+        <img :src="identifyStatusBannerMap[userRealStatus] || identifyStatusBannerMap[0]" alt="identity verification status banner" class="statusHero__image" />
+        <div class="statusHero__overlay">
+          <div class="statusHero__title">{{ userRealText[userRealStatus]?.text || '-' }}</div>
+        </div>
+      </div>
+
       <div class="sectionCard formCard mt-4">
         <van-form :disabled="userRealStatus > 0 && userRealStatus < 3" @submit="handleSubmit">
           <div class="formBlock">
@@ -361,6 +379,44 @@ const userRealText = ref<Record<number, { text: string; icon: string; tone: stri
   display: block;
   flex: 1 1 auto;
   min-width: 0;
+}
+
+.statusHero {
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px;
+  border: 1px solid rgba(191, 230, 255, 0.18);
+  box-shadow: 0 18px 42px rgba(8, 24, 48, 0.24);
+}
+
+.statusHero__image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.statusHero__overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 20px 20px 18px;
+  background: linear-gradient(180deg, rgba(7, 18, 35, 0) 0%, rgba(7, 18, 35, 0.78) 100%);
+}
+
+.statusHero__eyebrow {
+  color: rgba(207, 238, 255, 0.84);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.statusHero__title {
+  margin-top: 8px;
+  color: #f3f9ff;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.18;
 }
 
 .fieldIcon {
