@@ -15,7 +15,6 @@ export default defineNuxtRouteMiddleware((to, from) => {
     cancelAllPendingRequests();
   }
 
-  pub.showLoading = true;
   if (import.meta.client) {
     if (to.path !== "/") {
       pub.isLoginFlag = false;
@@ -30,10 +29,11 @@ export default defineNuxtRouteMiddleware((to, from) => {
       window.location.reload();
       return;
     }
+  pub.showLoading = true;
     setTimeout(() => {
       pub.showLoading = false;
-    }, 0);
-  } else {
+    }, 5000);
+  }  {
     pub.showLoading = false;
   }
 });

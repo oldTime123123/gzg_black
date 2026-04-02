@@ -267,28 +267,25 @@ onMounted(() => {
               <div class="heroMatrix__lead">
                 <div class="heroSpotlight">
                   <div class="heroSpotlight__head">
-                    <div class="heroSpotlight__tone" :class="selectStockInfo.is_rise > 1 ? 'colorUp' : 'colorDown'">
-                      <Icon :name="selectStockInfo.is_rise > 1 ? 'solar:alt-arrow-up-bold' : 'solar:alt-arrow-down-bold'" size="14" />
-                      <span>{{ getNumberType(true, selectStockInfo.is_rise) + selectStockInfo.rise_rate }}%</span>
-                    </div>
-                    <div class="heroSignalRail">
-                      <div v-for="item in insightCards" :key="item.label" class="heroSignalCard">
-                        <span class="heroSignalCard__label">{{ item.label }}</span>
-                        <strong class="heroSignalCard__value">{{ item.value }}</strong>
-                        <span class="heroSignalCard__note">{{ item.note }}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="heroSpotlight__valueBlock">
+                    <div class="heroSpotlight__valueBlock">
                     <div class="heroSpotlight__price">{{ UseExchangeNumber(selectStockInfo.price) }}</div>
-                    <div class="heroSpotlight__delta" :class="selectStockInfo.is_rise > 1 ? 'colorUp' : 'colorDown'">
-                      {{ getNumberType(true, selectStockInfo.is_rise) + UseExchangeNumber(selectStockInfo.chart?.rise) }}
-                    </div>
-                  </div>
+                   <div class="flex items-center mt-1">
+                        <div class="heroSpotlight__delta"
+                          :class="selectStockInfo.is_rise > 1 ? 'colorUp' : 'colorDown'">
+                          {{ getNumberType(true, selectStockInfo.is_rise) +
+                            UseExchangeNumber(selectStockInfo.chart?.rise) }}
+                        </div>
+                        <div class="heroSpotlight__tone ml-2" :class="selectStockInfo.is_rise > 1 ? 'colorUp' : 'colorDown'">
+                          <Icon
+                            :name="selectStockInfo.is_rise > 1 ? 'solar:alt-arrow-up-bold' : 'solar:alt-arrow-down-bold'"
+                            size="14" />
+                          <span>{{ getNumberType(true, selectStockInfo.is_rise) + selectStockInfo.rise_rate }}%</span>
+                        </div>
 
-                  <div class="heroSpotlight__chartMeta">
-                    <span>{{ $t('theme.marketBoardSubtext') }}</span>
-                    <span>{{ selectStockInfo.exchange_name || 'N225' }}</span>
+
+
+                   </div>
+                  </div>
                   </div>
                   <div class="heroSpotlight__chart">
                     <HomeKLine ref="HomeKlineRef" @updateHomeKlineTopData="updateHomeKlineTopData" />
