@@ -14,51 +14,6 @@ const topFixedChange = (val: boolean) => {
   isSticky.value = val;
 };
 
-const controlPanels = computed(() => {
-  return [
-    {
-      title: t('theme.linkedAccounts'),
-      items: [
-        { name: t('mine.m3'), icon: 'solar:card-2-linear', url: '/setting/bankList', accent: 'accent' },
-        { name: t('mine.m7'), icon: 'solar:bill-list-linear', url: '/record/userBalanceRecord' },
-      ],
-    },
-    {
-      title: t('theme.secureAccess'),
-      items: [
-        { name: t('mine.m4'), icon: 'solar:shield-user-linear', url: '/setting/identify', accent: 'accent' },
-        { name: t('mine.m5'), icon: 'solar:key-linear', url: '/setting/password?type=1' },
-        { name: t('mine.m8'), icon: 'solar:lock-password-linear', url: '/setting/password?type=0' },
-        { name: t('mine.m6'), icon: 'solar:headphones-round-sound-linear', url: '/service' },
-        { name: t('comm.c83'), icon: 'solar:global-linear', url: '/mine/language' },
-      ],
-    },
-  ];
-});
-
-const secondaryActions = computed(() => {
-  return [
-    {
-      name: t('mine.m19'),
-      helper: t('theme.withdrawCenter'),
-      icon: 'solar:card-send-linear',
-      url: '/pay/withdraw',
-    },
-    {
-      name: t('mine.m3'),
-      helper: t('theme.linkedAccounts'),
-      icon: 'solar:card-2-linear',
-      url: '/setting/bankList',
-    },
-    {
-      name: t('mine.m7'),
-      helper: t('theme.accountActions'),
-      icon: 'solar:bill-list-linear',
-      url: '/record/userBalanceRecord',
-    },
-  ];
-});
-
 const router = useRouter();
 const changePage = (url: string) => {
   router.push(url);
@@ -129,6 +84,49 @@ const accountFocusStats = computed(() => {
   ];
 });
 
+const primaryActions = computed(() => {
+  return [
+    {
+      name: t('mine.m18'),
+      icon: 'solar:card-recive-linear',
+      onClick: () => goDeposit('/pay/deposit'),
+      emphasis: true,
+    },
+    {
+      name: t('mine.m19'),
+      icon: 'solar:card-send-linear',
+      onClick: () => changePage('/pay/withdraw'),
+    },
+  ];
+});
+
+const groupedActions = computed(() => {
+  return [
+    {
+      title: t('theme.accountActions'),
+      items: [
+        { name: t('mine.m3'), icon: 'solar:card-2-linear', url: '/setting/bankList' },
+        { name: t('mine.m7'), icon: 'solar:bill-list-linear', url: '/record/userBalanceRecord' },
+      ],
+    },
+    {
+      title: t('theme.secureAccess'),
+      items: [
+        { name: t('mine.m4'), icon: 'solar:shield-user-linear', url: '/setting/identify' },
+        { name: t('mine.m5'), icon: 'solar:key-linear', url: '/setting/password?type=1' },
+        { name: t('mine.m8'), icon: 'solar:lock-password-linear', url: '/setting/password?type=0' },
+      ],
+    },
+    {
+      title: t('theme.onlineCustomerService'),
+      items: [
+        { name: t('mine.m6'), icon: 'solar:headphones-round-sound-linear', url: '/service' },
+        { name: t('comm.c83'), icon: 'solar:global-linear', url: '/mine/language' },
+      ],
+    },
+  ];
+});
+
 onMounted(() => {
   fetchPageData();
   userStore.flush();
@@ -138,108 +136,178 @@ onMounted(() => {
 <template>
   <section>
     <ClientOnly>
-      <div class="hasNormalBg minePage pageShell">
+      <div class="hasNormalBg pageShell min-h-screen">
         <van-sticky offset-top="0" @change="topFixedChange">
-          <div class="pageTopBar px-4 py-3 tabbarPageTopNav flex justify-between items-center" :class="isSticky ? 'topStickyEl' : ''">
-            <div class="w-[40px]"></div>
-            <div class="flex-1 text-center pageTitle">
+          <div
+            class="tabbarPageTopNav flex items-center justify-between px-4 py-3"
+            :class="isSticky ? 'topStickyEl' : ''"
+          >
+            <div class="w-10" />
+            <div class="flex-1 text-center text-[var(--text-primary)] text-base font-bold tracking-[-0.02em]">
               {{ $t('mine.m13') }}
             </div>
-            <div class="w-[88px] flex flex-row-reverse gap-2">
-              <button type="button" class="topAction" @click="changePage('/mine/language')" :aria-label="$t('comm.c83') || 'Change language'">
+            <div class="flex w-[88px] flex-row-reverse gap-2">
+              <button
+                type="button"
+                class="flex h-10 w-10 items-center justify-center rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--surface-interactive-soft)] text-[var(--text-primary)] transition active:scale-[0.98]"
+                @click="changePage('/mine/language')"
+                :aria-label="$t('comm.c83') || 'Change language'"
+              >
                 <Icon name="solar:global-linear" size="18" />
               </button>
-              <button type="button" class="topAction" @click="changePage('/service')" :aria-label="$t('theme.onlineCustomerService')">
+              <button
+                type="button"
+                class="flex h-10 w-10 items-center justify-center rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--surface-interactive-soft)] text-[var(--text-primary)] transition active:scale-[0.98]"
+                @click="changePage('/service')"
+                :aria-label="$t('theme.onlineCustomerService')"
+              >
                 <Icon name="solar:headphones-round-sound-linear" size="18" />
               </button>
             </div>
           </div>
         </van-sticky>
 
-        <div class="pageContainer px-3 pt-3 pb-6">
-          <div class="mineShell">
-            <section class="profileStage sectionCard">
-              <div class="profileStage__head">
-                <div>
-                  <div class="profileStage__eyebrow">{{ $t('theme.idLabel') }}</div>
-                  <div class="profileStage__meta">{{ userStore.data.id }}</div>
-                  <div class="profileStage__sub">{{ $t('login.l6') }} {{ userStore.data.phone }}</div>
+        <div class="px-3 pb-6 pt-3">
+          <div class="grid gap-4">
+            <section
+              class="overflow-hidden rounded-[28px] border border-[color:rgba(125,211,252,0.12)] bg-[image:var(--gradient-hero)] p-4 shadow-soft"
+            >
+              <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                  <div class="text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--text-accent)]">
+                    {{ $t('theme.idLabel') }}
+                  </div>
+                  <div class="mt-2 text-xl font-extrabold tracking-[-0.03em] text-[var(--text-primary)]">
+                    {{ userStore.data.id }}
+                  </div>
+                  <div class="mt-1 break-all text-xs text-[var(--text-secondary)]">
+                    {{ $t('login.l6') }} {{ userStore.data.phone }}
+                  </div>
                 </div>
-                <button type="button" class="visibilitySwitch" @click="showID = !showID" :aria-pressed="showID">
+                <button
+                  type="button"
+                  class="inline-flex h-10 shrink-0 items-center gap-2 rounded-full border border-[color:var(--border-default)] bg-white/10 px-3 text-xs font-semibold text-[var(--text-secondary)] transition active:scale-[0.98]"
+                  @click="showID = !showID"
+                  :aria-pressed="showID"
+                >
                   <Icon :name="showID ? 'solar:eye-closed-linear' : 'solar:eye-linear'" size="16" />
                   <span>{{ showID ? $t('theme.hideBalance') : $t('theme.showBalance') }}</span>
                 </button>
               </div>
 
-              <div class="profileStage__assetLabel">{{ $t('mine.m14') }}</div>
-              <div class="profileStage__assetValue">
-                <span class="profileStage__currency">{{ getCurrency() }}</span>
-                <span class="profileStage__amount">{{ formatMoney(account.totalAsset) }}</span>
+              <div class="mt-5">
+                <div class="text-[11px] uppercase tracking-[0.1em] text-[rgba(239,246,255,0.72)]">
+                  {{ $t('mine.m14') }}
+                </div>
+                <div class="mt-2 flex items-end gap-2 text-[var(--text-primary)]">
+                  <span class="text-2xl font-extrabold leading-none tracking-[-0.04em]">{{ getCurrency() }}</span>
+                  <span class="min-w-0 flex-1 break-all text-[32px] font-extrabold leading-none tracking-[-0.05em]">
+                    {{ formatMoney(account.totalAsset) }}
+                  </span>
+                </div>
               </div>
 
-              <div v-if="userStore.data.vip?.name" class="memberBadge">
-                <img :src="userStore.data.vip?.pic" :alt="userStore.data.vip?.name || 'member badge'" class="memberBadge__avatar" decoding="async">
+              <div v-if="userStore.data.vip?.name" class="mt-4 inline-flex w-fit items-center gap-2 rounded-full border border-[color:rgba(191,219,254,0.2)] bg-white/10 px-3 py-1.5 text-xs font-semibold text-[var(--text-primary)]">
+                <img
+                  :src="userStore.data.vip?.pic"
+                  :alt="userStore.data.vip?.name || 'member badge'"
+                  class="h-[18px] w-[18px] rounded-full object-cover"
+                  decoding="async"
+                >
                 <span>{{ userStore.data.vip?.name }}</span>
               </div>
 
-              <div class="profileStage__stats">
-                <div v-for="(item, index) in accountFocusStats" :key="index" class="assetPanel" :class="index === 0 ? 'assetPanelWide' : ''">
-                  <div class="assetPanel__label">{{ item.label }}</div>
-                  <div class="assetPanel__value" :class="item.tone === 'profit' ? 'assetPanel__valueProfit' : ''">
+              <div class="mt-5 grid grid-cols-3 gap-2">
+                <div
+                  v-for="(item, index) in accountFocusStats"
+                  :key="index"
+                  class="rounded-2xl border border-[color:rgba(191,219,254,0.12)] bg-[rgba(255,255,255,0.08)] px-3 py-3"
+                >
+                  <div class="text-[11px] leading-4 text-[rgba(239,246,255,0.7)]">
+                    {{ item.label }}
+                  </div>
+                  <div
+                    class="mt-2 break-all text-sm font-bold leading-5"
+                    :class="item.tone === 'profit' ? 'text-emerald-200' : 'text-[var(--text-primary)]'"
+                  >
                     {{ item.value }}
                   </div>
                 </div>
               </div>
             </section>
 
-            <section class="actionStage sectionCard">
-              <div class="actionStage__head">
-                <div class="actionStage__eyebrow">{{ $t('theme.accountActions') }}</div>
-              </div>
-
-              <button type="button" class="heroAction" @click="goDeposit('/pay/deposit')">
-                <div class="heroAction__glow"></div>
-                <div class="heroAction__top">
-                  <div class="iconFrame iconFrameLarge">
-                    <Icon name="solar:card-recive-linear" size="24" />
-                  </div>
-                  <div class="heroAction__badge">{{ $t('theme.depositChannel') }}</div>
-                </div>
-                <div class="heroAction__body">
-                  <div class="heroAction__title">{{ $t('mine.m18') }}</div>
-                </div>
-              </button>
-
-              <div class="secondaryActionGrid">
-                <button type="button" class="secondaryAction" v-for="(item, index) in secondaryActions" :key="index" @click="changePage(item.url)">
-                  <div class="secondaryAction__top">
-                    <div class="iconFrame">
-                      <Icon :name="item.icon" size="20" />
+            <section
+              class="rounded-[28px] border border-[color:rgba(125,211,252,0.12)] bg-[linear-gradient(180deg,rgba(33,61,92,0.92),rgba(22,42,65,0.9))] p-3.5 shadow-soft"
+            >
+              <div class="grid grid-cols-2 gap-2.5">
+                <button
+                  v-for="(item, index) in primaryActions"
+                  :key="index"
+                  type="button"
+                  class="group relative overflow-hidden rounded-[24px] border text-left transition active:scale-[0.985]"
+                  :class="item.emphasis
+                    ? 'border-[color:rgba(125,211,252,0.22)] bg-[linear-gradient(135deg,rgba(125,211,252,0.22),rgba(56,189,248,0.08)_58%,rgba(16,26,45,0.16))] px-4 py-4'
+                    : 'border-[color:rgba(191,219,254,0.12)] bg-white/6 px-4 py-4'"
+                  @click="item.onClick"
+                >
+                  <div
+                    v-if="item.emphasis"
+                    class="pointer-events-none absolute -right-8 -top-10 h-24 w-24 rounded-full bg-[radial-gradient(circle,rgba(125,211,252,0.3),rgba(125,211,252,0))]"
+                  />
+                  <div class="relative flex items-center justify-between gap-3">
+                    <div class="flex h-11 w-11 items-center justify-center rounded-2xl border border-[color:rgba(191,219,254,0.14)] bg-[rgba(125,211,252,0.14)] text-[var(--brand-primary)]">
+                      <Icon :name="item.icon" size="22" />
                     </div>
-                    <Icon name="solar:alt-arrow-right-linear" size="18" class="menuArrow" />
+                    <Icon name="solar:alt-arrow-right-linear" size="18" class="text-[var(--text-secondary)]" />
                   </div>
-                  <div class="secondaryAction__helper">{{ item.helper }}</div>
-                  <div class="secondaryAction__title">{{ item.name }}</div>
+                  <div class="relative mt-5 text-base font-bold tracking-[-0.02em] text-[var(--text-primary)]">
+                    {{ item.name }}
+                  </div>
                 </button>
-              </div>
-
-              <div class="controlPanelGrid">
-                <section class="controlPanel" v-for="(group, groupIndex) in controlPanels" :key="groupIndex">
-                  <div class="controlPanel__title">{{ group.title }}</div>
-                  <div class="controlPanel__list">
-                    <button type="button" class="controlChip" :class="item.accent ? 'controlChipAccent' : ''" v-for="(item, index) in group.items" :key="index" @click="changePage(item.url)">
-                      <div class="iconFrame iconFrameSmall">
-                        <Icon :name="item.icon" size="18" />
-                      </div>
-                      <span>{{ item.name }}</span>
-                    </button>
-                  </div>
-                </section>
               </div>
             </section>
 
-            <section class="logoutSection sectionCard">
-              <button type="button" class="contentBtn" @click="handleLogout">
+            <section
+              class="rounded-[28px] border border-[color:rgba(125,211,252,0.12)] bg-[linear-gradient(180deg,rgba(30,54,81,0.9),rgba(22,41,63,0.88))] p-3.5 shadow-soft"
+            >
+              <div class="space-y-3">
+                <div
+                  v-for="(group, groupIndex) in groupedActions"
+                  :key="groupIndex"
+                  class="rounded-[24px] border border-[color:rgba(191,219,254,0.1)] bg-white/5 p-3"
+                >
+                  <div class="px-1 text-[11px] font-bold uppercase tracking-[0.12em] text-[rgba(226,232,240,0.72)]">
+                    {{ group.title }}
+                  </div>
+                  <div class="mt-3 grid grid-cols-2 gap-2">
+                    <button
+                      v-for="(item, index) in group.items"
+                      :key="index"
+                      type="button"
+                      class="flex items-center gap-3 rounded-2xl border border-[color:rgba(191,219,254,0.1)] bg-[rgba(255,255,255,0.045)] px-3 py-3 text-left transition active:scale-[0.985]"
+                      @click="changePage(item.url)"
+                    >
+                      <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-[color:rgba(191,219,254,0.12)] bg-[rgba(125,211,252,0.12)] text-[var(--brand-primary)]">
+                        <Icon :name="item.icon" size="18" />
+                      </div>
+                      <div class="min-w-0 flex-1">
+                        <div class="truncate text-sm font-semibold text-[var(--text-primary)]">
+                          {{ item.name }}
+                        </div>
+                      </div>
+                      <Icon name="solar:alt-arrow-right-linear" size="16" class="shrink-0 text-[var(--text-muted)]" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section>
+              <button
+                type="button"
+                class="flex w-full items-center justify-center rounded-[24px] border border-[color:rgba(248,113,113,0.18)] bg-[rgba(239,68,68,0.08)] px-4 py-3.5 text-sm font-semibold text-[var(--text-primary)] transition active:scale-[0.985]"
+                @click="handleLogout"
+              >
                 {{ $t('mine.m20') }}
               </button>
             </section>
@@ -248,18 +316,21 @@ onMounted(() => {
       </div>
 
       <van-overlay :show="showPop" @click="showPop = false" z-index="999">
-        <div class="overlayWrap">
-          <div class="dialogCard p-4 w-[350px] rounded-3xl" @click.stop>
-            <div class="text-center font-bold pb-1 title">
+        <div class="flex min-h-screen items-center justify-center p-4">
+          <div
+            class="w-full max-w-[350px] rounded-[28px] border border-[color:rgba(125,211,252,0.16)] bg-[var(--surface-modal-panel)] p-4 text-[var(--text-primary)] shadow-float"
+            @click.stop
+          >
+            <div class="pb-1 text-center text-lg font-bold leading-[1.35] text-[var(--text-primary)]">
               {{ $t('mine.m9') }}
             </div>
-            <div class="dialogBody">
+            <div class="mt-3 rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--surface-interactive-soft)] p-4">
               <div class="flex items-center justify-center">
                 <span class="font-bold">{{ $t('mine.m12') }}</span>
               </div>
             </div>
 
-            <div class="dialogActions mt-4 grid grid-cols-2 gap-2">
+            <div class="mt-4 grid grid-cols-2 gap-2">
               <button type="button" class="borderContentBtn" @click="showPop = false">{{ $t('comm.c56') }}</button>
               <button type="button" class="contentBtn" @click="confirmClosePositionHandle">
                 {{ $t('comm.c57') }}
@@ -273,381 +344,3 @@ onMounted(() => {
     </ClientOnly>
   </section>
 </template>
-
-<style lang="less" scoped>
-.pageContainer {
-  min-height: calc(100vh - 120px);
-}
-
-.mineShell {
-  display: grid;
-  gap: 16px;
-}
-
-.pageTitle {
-  color: var(--text-primary);
-  font-weight: 700;
-}
-
-.topAction {
-  width: 40px;
-  height: 40px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--surface-interactive-soft);
-  border: 1px solid var(--border-soft);
-  color: var(--text-primary);
-  appearance: none;
-}
-
-.profileStage,
-.actionStage,
-.logoutSection {
-  border: 1px solid rgba(125, 211, 252, 0.08);
-  box-shadow: 0 10px 24px rgba(7, 19, 34, 0.1);
-}
-
-.profileStage {
-  display: grid;
-  gap: 16px;
-  background: linear-gradient(180deg, rgba(43, 76, 112, 0.96), rgba(30, 56, 85, 0.94));
-}
-
-.profileStage__head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.profileStage__eyebrow,
-.actionStage__eyebrow {
-  color: var(--brand-primary);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.profileStage__meta {
-  margin-top: 8px;
-  color: var(--text-primary);
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.profileStage__sub {
-  margin-top: 6px;
-  color: var(--text-secondary);
-  font-size: 12px;
-  line-height: 1.45;
-  word-break: break-all;
-}
-
-.visibilitySwitch {
-  display: inline-flex;
-  min-height: 38px;
-  align-items: center;
-  gap: 8px;
-  border-radius: 999px;
-  padding: 0 12px;
-  border: 1px solid var(--border-default);
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--text-secondary);
-  flex-shrink: 0;
-}
-
-.profileStage__assetLabel {
-  color: rgba(239, 246, 255, 0.72);
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.profileStage__assetValue {
-  display: flex;
-  align-items: flex-end;
-  gap: 8px;
-}
-
-.profileStage__currency,
-.profileStage__amount {
-  color: var(--text-primary);
-  font-size: 29px;
-  font-weight: 800;
-  line-height: 0.92;
-  letter-spacing: -0.04em;
-}
-
-.profileStage__amount {
-  min-width: 0;
-  flex: 1;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-}
-
-.memberBadge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 34px;
-  width: fit-content;
-  padding: 0 12px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(191, 219, 254, 0.22);
-  color: var(--text-primary);
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.memberBadge__avatar {
-  width: 18px;
-  height: 18px;
-  border-radius: 999px;
-  object-fit: cover;
-}
-
-.profileStage__stats {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.assetPanel {
-  padding: 14px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(191, 219, 254, 0.12);
-}
-
-.assetPanelWide {
-  grid-column: 1 / -1;
-  background: linear-gradient(135deg, rgba(125, 211, 252, 0.18), rgba(56, 189, 248, 0.08));
-  border-color: rgba(191, 219, 254, 0.18);
-}
-
-.assetPanel__label {
-  color: rgba(239, 246, 255, 0.74);
-  font-size: 12px;
-  line-height: 1.4;
-}
-
-.assetPanel__value {
-  margin-top: 10px;
-  color: var(--text-primary);
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 1.35;
-  word-break: break-word;
-}
-
-.assetPanel__valueProfit {
-  color: #bbf7d0;
-}
-
-.actionStage {
-  display: grid;
-  gap: 14px;
-  background: linear-gradient(180deg, rgba(42, 72, 106, 0.92), rgba(31, 56, 83, 0.9));
-}
-
-.actionStage__head {
-  display: grid;
-  gap: 6px;
-}
-
-.heroAction {
-  position: relative;
-  overflow: hidden;
-  display: grid;
-  gap: 18px;
-  padding: 18px;
-  border-radius: 24px;
-  background: linear-gradient(135deg, rgba(125, 211, 252, 0.22), rgba(56, 189, 248, 0.08) 52%, rgba(16, 26, 45, 0.18));
-  border: 1px solid rgba(191, 219, 254, 0.2);
-  text-align: left;
-  isolation: isolate;
-  appearance: none;
-}
-
-.heroAction__glow {
-  position: absolute;
-  inset: auto -8% -48px auto;
-  width: 180px;
-  height: 180px;
-  border-radius: 999px;
-  background: radial-gradient(circle, rgba(125, 211, 252, 0.22), rgba(125, 211, 252, 0));
-  pointer-events: none;
-}
-
-.heroAction__top,
-.secondaryAction__top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.heroAction__badge,
-.secondaryAction__helper,
-.controlPanel__title {
-  color: rgba(226, 232, 240, 0.74);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.heroAction__body {
-  display: grid;
-  gap: 6px;
-  min-width: 0;
-}
-
-.heroAction__title,
-.secondaryAction__title {
-  color: var(--text-primary);
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.25;
-}
-
-.heroAction__meta {
-  color: var(--text-secondary);
-  font-size: 13px;
-  line-height: 1.45;
-}
-
-.secondaryActionGrid,
-.controlPanelGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.secondaryAction {
-  display: grid;
-  gap: 10px;
-  min-height: 120px;
-  padding: 16px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(191, 219, 254, 0.12);
-  text-align: left;
-  appearance: none;
-}
-
-.controlPanel {
-  display: grid;
-  gap: 12px;
-  padding: 16px;
-  border-radius: 22px;
-  background: rgba(255, 255, 255, 0.045);
-  border: 1px solid rgba(191, 219, 254, 0.1);
-}
-
-.controlPanel__list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.controlChip {
-  display: inline-flex;
-  min-height: 44px;
-  align-items: center;
-  gap: 10px;
-  padding: 0 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(191, 219, 254, 0.12);
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--text-primary);
-  font-size: 13px;
-  font-weight: 600;
-  appearance: none;
-}
-
-.controlChipAccent {
-  background: linear-gradient(180deg, rgba(125, 211, 252, 0.16), rgba(255, 255, 255, 0.08));
-  border-color: rgba(191, 219, 254, 0.18);
-}
-
-.iconFrame {
-  width: 42px;
-  height: 42px;
-  border-radius: 16px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(125, 211, 252, 0.14);
-  color: var(--brand-primary);
-  border: 1px solid rgba(191, 219, 254, 0.14);
-  flex-shrink: 0;
-}
-
-.iconFrameLarge {
-  width: 48px;
-  height: 48px;
-  border-radius: 18px;
-}
-
-.iconFrameSmall {
-  width: 32px;
-  height: 32px;
-  border-radius: 12px;
-}
-
-.menuArrow {
-  color: var(--text-secondary);
-}
-
-.logoutSection {
-  background: rgba(40, 67, 97, 0.84);
-}
-
-.dialogBody {
-  margin-top: 12px;
-  padding: 14px;
-  border-radius: 18px;
-  background: var(--surface-interactive-soft);
-  border: 1px solid var(--border-soft);
-}
-
-.dialogCard {
-  color: var(--text-primary);
-}
-
-.overlayWrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 16px;
-}
-
-.title {
-  color: var(--text-primary);
-  font-size: 18px;
-  line-height: 1.35;
-}
-
-.heroAction:active,
-.secondaryAction:active,
-.controlChip:active,
-.topAction:active,
-.visibilitySwitch:active {
-  transform: scale(0.98);
-}
-
-@media (max-width: 360px) {
-  .profileStage__head,
-  .profileStage__stats,
-  .secondaryActionGrid,
-  .controlPanelGrid {
-    grid-template-columns: 1fr;
-  }
-}
-</style>
