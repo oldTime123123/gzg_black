@@ -12,9 +12,9 @@ const showLoadingText = computed(() => {
 
 <template>
   <ClientOnly>
-    <div class="loginLoadingPage" v-if="showLoading">
+    <div class="loginLoadingPage"  v-if="showLoading">
       <div class="loadingShell">
-        <div class="loadingBadge">{{ $t('theme.secureAccess') }}</div>
+        <div class="loadingBadge">HQBW </div>
         <div class="loadingSpinner"></div>
         <div class="loadingTitle">{{ showLoadingText }}</div>
         <div class="loadingSub">{{ $t('comm.c66') }}</div>
