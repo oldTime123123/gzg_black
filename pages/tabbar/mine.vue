@@ -195,7 +195,6 @@ onMounted(() => {
             <section class="actionStage sectionCard">
               <div class="actionStage__head">
                 <div class="actionStage__eyebrow">{{ $t('theme.accountActions') }}</div>
-                <div class="actionStage__title">{{ $t('theme.toolsSettings') }}</div>
               </div>
 
               <button type="button" class="heroAction" @click="goDeposit('/pay/deposit')">
@@ -208,7 +207,6 @@ onMounted(() => {
                 </div>
                 <div class="heroAction__body">
                   <div class="heroAction__title">{{ $t('mine.m18') }}</div>
-                  <div class="heroAction__meta">{{ $t('theme.accountActions') }}</div>
                 </div>
               </button>
 
@@ -459,13 +457,6 @@ onMounted(() => {
 .actionStage__head {
   display: grid;
   gap: 6px;
-}
-
-.actionStage__title {
-  color: var(--text-primary);
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.03em;
 }
 
 .heroAction {
