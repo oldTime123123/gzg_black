@@ -41,8 +41,8 @@ const stats = [
 
             <div class="space-y-2">
 
-          <h2 class="max-w-[640px] whitespace-normal break-words text-[36px] font-black leading-[0.94]
-  tracking-[-0.05em] sm:text-[44px] lg:text-[56px]
+          <h2 class="max-w-[640px] whitespace-normal break-words text-[36px] font-black
+  tracking-[-0.01em] sm:text-[44px] lg:text-[56px]
   text-transparent bg-clip-text bg-[length:220%_220%]
   bg-[linear-gradient(135deg,#f0f9ff_0%,#7dd3fc_20%,#38bdf8_40%,#0ea5e9_62%,#0369a1_100%)]
   animate-[titleGradient_7s_ease-in-out_infinite]">
