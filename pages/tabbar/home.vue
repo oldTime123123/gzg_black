@@ -153,7 +153,11 @@ const loginStore = useLoginStore();
 
 onMounted(() => {
   if (loginStore.loading) {
-    loginStore.loading = false;
+    setTimeout(() => {
+  loginStore.loading = false
+
+    }, 2000);
+    // loginStore.loading = false;
   }
   pub.ipoActRecordType = 0;
   pub.spoActRecordType = 0;

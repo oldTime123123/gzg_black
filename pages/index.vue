@@ -20,9 +20,10 @@ onBeforeMount(() => {
 
 onMounted(() => {
   if (import.meta.client && storage.getItem('token')) {
-    setTimeout(() => {
-      router.push('/tabbar/home');
-    }, 2000);
+    router.push('/tabbar/home');
+
+
+
   } else {
     loginStore.showLoadingText = "";
     setTimeout(() => {
