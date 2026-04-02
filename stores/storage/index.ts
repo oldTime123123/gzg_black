@@ -42,7 +42,12 @@ export const storage = {
     if (raw == null) {
       return defaultValue as T;
     }
-    return JSON.parse(raw);
+    try {
+      return JSON.parse(raw);
+    } catch {
+      // Compatible with plain string values written by other modules, e.g. `lang=en`.
+      return raw as T;
+    }
   },
   // 移除永久缓存
   remove(...names: string[]) {
