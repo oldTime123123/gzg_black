@@ -63,7 +63,7 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <AuthShell :title="$t('login.l16')" :subtitle="$t('login.l17')" :eyebrow="$t('theme.createAccess')" back-path="/auth/login">
+  <AuthShell :title="$t('login.l16')" :eyebrow="$t('theme.createAccess')" back-path="/auth/login">
     <ClientOnly>
       <van-form @submit="handleSubmit" ref="formRef">
         <div class="grid gap-5">

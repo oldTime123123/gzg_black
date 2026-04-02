@@ -308,7 +308,6 @@ onMounted(() => {
               <div class="sectionHeading overviewDeck__heading">
                 <div>
                   <div class="sectionTitle">{{ $t('theme.accountActions') }}</div>
-                  <div class="sectionSubtext">{{ $t('theme.tradingAccess') }}</div>
                 </div>
               </div>
 
@@ -316,7 +315,6 @@ onMounted(() => {
                 <div v-for="group in actionGroups" :key="group.title" class="actionColumn">
                   <div class="actionColumn__header">
                     <div class="actionColumn__title">{{ group.title }}</div>
-                    <div class="actionColumn__hint">{{ group.hint }}</div>
                   </div>
                   <div class="actionColumn__list">
                     <button
@@ -344,7 +342,6 @@ onMounted(() => {
               <div class="sectionHeading">
                 <div>
                   <div class="sectionTitle">{{ $t('index.i21') }}</div>
-                  <div class="sectionSubtext">{{ $t('theme.chronologicalNewsFlow') }}</div>
                 </div>
                 <button type="button" class="sectionLink" @click="changePage('/tabbar/market?type=1')">
                   {{ $t('index.i23') }}
@@ -384,7 +381,6 @@ onMounted(() => {
               <div class="sectionHeading">
                 <div>
                   <div class="sectionTitle">{{ t('x.a8') }}</div>
-                  <div class="sectionSubtext">{{ $t('theme.chronologicalNewsFlow') }}</div>
                 </div>
                 <button type="button" class="sectionLink" @click="changePage('/tabbar/news')">
                   {{ $t('index.i23') }}

@@ -62,7 +62,6 @@ onMounted(() => {
       <div class="directoryStage mt-4">
         <div class="heroEyebrow">{{ $t('theme.linkedAccounts') }}</div>
         <div class="stageTitle">{{ $t('setting.s5') }}</div>
-        <div class="stageDesc">{{ $t('theme.linkedAccountsCopy') }}</div>
       </div>
 
       <div class="mt-4" v-if="showSkeleton">
@@ -154,14 +153,6 @@ onMounted(() => {
   font-size: 22px;
   line-height: 1.15;
   font-weight: 700;
-}
-
-.stageDesc {
-  margin-top: 10px;
-  max-width: 252px;
-  color: var(--text-secondary);
-  font-size: 13px;
-  line-height: 1.6;
 }
 
 .listSkeleton {

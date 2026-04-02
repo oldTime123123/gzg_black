@@ -75,7 +75,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <AuthShell :title="$t('login.l4')" :subtitle="$t('login.l5')" :eyebrow="$t('theme.tradingAccess')" back-path="/auth/beforeLogin">
+  <AuthShell :title="$t('login.l4')" :eyebrow="$t('theme.tradingAccess')" back-path="/auth/beforeLogin">
     <ClientOnly>
       <van-form @submit="handleSubmit">
         <div class="grid gap-5">

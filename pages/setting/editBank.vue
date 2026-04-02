@@ -125,16 +125,12 @@ onMounted(() => {
       <div class="editorStage mt-4">
         <div class="heroEyebrow">{{ $t('theme.bankDetails') }}</div>
         <div class="stageTitle">{{ $t('setting.s14') }}</div>
-        <div class="stageDesc">{{ $t('theme.linkedAccountsCopy') }}</div>
       </div>
 
       <van-form ref="formRef" class="mt-4" @submit="handleSubmit">
         <div class="editorDesk">
           <div class="deskTop">
-            <div>
-              <div class="heroEyebrow">{{ $t('theme.latestCoverage') }}</div>
-              <div class="deskTitle">{{ $t('setting.s25') }}</div>
-            </div>
+            <div class="deskTitle">{{ $t('setting.s25') }}</div>
           </div>
 
           <div class="formCard mt-4">
@@ -265,14 +261,6 @@ onMounted(() => {
   font-size: 22px;
   line-height: 1.15;
   font-weight: 700;
-}
-
-.stageDesc {
-  margin-top: 10px;
-  max-width: 252px;
-  color: var(--text-secondary);
-  font-size: 13px;
-  line-height: 1.6;
 }
 
 .editorDesk {

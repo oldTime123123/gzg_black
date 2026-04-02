@@ -118,16 +118,12 @@ onBeforeMount(() => {
           </div>
         </div>
         <div class="stageValue">{{ UseExchangeNumber(withdrawInfo.balance_max) }}</div>
-        <div class="stageDesc">{{ $t('theme.linkedAccountsCopy') }}</div>
       </div>
 
       <van-form class="mt-4" @submit="handleSubmit">
         <div class="fundDesk">
           <div class="deskTop">
-            <div>
-              <div class="heroEyebrow">{{ $t('theme.latestCoverage') }}</div>
-              <div class="deskTitle">{{ $t('pay.p20') }}</div>
-            </div>
+            <div class="deskTitle">{{ $t('pay.p20') }}</div>
           </div>
 
           <div class="formCard mt-4">
@@ -274,14 +270,6 @@ onBeforeMount(() => {
   letter-spacing: -0.03em;
   word-break: break-word;
   overflow-wrap: anywhere;
-}
-
-.stageDesc {
-  margin-top: 10px;
-  max-width: 248px;
-  color: var(--text-secondary);
-  font-size: 13px;
-  line-height: 1.6;
 }
 
 .stageIcon {

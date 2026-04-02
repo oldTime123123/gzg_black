@@ -26,15 +26,11 @@ onMounted(() => {
       <div class="routeStage mt-4">
         <div class="heroEyebrow">{{ $t('theme.linkedAccounts') }}</div>
         <div class="stageTitle">{{ $t('pay.p1') }}</div>
-        <div class="stageDesc">{{ $t('theme.linkedAccountsCopy') }}</div>
       </div>
 
       <div class="routeLedger mt-5">
         <div class="ledgerTop">
-          <div>
-            <div class="heroEyebrow">{{ $t('theme.latestCoverage') }}</div>
-            <div class="ledgerTitle">{{ $t('pay.p2') }}</div>
-          </div>
+          <div class="ledgerTitle">{{ $t('pay.p2') }}</div>
         </div>
 
         <div class="optionList mt-4">
@@ -88,14 +84,6 @@ onMounted(() => {
   font-size: 24px;
   font-weight: 800;
   line-height: 1.1;
-}
-
-.stageDesc {
-  margin-top: 10px;
-  max-width: 248px;
-  color: var(--text-secondary);
-  font-size: 13px;
-  line-height: 1.6;
 }
 
 .ledgerTop {

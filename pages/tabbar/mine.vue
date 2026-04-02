@@ -18,30 +18,27 @@ const menuGroups = computed(() => {
   return [
     {
       title: t('theme.linkedAccounts'),
-      copy: t('theme.linkedAccountsCopy'),
       badge: t('theme.accountActions'),
       items: [
-        { name: t('mine.m3'), desc: t('theme.linkedAccountsCopy'), icon: 'solar:card-2-linear', url: '/setting/bankList', accent: 'accent' },
-        { name: t('mine.m7'), desc: t('theme.balanceRecordCopy'), icon: 'solar:bill-list-linear', url: '/record/userBalanceRecord' },
+        { name: t('mine.m3'), icon: 'solar:card-2-linear', url: '/setting/bankList', accent: 'accent' },
+        { name: t('mine.m7'), icon: 'solar:bill-list-linear', url: '/record/userBalanceRecord' },
       ],
     },
     {
       title: t('theme.secureAccess'),
-      copy: t('theme.securityUpdateCopy'),
       badge: t('theme.secure'),
       items: [
-        { name: t('mine.m4'), desc: t('theme.verificationStatus'), icon: 'solar:shield-user-linear', url: '/setting/identify', accent: 'accent' },
-        { name: t('mine.m5'), desc: t('theme.securityUpdateCopy'), icon: 'solar:key-linear', url: '/setting/password?type=1' },
-        { name: t('mine.m8'), desc: t('theme.recoveryCopy'), icon: 'solar:lock-password-linear', url: '/setting/password?type=0' },
+        { name: t('mine.m4'), icon: 'solar:shield-user-linear', url: '/setting/identify', accent: 'accent' },
+        { name: t('mine.m5'), icon: 'solar:key-linear', url: '/setting/password?type=1' },
+        { name: t('mine.m8'), icon: 'solar:lock-password-linear', url: '/setting/password?type=0' },
       ],
     },
     {
       title: t('theme.supportAccess'),
-      copy: t('theme.manageAccountVerificationAccess'),
       badge: t('theme.supportFirst'),
       items: [
-        { name: t('mine.m6'), desc: t('theme.onlineCustomerService'), icon: 'solar:headphones-round-sound-linear', url: '/service', accent: 'accent' },
-        { name: t('comm.c83'), desc: t('theme.openAndManage'), icon: 'solar:global-linear', url: '/mine/language' },
+        { name: t('mine.m6'), icon: 'solar:headphones-round-sound-linear', url: '/service', accent: 'accent' },
+        { name: t('comm.c83'), icon: 'solar:global-linear', url: '/mine/language' },
       ],
     },
   ];
@@ -182,10 +179,7 @@ onMounted(() => {
 
             <section class="actionCard sectionCard">
               <div class="sectionHeading">
-                <div>
-                  <div class="sectionTitle">{{ $t('theme.accountActions') }}</div>
-                  <div class="sectionSubtext actionLead">{{ $t('theme.accountActionsCopy') }}</div>
-                </div>
+                <div class="sectionTitle">{{ $t('theme.accountActions') }}</div>
               </div>
               <div class="quickActions">
                 <button type="button" class="actionButton actionButtonPrimary" @click="goDeposit('/pay/deposit')">
@@ -195,7 +189,6 @@ onMounted(() => {
                   <div class="actionCopy">
                     <div class="actionEyebrow">{{ $t('theme.depositChannel') }}</div>
                     <div class="actionLabel">{{ $t('mine.m18') }}</div>
-                    <div class="actionDesc">{{ $t('theme.depositHint') }}</div>
                   </div>
                 </button>
 
@@ -206,7 +199,6 @@ onMounted(() => {
                   <div class="actionCopy">
                     <div class="actionEyebrow">{{ $t('theme.withdrawCenter') }}</div>
                     <div class="actionLabel">{{ $t('mine.m19') }}</div>
-                    <div class="actionDesc">{{ $t('theme.withdrawHint') }}</div>
                   </div>
                 </button>
               </div>
@@ -214,10 +206,7 @@ onMounted(() => {
 
             <section class="menuSection menuSectionShell">
               <div class="sectionHeading sectionHeadingLoose">
-                <div>
-                  <div class="sectionTitle">{{ $t('theme.toolsSettings') }}</div>
-                  <div class="sectionSubtext">{{ $t('theme.manageAccountVerificationAccess') }}</div>
-                </div>
+                <div class="sectionTitle">{{ $t('theme.toolsSettings') }}</div>
               </div>
 
               <div class="menuSectionStack renderBudget mt-4">
@@ -227,7 +216,6 @@ onMounted(() => {
                       <div class="clusterBadge">{{ group.badge }}</div>
                       <div class="clusterTitle">{{ group.title }}</div>
                     </div>
-                    <div class="clusterCopy">{{ group.copy }}</div>
                   </div>
 
                   <div class="menuCardGrid">
@@ -240,9 +228,7 @@ onMounted(() => {
                       </div>
                       <div class="menuCard__body">
                         <div class="menuName">{{ item.name }}</div>
-                        <div class="menuDesc">{{ item.desc }}</div>
                       </div>
-                      <div class="menuCard__foot">{{ $t('theme.openAndManage') }}</div>
                     </button>
                   </div>
                 </section>
@@ -323,7 +309,7 @@ onMounted(() => {
 
 .profileStage {
   display: grid;
-  gap: 18px;
+  gap: 16px;
   background: linear-gradient(180deg, rgba(43, 76, 112, 0.96), rgba(30, 56, 85, 0.94));
 }
 
@@ -461,11 +447,6 @@ onMounted(() => {
   color: #bbf7d0;
 }
 
-.actionLead {
-  margin-top: 6px;
-  max-width: 240px;
-}
-
 .actionCard {
   background: linear-gradient(180deg, rgba(42, 72, 106, 0.92), rgba(31, 56, 83, 0.9));
 }
@@ -481,7 +462,7 @@ onMounted(() => {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  min-height: 112px;
+  min-height: 96px;
   padding: 16px;
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.06);
@@ -497,7 +478,7 @@ onMounted(() => {
 
 .actionCopy {
   display: grid;
-  gap: 6px;
+  gap: 4px;
   min-width: 0;
 }
 
@@ -505,12 +486,6 @@ onMounted(() => {
   color: var(--text-primary);
   font-weight: 700;
   line-height: 1.35;
-}
-
-.actionDesc {
-  color: var(--text-secondary);
-  font-size: 12px;
-  line-height: 1.5;
 }
 
 .menuSectionShell {
@@ -529,14 +504,12 @@ onMounted(() => {
 
 .menuCluster {
   display: grid;
-  gap: 16px;
+  gap: 14px;
   background: linear-gradient(180deg, rgba(39, 70, 103, 0.92), rgba(30, 55, 81, 0.9));
 }
 
 .menuCluster__head {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 180px);
-  gap: 12px;
+  display: flex;
   align-items: flex-start;
 }
 
@@ -548,13 +521,6 @@ onMounted(() => {
   line-height: 1.2;
 }
 
-.clusterCopy {
-  color: var(--text-secondary);
-  font-size: 12px;
-  line-height: 1.55;
-  text-align: right;
-}
-
 .menuCardGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -563,8 +529,8 @@ onMounted(() => {
 
 .menuCard {
   display: grid;
-  gap: 14px;
-  min-height: 154px;
+  gap: 10px;
+  min-height: 116px;
   padding: 14px;
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.06);
@@ -596,18 +562,6 @@ onMounted(() => {
   color: var(--text-primary);
   font-weight: 700;
   line-height: 1.4;
-}
-
-.menuDesc {
-  color: var(--text-secondary);
-  font-size: 12px;
-  line-height: 1.55;
-}
-
-.menuCard__foot {
-  color: var(--brand-primary);
-  font-size: 12px;
-  font-weight: 700;
 }
 
 .menuArrow {
@@ -655,13 +609,8 @@ onMounted(() => {
   .profileStage__head,
   .quickActions,
   .profileStage__stats,
-  .menuCardGrid,
-  .menuCluster__head {
+  .menuCardGrid {
     grid-template-columns: 1fr;
-  }
-
-  .clusterCopy {
-    text-align: left;
   }
 }
 </style>

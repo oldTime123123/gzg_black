@@ -20,7 +20,6 @@ const handleTabChange = (type: number) => {
       <div class="ledgerStage mt-4">
         <div class="heroEyebrow">{{ $t('theme.balanceRecord') }}</div>
         <div class="stageTitle">{{ $t('record.r36') }}</div>
-        <div class="stageDesc">{{ $t('theme.balanceRecordCopy') }}</div>
       </div>
 
       <div class="recordCenter mt-4">
@@ -28,7 +27,6 @@ const handleTabChange = (type: number) => {
           <div>
             <div class="centerTitle">{{ $t('theme.balanceRecord') }}</div>
           </div>
-          <div class="centerCaption">{{ $t('theme.chronologicalNewsFlow') }}</div>
         </div>
 
         <div class="contentCard mt-4">
@@ -51,11 +49,9 @@ const handleTabChange = (type: number) => {
 .heroEyebrow{color:var(--brand-primary);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
 .ledgerStage{padding:2px 2px 8px}
 .stageTitle{margin-top:8px;color:var(--text-primary);font-size:22px;line-height:1.15;font-weight:700}
-.stageDesc{margin-top:10px;max-width:252px;color:var(--text-secondary);font-size:13px;line-height:1.6}
 .recordCenter{padding:4px 2px 0}
 .centerTop{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
 .centerTitle{margin-top:8px;color:var(--text-primary);font-size:20px;line-height:1.2;font-weight:700}
-.centerCaption{max-width:120px;color:var(--text-secondary);font-size:11px;line-height:1.45;text-align:right}
 .contentCard{padding:0;background:transparent;box-shadow:none}.tabRail{display:inline-flex;gap:8px;padding:6px;border-radius:999px;background:rgba(255,255,255,.025)}.tabRailWide{width:100%}
 .tabChip{appearance:none;min-height:40px;padding:0 16px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;color:var(--text-secondary);font-size:13px;text-align:center;background:transparent;border:0;transition:transform var(--motion-fast),background-color var(--motion-fast),color var(--motion-fast)}.tabChip.active{background:var(--brand-primary-soft);color:var(--brand-primary)}.tabChip:active{transform:scale(.98)}
 </style>

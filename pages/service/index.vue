@@ -37,7 +37,6 @@ onBeforeMount(() => {
       <div class="directoryStage mt-4">
         <div class="heroEyebrow">{{ $t('theme.openContact') }}</div>
         <div class="stageTitle">{{ $t('pay.p4') }}</div>
-        <div class="stageDesc">{{ $t('theme.openContact') }}</div>
       </div>
 
       <div class="serviceGrid renderBudget mt-5">
