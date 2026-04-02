@@ -195,8 +195,8 @@ onBeforeMount(() => {
   padding: 18px;
   border-radius: 28px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: none;
+  border: 1px solid rgba(125, 211, 252, 0.08);
+  box-shadow: 0 10px 24px rgba(6, 16, 30, 0.1);
 }
 
 .portfolioBody {

@@ -271,10 +271,12 @@ onMounted(() => {
                       <Icon :name="selectStockInfo.is_rise > 1 ? 'solar:alt-arrow-up-bold' : 'solar:alt-arrow-down-bold'" size="14" />
                       <span>{{ getNumberType(true, selectStockInfo.is_rise) + selectStockInfo.rise_rate }}%</span>
                     </div>
-                    <div v-for="item in insightCards" :key="item.label" class="heroSignalCard">
-                      <span class="heroSignalCard__label">{{ item.label }}</span>
-                      <strong class="heroSignalCard__value">{{ item.value }}</strong>
-                      <span class="heroSignalCard__note">{{ item.note }}</span>
+                    <div class="heroSignalRail">
+                      <div v-for="item in insightCards" :key="item.label" class="heroSignalCard">
+                        <span class="heroSignalCard__label">{{ item.label }}</span>
+                        <strong class="heroSignalCard__value">{{ item.value }}</strong>
+                        <span class="heroSignalCard__note">{{ item.note }}</span>
+                      </div>
                     </div>
                   </div>
                   <div class="heroSpotlight__valueBlock">
@@ -284,14 +286,12 @@ onMounted(() => {
                     </div>
                   </div>
 
-                  <div class="heroSpotlight__chartShell">
-                    <div class="heroSpotlight__chartMeta">
-                      <span>{{ $t('theme.marketBoardSubtext') }}</span>
-                      <span>{{ selectStockInfo.exchange_name || 'N225' }}</span>
-                    </div>
-                    <div class="heroSpotlight__chart">
-                      <HomeKLine ref="HomeKlineRef" @updateHomeKlineTopData="updateHomeKlineTopData" />
-                    </div>
+                  <div class="heroSpotlight__chartMeta">
+                    <span>{{ $t('theme.marketBoardSubtext') }}</span>
+                    <span>{{ selectStockInfo.exchange_name || 'N225' }}</span>
+                  </div>
+                  <div class="heroSpotlight__chart">
+                    <HomeKLine ref="HomeKlineRef" @updateHomeKlineTopData="updateHomeKlineTopData" />
                   </div>
                 </div>
               </div>
@@ -305,12 +305,6 @@ onMounted(() => {
             </section>
 
             <section class="sectionCard overviewDeck">
-              <div class="sectionHeading overviewDeck__heading">
-                <div>
-                  <div class="sectionTitle">{{ $t('theme.accountActions') }}</div>
-                </div>
-              </div>
-
               <div class="overviewDeck__groups">
                 <div v-for="group in actionGroups" :key="group.title" class="actionColumn">
                   <div class="actionColumn__header">
@@ -322,7 +316,6 @@ onMounted(() => {
                       :key="item.url"
                       type="button"
                       class="commandStrip"
-                      :class="item.tone === 'strong' ? 'commandStripStrong' : ''"
                       @click="changePage(item.url)"
                     >
                       <div class="iconFrame">
@@ -512,10 +505,10 @@ onMounted(() => {
 .heroMatrix {
   position: relative;
   overflow: hidden;
-  padding: 20px 18px 16px;
+  padding: 20px 18px 15px;
   background: linear-gradient(180deg, rgba(28, 49, 73, 0.9), rgba(19, 36, 54, 0.86));
-  border: 1px solid rgba(125, 211, 252, 0.12);
-  box-shadow: 0 16px 34px rgba(5, 12, 22, 0.16);
+  border: 1px solid rgba(125, 211, 252, 0.1);
+  box-shadow: 0 12px 28px rgba(5, 12, 22, 0.12);
 }
 
 .heroMatrix__backdrop {
@@ -575,34 +568,35 @@ onMounted(() => {
 
 .heroMatrix__lead {
   display: grid;
-  gap: 12px;
-  margin-top: 18px;
+  gap: 10px;
+  margin-top: 16px;
 }
 
 .heroSpotlight {
-  padding: 13px 13px 11px;
-  border-radius: 22px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.028));
-  border: 1px solid rgba(125, 211, 252, 0.1);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  display: grid;
+  gap: 12px;
 }
 
 .heroSpotlight__head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
   gap: 10px;
+}
+
+.heroSignalRail {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
 }
 
 .heroSignalCard {
   min-width: 0;
-  max-width: 48%;
   display: grid;
   gap: 2px;
-  padding: 7px 9px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.035);
-  border: 1px solid rgba(125, 211, 252, 0.09);
+  padding: 0 0 0 10px;
+  border-left: 1px solid rgba(125, 211, 252, 0.14);
 }
 
 .heroSignalCard__label {
@@ -637,8 +631,7 @@ onMounted(() => {
 
 .heroSpotlight__valueBlock {
   display: grid;
-  gap: 6px;
-  margin-top: 12px;
+  gap: 5px;
 }
 
 .heroSpotlight__price {
@@ -656,20 +649,13 @@ onMounted(() => {
   font-weight: 700;
 }
 
-.heroSpotlight__chartShell {
-  margin-top: 12px;
-  padding: 10px 10px 8px;
-  border-radius: 20px;
-  background: var(--surface-chart);
-  border: 1px solid rgba(125, 211, 252, 0.1);
-}
-
 .heroSpotlight__chartMeta {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  margin-bottom: 8px;
+  padding-top: 2px;
+  margin-top: 2px;
   color: var(--text-muted);
   font-size: 10px;
   line-height: 1.3;
@@ -679,9 +665,14 @@ onMounted(() => {
 
 .heroSpotlight__chart {
   overflow: hidden;
-  border-radius: 16px;
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(125, 211, 252, 0.1);
+  border-radius: 0;
   background: transparent;
-  border: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
 }
 
 .heroInsightRail {
@@ -722,17 +713,23 @@ onMounted(() => {
 .heroBoardGrid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
-  margin-top: 12px;
+  gap: 0;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(125, 211, 252, 0.1);
 }
 
 .heroBoardCell {
   display: grid;
   gap: 4px;
-  padding: 11px 10px;
-  border-radius: 17px;
-  background: rgba(255, 255, 255, 0.048);
-  border: 1px solid rgba(125, 211, 252, 0.08);
+  padding: 10px 10px 0;
+  border-radius: 0;
+  background: transparent;
+  border: 0;
+}
+
+.heroBoardCell + .heroBoardCell {
+  border-left: 1px solid rgba(125, 211, 252, 0.08);
 }
 
 .heroBoardCell span {
@@ -752,9 +749,9 @@ onMounted(() => {
 .marketDeck,
 .newsDeck {
   display: grid;
-  gap: 12px;
+  gap: 10px;
   background: linear-gradient(180deg, rgba(23, 42, 62, 0.88), rgba(16, 30, 46, 0.84));
-  border: 1px solid rgba(125, 211, 252, 0.09);
+  border: 1px solid rgba(125, 211, 252, 0.08);
 }
 
 .overviewDeck__summary {
@@ -826,11 +823,15 @@ onMounted(() => {
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 12px;
-  padding: 14px 13px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(125, 211, 252, 0.08);
+  padding: 13px 0;
+  border-radius: 0;
+  background: transparent;
+  border: 0;
   text-align: left;
+}
+
+.commandStrip + .commandStrip {
+  border-top: 1px solid rgba(125, 211, 252, 0.08);
 }
 
 .commandStripStrong {
@@ -876,10 +877,14 @@ onMounted(() => {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 12px;
-  padding: 14px 13px;
-  border-radius: 17px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.026));
-  border: 1px solid rgba(125, 211, 252, 0.08);
+  padding: 13px 0;
+  border-radius: 0;
+  background: transparent;
+  border: 0;
+}
+
+.marketGridRow + .marketGridRow {
+  border-top: 1px solid rgba(125, 211, 252, 0.08);
 }
 
 .marketGridRow__main,
@@ -922,10 +927,14 @@ onMounted(() => {
 .newsPanel {
   display: grid;
   gap: 8px;
-  padding: 14px 13px;
-  border-radius: 17px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.026));
-  border: 1px solid rgba(125, 211, 252, 0.08);
+  padding: 13px 0;
+  border-radius: 0;
+  background: transparent;
+  border: 0;
+}
+
+.newsPanel + .newsPanel {
+  border-top: 1px solid rgba(125, 211, 252, 0.08);
 }
 
 .newsPanel__time {
@@ -979,28 +988,24 @@ onMounted(() => {
   }
 
   .heroSpotlight__head {
-    align-items: stretch;
+    grid-template-columns: 1fr;
   }
 
-  .heroSignalCard {
-    max-width: 50%;
+  .heroSignalRail {
+    grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 360px) {
-  .heroSpotlight__head,
   .heroInsightRail,
   .heroBoardGrid,
   .overviewDeck__summary {
     grid-template-columns: 1fr;
   }
 
-  .heroSpotlight__head {
-    display: grid;
-  }
-
-  .heroSignalCard {
-    max-width: 100%;
+  .heroBoardCell + .heroBoardCell {
+    border-left: 0;
+    border-top: 1px solid rgba(125, 211, 252, 0.08);
   }
 }
 </style>

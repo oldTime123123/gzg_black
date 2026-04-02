@@ -169,8 +169,8 @@ const changeDataType = (type: number) => {
 .marketHero,
 .marketSection {
   background: var(--surface-module);
-  border: 1px solid rgba(125, 211, 252, 0.1);
-  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(125, 211, 252, 0.08);
+  box-shadow: 0 10px 24px rgba(6, 16, 30, 0.1);
 }
 
 .marketHero {
@@ -214,16 +214,19 @@ const changeDataType = (type: number) => {
 
 .marketHero__grid {
   display: grid;
-  gap: 12px;
+  gap: 0;
+  margin-top: 2px;
 }
 
 .marketStage {
-  padding: 18px 16px 16px;
-  border-radius: 24px;
-  background:
-    radial-gradient(circle at top right, rgba(56, 189, 248, 0.14), transparent 30%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
-  border: 1px solid rgba(125, 211, 252, 0.12);
+  padding: 16px 0;
+  border-radius: 0;
+  background: transparent;
+  border: 0;
+}
+
+.marketStage + .marketStage {
+  border-top: 1px solid rgba(125, 211, 252, 0.08);
 }
 
 .stageHeader {

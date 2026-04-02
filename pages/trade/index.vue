@@ -513,6 +513,7 @@ const collectHandle = () => {
     radial-gradient(circle at top right, rgba(56, 189, 248, 0.12), transparent 28%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
   border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 10px 24px rgba(5, 12, 22, 0.1);
 }
 
 .stageHeader {
@@ -568,14 +569,24 @@ const collectHandle = () => {
 .stageStatsGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  gap: 0;
+  padding-top: 14px;
+  border-top: 1px solid rgba(125, 211, 252, 0.08);
 }
 
 .statItem {
-  padding: 14px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border-soft);
+  padding: 12px 14px;
+  border-radius: 0;
+  background: transparent;
+  border: 0;
+}
+
+.statItem:nth-child(2n) {
+  border-left: 1px solid rgba(125, 211, 252, 0.08);
+}
+
+.statItem:nth-child(n + 3) {
+  border-top: 1px solid rgba(125, 211, 252, 0.08);
 }
 
 .statItem span {
@@ -624,9 +635,10 @@ const collectHandle = () => {
 
 .chartCard {
   overflow: hidden;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.025);
-  border: 1px solid var(--border-soft);
+  padding-top: 14px;
+  border-radius: 0;
+  background: transparent;
+  border-top: 1px solid rgba(125, 211, 252, 0.08);
 }
 
 .executionDesk {

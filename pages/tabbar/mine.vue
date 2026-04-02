@@ -14,11 +14,10 @@ const topFixedChange = (val: boolean) => {
   isSticky.value = val;
 };
 
-const menuGroups = computed(() => {
+const controlPanels = computed(() => {
   return [
     {
       title: t('theme.linkedAccounts'),
-      badge: t('theme.accountActions'),
       items: [
         { name: t('mine.m3'), icon: 'solar:card-2-linear', url: '/setting/bankList', accent: 'accent' },
         { name: t('mine.m7'), icon: 'solar:bill-list-linear', url: '/record/userBalanceRecord' },
@@ -26,20 +25,36 @@ const menuGroups = computed(() => {
     },
     {
       title: t('theme.secureAccess'),
-      badge: t('theme.secure'),
       items: [
         { name: t('mine.m4'), icon: 'solar:shield-user-linear', url: '/setting/identify', accent: 'accent' },
         { name: t('mine.m5'), icon: 'solar:key-linear', url: '/setting/password?type=1' },
         { name: t('mine.m8'), icon: 'solar:lock-password-linear', url: '/setting/password?type=0' },
-      ],
-    },
-    {
-      title: t('theme.supportAccess'),
-      badge: t('theme.supportFirst'),
-      items: [
-        { name: t('mine.m6'), icon: 'solar:headphones-round-sound-linear', url: '/service', accent: 'accent' },
+        { name: t('mine.m6'), icon: 'solar:headphones-round-sound-linear', url: '/service' },
         { name: t('comm.c83'), icon: 'solar:global-linear', url: '/mine/language' },
       ],
+    },
+  ];
+});
+
+const secondaryActions = computed(() => {
+  return [
+    {
+      name: t('mine.m19'),
+      helper: t('theme.withdrawCenter'),
+      icon: 'solar:card-send-linear',
+      url: '/pay/withdraw',
+    },
+    {
+      name: t('mine.m3'),
+      helper: t('theme.linkedAccounts'),
+      icon: 'solar:card-2-linear',
+      url: '/setting/bankList',
+    },
+    {
+      name: t('mine.m7'),
+      helper: t('theme.accountActions'),
+      icon: 'solar:bill-list-linear',
+      url: '/record/userBalanceRecord',
     },
   ];
 });
@@ -177,58 +192,48 @@ onMounted(() => {
               </div>
             </section>
 
-            <section class="actionCard sectionCard">
-              <div class="sectionHeading">
-                <div class="sectionTitle">{{ $t('theme.accountActions') }}</div>
-              </div>
-              <div class="quickActions">
-                <button type="button" class="actionButton actionButtonPrimary" @click="goDeposit('/pay/deposit')">
-                  <div class="iconFrame">
-                    <Icon name="solar:card-recive-linear" size="22" />
-                  </div>
-                  <div class="actionCopy">
-                    <div class="actionEyebrow">{{ $t('theme.depositChannel') }}</div>
-                    <div class="actionLabel">{{ $t('mine.m18') }}</div>
-                  </div>
-                </button>
-
-                <button type="button" class="actionButton" @click="changePage('/pay/withdraw')">
-                  <div class="iconFrame">
-                    <Icon name="solar:card-send-linear" size="22" />
-                  </div>
-                  <div class="actionCopy">
-                    <div class="actionEyebrow">{{ $t('theme.withdrawCenter') }}</div>
-                    <div class="actionLabel">{{ $t('mine.m19') }}</div>
-                  </div>
-                </button>
-              </div>
-            </section>
-
-            <section class="menuSection menuSectionShell">
-              <div class="sectionHeading sectionHeadingLoose">
-                <div class="sectionTitle">{{ $t('theme.toolsSettings') }}</div>
+            <section class="actionStage sectionCard">
+              <div class="actionStage__head">
+                <div class="actionStage__eyebrow">{{ $t('theme.accountActions') }}</div>
+                <div class="actionStage__title">{{ $t('theme.toolsSettings') }}</div>
               </div>
 
-              <div class="menuSectionStack renderBudget mt-4">
-                <section class="menuCluster sectionCard" v-for="(group, groupIndex) in menuGroups" :key="groupIndex">
-                  <div class="menuCluster__head">
-                    <div>
-                      <div class="clusterBadge">{{ group.badge }}</div>
-                      <div class="clusterTitle">{{ group.title }}</div>
+              <button type="button" class="heroAction" @click="goDeposit('/pay/deposit')">
+                <div class="heroAction__glow"></div>
+                <div class="heroAction__top">
+                  <div class="iconFrame iconFrameLarge">
+                    <Icon name="solar:card-recive-linear" size="24" />
+                  </div>
+                  <div class="heroAction__badge">{{ $t('theme.depositChannel') }}</div>
+                </div>
+                <div class="heroAction__body">
+                  <div class="heroAction__title">{{ $t('mine.m18') }}</div>
+                  <div class="heroAction__meta">{{ $t('theme.accountActions') }}</div>
+                </div>
+              </button>
+
+              <div class="secondaryActionGrid">
+                <button type="button" class="secondaryAction" v-for="(item, index) in secondaryActions" :key="index" @click="changePage(item.url)">
+                  <div class="secondaryAction__top">
+                    <div class="iconFrame">
+                      <Icon :name="item.icon" size="20" />
                     </div>
+                    <Icon name="solar:alt-arrow-right-linear" size="18" class="menuArrow" />
                   </div>
+                  <div class="secondaryAction__helper">{{ item.helper }}</div>
+                  <div class="secondaryAction__title">{{ item.name }}</div>
+                </button>
+              </div>
 
-                  <div class="menuCardGrid">
-                    <button type="button" class="menuCard" :class="item.accent ? 'menuCardAccent' : ''" v-for="(item, index) in group.items" :key="index" @click="changePage(item.url)">
-                      <div class="menuCard__top">
-                        <div class="iconFrame">
-                          <Icon :name="item.icon" size="20" />
-                        </div>
-                        <Icon name="solar:alt-arrow-right-linear" size="18" class="menuArrow" />
+              <div class="controlPanelGrid">
+                <section class="controlPanel" v-for="(group, groupIndex) in controlPanels" :key="groupIndex">
+                  <div class="controlPanel__title">{{ group.title }}</div>
+                  <div class="controlPanel__list">
+                    <button type="button" class="controlChip" :class="item.accent ? 'controlChipAccent' : ''" v-for="(item, index) in group.items" :key="index" @click="changePage(item.url)">
+                      <div class="iconFrame iconFrameSmall">
+                        <Icon :name="item.icon" size="18" />
                       </div>
-                      <div class="menuCard__body">
-                        <div class="menuName">{{ item.name }}</div>
-                      </div>
+                      <span>{{ item.name }}</span>
                     </button>
                   </div>
                 </section>
@@ -300,11 +305,10 @@ onMounted(() => {
 }
 
 .profileStage,
-.actionCard,
-.menuCluster,
+.actionStage,
 .logoutSection {
-  border: 1px solid var(--border-soft);
-  box-shadow: 0 14px 34px rgba(7, 19, 34, 0.12);
+  border: 1px solid rgba(125, 211, 252, 0.08);
+  box-shadow: 0 10px 24px rgba(7, 19, 34, 0.1);
 }
 
 .profileStage {
@@ -321,8 +325,7 @@ onMounted(() => {
 }
 
 .profileStage__eyebrow,
-.actionEyebrow,
-.clusterBadge {
+.actionStage__eyebrow {
   color: var(--brand-primary);
   font-size: 11px;
   font-weight: 700;
@@ -447,121 +450,163 @@ onMounted(() => {
   color: #bbf7d0;
 }
 
-.actionCard {
+.actionStage {
+  display: grid;
+  gap: 14px;
   background: linear-gradient(180deg, rgba(42, 72, 106, 0.92), rgba(31, 56, 83, 0.9));
 }
 
-.quickActions {
+.actionStage__head {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  margin-top: 16px;
+  gap: 6px;
 }
 
-.actionButton {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  min-height: 96px;
-  padding: 16px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(191, 219, 254, 0.12);
+.actionStage__title {
+  color: var(--text-primary);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.heroAction {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  gap: 18px;
+  padding: 18px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(125, 211, 252, 0.22), rgba(56, 189, 248, 0.08) 52%, rgba(16, 26, 45, 0.18));
+  border: 1px solid rgba(191, 219, 254, 0.2);
   text-align: left;
+  isolation: isolate;
   appearance: none;
 }
 
-.actionButtonPrimary {
-  background: linear-gradient(135deg, rgba(125, 211, 252, 0.18), rgba(59, 130, 246, 0.12));
-  border-color: rgba(191, 219, 254, 0.18);
+.heroAction__glow {
+  position: absolute;
+  inset: auto -8% -48px auto;
+  width: 180px;
+  height: 180px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(125, 211, 252, 0.22), rgba(125, 211, 252, 0));
+  pointer-events: none;
 }
 
-.actionCopy {
-  display: grid;
-  gap: 4px;
-  min-width: 0;
-}
-
-.actionLabel {
-  color: var(--text-primary);
-  font-weight: 700;
-  line-height: 1.35;
-}
-
-.menuSectionShell {
-  display: grid;
-  gap: 0;
-}
-
-.sectionHeadingLoose {
-  padding: 0 2px;
-}
-
-.menuSectionStack {
-  display: grid;
-  gap: 12px;
-}
-
-.menuCluster {
-  display: grid;
-  gap: 14px;
-  background: linear-gradient(180deg, rgba(39, 70, 103, 0.92), rgba(30, 55, 81, 0.9));
-}
-
-.menuCluster__head {
+.heroAction__top,
+.secondaryAction__top {
   display: flex;
   align-items: flex-start;
-}
-
-.clusterTitle {
-  margin-top: 8px;
-  color: var(--text-primary);
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-.menuCardGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.menuCard {
-  display: grid;
-  gap: 10px;
-  min-height: 116px;
-  padding: 14px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(191, 219, 254, 0.12);
-  text-align: left;
-  width: 100%;
-  appearance: none;
-}
-
-.menuCardAccent {
-  background: linear-gradient(180deg, rgba(125, 211, 252, 0.16), rgba(255, 255, 255, 0.08));
-  border-color: rgba(191, 219, 254, 0.2);
-}
-
-.menuCard__top {
-  display: flex;
-  align-items: center;
   justify-content: space-between;
   gap: 12px;
 }
 
-.menuCard__body {
+.heroAction__badge,
+.secondaryAction__helper,
+.controlPanel__title {
+  color: rgba(226, 232, 240, 0.74);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.heroAction__body {
   display: grid;
-  gap: 8px;
+  gap: 6px;
   min-width: 0;
 }
 
-.menuName {
+.heroAction__title,
+.secondaryAction__title {
   color: var(--text-primary);
+  font-size: 18px;
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.25;
+}
+
+.heroAction__meta {
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.secondaryActionGrid,
+.controlPanelGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.secondaryAction {
+  display: grid;
+  gap: 10px;
+  min-height: 120px;
+  padding: 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(191, 219, 254, 0.12);
+  text-align: left;
+  appearance: none;
+}
+
+.controlPanel {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(191, 219, 254, 0.1);
+}
+
+.controlPanel__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.controlChip {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(191, 219, 254, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 600;
+  appearance: none;
+}
+
+.controlChipAccent {
+  background: linear-gradient(180deg, rgba(125, 211, 252, 0.16), rgba(255, 255, 255, 0.08));
+  border-color: rgba(191, 219, 254, 0.18);
+}
+
+.iconFrame {
+  width: 42px;
+  height: 42px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(125, 211, 252, 0.14);
+  color: var(--brand-primary);
+  border: 1px solid rgba(191, 219, 254, 0.14);
+  flex-shrink: 0;
+}
+
+.iconFrameLarge {
+  width: 48px;
+  height: 48px;
+  border-radius: 18px;
+}
+
+.iconFrameSmall {
+  width: 32px;
+  height: 32px;
+  border-radius: 12px;
 }
 
 .menuArrow {
@@ -598,8 +643,9 @@ onMounted(() => {
   line-height: 1.35;
 }
 
-.actionButton:active,
-.menuCard:active,
+.heroAction:active,
+.secondaryAction:active,
+.controlChip:active,
 .topAction:active,
 .visibilitySwitch:active {
   transform: scale(0.98);
@@ -607,9 +653,9 @@ onMounted(() => {
 
 @media (max-width: 360px) {
   .profileStage__head,
-  .quickActions,
   .profileStage__stats,
-  .menuCardGrid {
+  .secondaryActionGrid,
+  .controlPanelGrid {
     grid-template-columns: 1fr;
   }
 }
