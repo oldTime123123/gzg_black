@@ -16,8 +16,7 @@ const stats = [
 </script>
 
 <template>
-  <AuthShell class="before-login-shell" :show-back="false" :title="$t('login.l1')">
-    <template #hero>
+
       <section
         class="relative min-h-[calc(100vh-7.5rem)] overflow-hidden px-0 pb-2 pt-3 text-slate-50 sm:min-h-[calc(100vh-8rem)]">
         <div class="absolute inset-0 -z-10 overflow-hidden">
@@ -37,28 +36,24 @@ const stats = [
             class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#020611] via-[#020611]/72 to-transparent" />
         </div>
 
-        <div class="relative z-10 flex min-h-[inherit] flex-col justify-between gap-8 px-4 pb-6 pt-1 sm:px-5">
+        <div class="relative z-10 flex min-h-[inherit] flex-col justify-between gap-2 px-4 pb-6 pt-1 sm:px-5">
           <header class="space-y-5 reveal-block" style="--delay:0s">
-            <div class="flex items-center gap-2">
-              <span
-                class="inline-flex items-center gap-2 rounded-full border border-cyan-300/15 bg-cyan-300/5 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.32em] text-cyan-100/72 backdrop-blur-sm">
-                <span class="h-1.5 w-1.5 rounded-full bg-cyan-300 shadow-[0_0_10px_rgba(103,232,249,0.9)] pulse-dot" />
-                System Online
-              </span>
-              <span
-                class="rounded-full border border-white/8 bg-white/[0.03] px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.26em] text-white/38">
-                v4.2
-              </span>
-            </div>
 
             <div class="space-y-2">
-              <p class="text-[10px] font-medium uppercase tracking-[0.42em] text-cyan-100/42">
-                Secure Trading Access
-              </p>
-              <h2
-                class="max-w-[8ch] text-[clamp(2.8rem,11vw,5rem)] font-black leading-[0.82] tracking-[-0.08em] text-white/96">
-                {{ $t('login.l1') }}
-              </h2>
+
+          <h2 class="max-w-[640px] whitespace-normal break-words text-[36px] font-black leading-[0.94]
+  tracking-[-0.05em] sm:text-[44px] lg:text-[56px]
+  text-transparent bg-clip-text bg-[length:220%_220%]
+  bg-[linear-gradient(135deg,#f0f9ff_0%,#7dd3fc_20%,#38bdf8_40%,#0ea5e9_62%,#0369a1_100%)]
+  animate-[titleGradient_7s_ease-in-out_infinite]">
+            Welcome to the
+            <span class="font-black text-transparent bg-clip-text bg-[length:220%_220%]
+    bg-[linear-gradient(135deg,#ffffff_0%,#bae6fd_18%,#38bdf8_42%,#0ea5e9_70%,#075985_100%)]
+    animate-[titleGradient_5.5s_ease-in-out_infinite]">
+              HQBW
+            </span>
+            Trading Platform
+          </h2>
             </div>
           </header>
 
@@ -71,13 +66,6 @@ const stats = [
                 class="pointer-events-none absolute inset-y-10 right-0 w-px bg-gradient-to-b from-transparent via-white/18 to-transparent" />
 
               <div class="space-y-4">
-                <div class="flex items-center gap-2 overflow-x-auto pb-1">
-                  <div v-for="s in stats" :key="s.label"
-                    class="min-w-[72px] rounded-2xl border border-white/8 bg-white/[0.035] px-3 py-2 backdrop-blur-sm">
-                    <div class="text-xs font-semibold tracking-[0.02em] text-cyan-100/92">{{ s.val }}</div>
-                    <div class="mt-1 text-[9px] uppercase tracking-[0.22em] text-white/36">{{ s.label }}</div>
-                  </div>
-                </div>
 
                 <div class="flex items-center gap-3">
                   <div class="h-px flex-1 bg-gradient-to-r from-transparent via-cyan-200/24 to-cyan-200/6" />
@@ -90,7 +78,7 @@ const stats = [
 
                 <div class="space-y-3">
                   <button type="button"
-                    class="group relative flex min-h-[56px] w-full items-center justify-center overflow-hidden rounded-2xl border border-cyan-200/30 bg-[linear-gradient(135deg,rgba(15,104,163,0.92),rgba(22,78,99,0.86)_52%,rgba(30,64,175,0.84))] px-4 text-sm font-semibold tracking-[0.08em] text-white shadow-[0_20px_50px_rgba(6,48,78,0.42)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_28px_70px_rgba(14,116,144,0.34)]"
+                    class="group relative flex min-h-[56px] w-full items-center justify-center overflow-hidden rounded-2xl border border-cyan-200/30 bg-[linear-gradient(135deg,#0284c7,#0ea5e9_52%,#0369a1)] px-4 text-sm font-semibold tracking-[0.08em] text-white shadow-[0_20px_50px_rgba(6,48,78,0.42)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_28px_70px_rgba(14,116,144,0.34)]"
                     @click="go('/auth/login')">
                     <span
                       class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.18),_transparent_52%)]" />
@@ -109,22 +97,30 @@ const stats = [
                   </button>
                 </div>
 
-                <div class="flex items-center gap-2 pt-1">
-                  <span v-for="tag in ['SYNC', 'SHIELD', 'LIVE']" :key="tag"
-                    class="rounded-full border border-cyan-200/10 bg-cyan-200/[0.04] px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.28em] text-cyan-100/44">
-                    {{ tag }}
-                  </span>
-                </div>
+
               </div>
             </div>
           </div>
         </div>
       </section>
-    </template>
-  </AuthShell>
+
 </template>
 
 <style scoped>
+@keyframes titleGradient {
+  0% {
+    background-position: 0% 50%;
+    filter: brightness(1);
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: brightness(1.22);
+  }
+  100% {
+    background-position: 0% 50%;
+    filter: brightness(1);
+  }
+}
 .before-login-shell {
   display: flex;
   flex-direction: column;
