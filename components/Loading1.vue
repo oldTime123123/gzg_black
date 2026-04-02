@@ -21,7 +21,7 @@ const showLoading = computed(() => {
 .mask {
   position: fixed;
   inset: 0;
-  background: rgba(4, 7, 12, 0.72);
+  background: linear-gradient(180deg, var(--overlay-scrim), var(--overlay-scrim-strong));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,9 +33,9 @@ const showLoading = computed(() => {
   width: 172px;
   padding: 22px 18px;
   border-radius: 24px;
-  background: rgba(19, 26, 34, 0.9);
+  background: var(--surface-loading-panel);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--shadow-soft-dark);
   display: flex;
   flex-direction: column;
   align-items: center;

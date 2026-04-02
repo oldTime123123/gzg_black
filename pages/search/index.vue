@@ -154,7 +154,7 @@ onMounted(() => {
   gap: 10px;
   padding: 0 12px;
   border-radius: 18px;
-  background: rgba(19, 26, 34, 0.74);
+  background: var(--surface-overlay-soft);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 

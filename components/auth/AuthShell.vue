@@ -62,7 +62,7 @@ const goLanguage = () => {
   position: relative;
   min-height: 100vh;
   overflow: hidden;
-  background: #0d1117;
+  background: #15304b;
   color: var(--text-primary);
 }
 
@@ -71,7 +71,7 @@ const goLanguage = () => {
   inset: 0;
   background:
     radial-gradient(circle at 50% -8%, rgba(56, 189, 248, 0.16), transparent 28%),
-    linear-gradient(180deg, #151a21 0%, #10151d 26%, #0d1117 100%);
+    var(--surface-auth-shell);
 }
 
 .authNoise {

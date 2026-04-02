@@ -168,8 +168,9 @@ const changeDataType = (type: number) => {
 
 .marketHero,
 .marketSection {
-  background: rgba(8, 18, 31, 0.9);
+  background: var(--surface-module);
   border: 1px solid rgba(125, 211, 252, 0.1);
+  box-shadow: var(--shadow-card);
 }
 
 .marketHero {

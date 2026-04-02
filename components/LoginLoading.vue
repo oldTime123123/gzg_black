@@ -39,7 +39,7 @@ const showLoadingText = computed(() => {
   background:
     radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 28%),
     radial-gradient(circle at top right, rgba(37, 99, 235, 0.14), transparent 24%),
-    linear-gradient(180deg, #101b2f 0%, #0a1321 28%, #08101b 100%);
+    var(--surface-auth-shell);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -49,9 +49,9 @@ const showLoadingText = computed(() => {
   width: min(320px, calc(100vw - 32px));
   padding: 28px 22px;
   border-radius: 28px;
-  background: rgba(8, 18, 31, 0.88);
+  background: var(--surface-loading-panel);
   border: 1px solid rgba(125, 211, 252, 0.12);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+  box-shadow: var(--shadow-soft-dark);
   text-align: center;
   backdrop-filter: blur(18px);
 }

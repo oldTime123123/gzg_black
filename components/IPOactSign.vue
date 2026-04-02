@@ -1,7 +1,7 @@
 <template>
-  <div class="fixed inset-0 z-[999] bg-black/60 backdrop-blur-[2px]" v-if="pub.showIPONoticePop" @click="pub.showIPONoticePop = false">
+  <div class="fixed inset-0 z-[999] bg-[linear-gradient(180deg,var(--overlay-scrim),var(--overlay-scrim-strong))] backdrop-blur-[6px]" v-if="pub.showIPONoticePop" @click="pub.showIPONoticePop = false">
     <div class="flex min-h-screen items-center justify-center px-4 py-8" @click.stop>
-      <div class="relative w-full max-w-[380px] overflow-hidden rounded-[30px] border border-[rgba(125,211,252,0.14)] bg-[linear-gradient(180deg,#101b2e_0%,#0a1321_100%)] shadow-[0_28px_80px_rgba(0,0,0,0.48)]">
+      <div class="relative w-full max-w-[380px] overflow-hidden rounded-[30px] border border-[rgba(125,211,252,0.14)] bg-[var(--surface-modal-panel)] shadow-[var(--shadow-soft-dark)]">
         <div class="pointer-events-none absolute inset-x-0 top-0 h-28 bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.18),transparent_62%)]"></div>
         <div class="border-b border-white/8 px-5 pb-4 pt-5">
           <div class="inline-flex items-center gap-2 rounded-full bg-[rgba(56,189,248,0.14)] px-3 py-2 text-xs font-bold text-[var(--brand-primary)]">

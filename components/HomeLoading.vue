@@ -21,7 +21,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(4, 7, 12, 0.72);
+  background: linear-gradient(180deg, var(--overlay-scrim), var(--overlay-scrim-strong));
   backdrop-filter: blur(8px);
 }
 
@@ -32,9 +32,9 @@
   border-radius: 26px;
   background:
     radial-gradient(circle at top, rgba(56, 189, 248, 0.12), transparent 34%),
-    rgba(19, 26, 34, 0.92);
+    var(--surface-loading-panel);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--shadow-soft-dark);
   display: flex;
   flex-direction: column;
   align-items: center;

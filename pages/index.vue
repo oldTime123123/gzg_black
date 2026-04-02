@@ -63,7 +63,7 @@ const showLoadingText = computed(() => loginStore.loadingText);
   background:
     radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 30%),
     radial-gradient(circle at top right, rgba(37, 99, 235, 0.16), transparent 26%),
-    linear-gradient(180deg, #0f1b2f 0%, #09111f 42%, #050c16 100%);
+    var(--surface-auth-shell);
 }
 
 .bootShell {
@@ -72,9 +72,9 @@ const showLoadingText = computed(() => loginStore.loadingText);
   width: min(340px, calc(100vw - 32px));
   padding: 28px 22px;
   border-radius: 30px;
-  background: rgba(8, 18, 31, 0.88);
+  background: var(--surface-loading-panel);
   border: 1px solid rgba(125, 211, 252, 0.12);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+  box-shadow: var(--shadow-soft-dark);
   text-align: center;
   backdrop-filter: blur(18px);
 }
