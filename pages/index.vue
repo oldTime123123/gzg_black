@@ -20,6 +20,7 @@ onBeforeMount(() => {
 
 onMounted(() => {
   if (import.meta.client && storage.getItem('token')) {
+
     router.push('/tabbar/home');
 
 
