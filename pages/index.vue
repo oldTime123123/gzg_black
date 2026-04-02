@@ -14,24 +14,25 @@ onBeforeMount(() => {
     return;
   }
   pub.showLoading = false;
-  loginStore.loading = true
-
 });
 
 onMounted(() => {
   if (import.meta.client && storage.getItem('token')) {
+  loginStore.loading = true
 
+    setTimeout(() => {
+      loginStore.loading = false
+    }, 2000);
     router.push('/tabbar/home');
+  } else {
+
+    loginStore.showLoadingText = "";
+  loginStore.loading = true
+    router.push('/auth/beforeLogin');
+
     setTimeout(() => {
       loginStore.loading = false
 
-    }, 2000);
-
-
-  } else {
-    loginStore.showLoadingText = "";
-    setTimeout(() => {
-      router.push('/auth/beforeLogin');
     }, 2000);
   }
 });
