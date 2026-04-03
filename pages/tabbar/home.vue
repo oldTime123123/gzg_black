@@ -382,10 +382,10 @@ onMounted(() => {
                     :key="index"
                     @click="goNewsDetail(item)"
                   >
-                    <div class="newsPanel__time">{{ item.show_time_format }}</div>
                     <div class="newsPanel__title">{{ item.name }}</div>
                     <div class="newsPanel__foot">
-                      <span>{{ $t('theme.marketBoardSubtext') }}</span>
+                    <div class="newsPanel__time">{{ item.show_time_format }}</div>
+
                       <Icon name="solar:alt-arrow-right-linear" size="16" />
                     </div>
                   </button>

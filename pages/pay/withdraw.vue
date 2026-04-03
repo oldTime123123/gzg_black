@@ -111,7 +111,7 @@ onBeforeMount(() => {
         <div class="stageTop">
           <div>
             <div class="heroEyebrow">{{ $t('theme.linkedAccounts') }}</div>
-            <div class="stageTitle">{{ $t('pay.p9') }}</div>
+            <div class="stageTitle">{{ $t('fund.f1') }}</div>
           </div>
           <div class="stageIcon">
             <Icon name="solar:wallet-money-linear" size="22" />
@@ -122,9 +122,9 @@ onBeforeMount(() => {
 
       <van-form class="mt-4" @submit="handleSubmit">
         <div class="fundDesk">
-          <div class="deskTop">
+          <!-- <div class="deskTop">
             <div class="deskTitle">{{ $t('pay.p20') }}</div>
-          </div>
+          </div> -->
 
           <div class="formCard mt-4">
             <div class="formBlock">

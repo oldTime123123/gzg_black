@@ -19,10 +19,7 @@ const recordContent = [
     <SecondPageNavBar :title="$t('record.r28')" />
 
     <div class="pageWrap px-3 pb-6">
-      <div class="heroCard mt-4">
-        <div class="heroEyebrow">{{ $t('theme.saleRecord') }}</div>
-        <div class="heroDesc">{{ $t('theme.saleRecordCopy') }}</div>
-      </div>
+
 
       <div class="sectionCard mt-4 detailCard">
         <div class="detailHead">

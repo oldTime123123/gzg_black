@@ -122,18 +122,10 @@ onMounted(() => {
     <SecondPageNavBar :title="$t('setting.s14')" />
 
     <div class="pageWrap px-3 pb-6">
-      <div class="editorStage mt-4">
-        <div class="heroEyebrow">{{ $t('theme.bankDetails') }}</div>
-        <div class="stageTitle">{{ $t('setting.s14') }}</div>
-      </div>
 
-      <van-form ref="formRef" class="mt-4" @submit="handleSubmit">
+      <van-form ref="formRef"  @submit="handleSubmit">
         <div class="editorDesk">
-          <div class="deskTop">
-            <div class="deskTitle">{{ $t('setting.s25') }}</div>
-          </div>
-
-          <div class="formCard mt-4">
+          <div class="formCard ">
             <div v-if="balanceTypeList.length > 0" class="formBlock">
               <div class="formLabel">{{ $t('setting.s20') }}</div>
               <van-field :model-value="selectedBalanceTypeName" name="balance_type" readonly is-link

@@ -21,7 +21,6 @@ const changePage = (url: string) => {
                         </div>
                     </div>
                     <div class="searchBody">
-                        <div class="searchEyebrow">{{ $t('theme.marketBoardSubtext') }}</div>
                         <div class="flex-1 text-sm searchPlaceholder">
                             {{ $t('comm.c82') }}
                         </div>

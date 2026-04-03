@@ -59,10 +59,6 @@ const changeActType = (index: number) => {
     <SecondPageNavBar :title="$t('record.r13')" />
 
     <div class="pageWrap px-3 pb-6">
-      <div class="heroCard mt-4">
-        <div class="heroEyebrow">{{ $t('theme.loanRecord') }}</div>
-        <div class="heroDesc">{{ $t('theme.loanRecordCopy') }}</div>
-      </div>
 
       <div class="sectionCard mt-4 contentCard">
         <div class="tabRail tabRailWide">

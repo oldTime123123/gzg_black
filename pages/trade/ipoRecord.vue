@@ -155,10 +155,7 @@ onMounted(() => {
       </SecondPageNavBar>
 
       <div class="pageWrap px-3 pb-6">
-        <div class="heroCard mt-4">
-          <div class="heroEyebrow">{{ $t('theme.subscriptionModule') }}</div>
-          <div class="heroDesc">{{ $t('theme.ipoModuleCopy') }}</div>
-        </div>
+
 
         <div class="sectionCard mt-4 contentCard">
           <div class="tabRail tabRailWide">

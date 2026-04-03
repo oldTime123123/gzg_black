@@ -58,10 +58,7 @@ onMounted(() => {
   <div class="pageShell">
     <SecondPageNavBar :title="$t('record.a1')" />
     <div class="pageWrap px-3 pb-6">
-      <div class="heroCard mt-4">
-        <div class="heroEyebrow">{{ $t('theme.recordCenter') }}</div>
-        <div class="heroDesc">{{ $t('theme.ipoRecordCopy') }}</div>
-      </div>
+
 
       <div class="sectionCard mt-4 contentCard">
         <div v-if="recordList.length == 0">

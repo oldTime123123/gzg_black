@@ -68,7 +68,6 @@ onBeforeMount(() => {
 
     <div class="pageWrap pageStack px-3 pb-6">
       <div class="heroCard mt-4">
-        <div class="heroEyebrow">{{ $t('theme.fundCenter') }}</div>
         <div class="metricGrid">
           <div class="metricItem metricItemLead">
             <span>{{ $t('fund.f1') }}</span>

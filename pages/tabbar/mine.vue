@@ -121,7 +121,6 @@ const groupedActions = computed(() => {
       title: t('theme.onlineCustomerService'),
       items: [
         { name: t('mine.m6'), icon: 'solar:headphones-round-sound-linear', url: '/service' },
-        { name: t('mine.m21'), icon: 'solar:global-linear', url: '/mine/language' },
       ],
     },
   ];

@@ -66,7 +66,6 @@ onMounted(() => {
       <div class="heroCard mt-4">
         <div class="heroTop">
           <div class="heroHeading">
-            <div class="heroEyebrow">{{ $t('theme.fundCenter') }}</div>
             <div class="heroTitle">{{ pageData.title }}</div>
             <div class="vipPill">{{ pageData.vip?.name }} · {{ t('fund.f11') }}</div>
           </div>
