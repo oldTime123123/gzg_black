@@ -291,7 +291,7 @@ onMounted(() => {
                         <Icon :name="item.icon" size="18" />
                       </div>
                       <div class="min-w-0 flex-1">
-                        <div class="truncate text-sm font-semibold text-[var(--text-primary)]">
+                        <div class=" text-sm font-semibold text-[var(--text-primary)]">
                           {{ item.name }}
                         </div>
                       </div>

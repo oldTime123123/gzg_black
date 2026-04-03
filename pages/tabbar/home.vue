@@ -233,7 +233,6 @@ onMounted(() => {
                 <Icon name="solar:bell-bing-linear" size="18" />
               </div>
               <div class="signalStrip__body">
-                <div class="signalStrip__meta">{{ $t('theme.marketBoardSubtext') }}</div>
                 <van-notice-bar scrollable :text="noticeTxt" background="transparent" color="var(--text-primary)" />
               </div>
             </div>

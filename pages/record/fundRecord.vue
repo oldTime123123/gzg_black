@@ -95,10 +95,6 @@ const showCancelConfirm = () => {
     <SecondPageNavBar :title="t('fund.f26')" />
 
     <div class="pageWrap px-3 pb-6">
-      <div class="heroCard mt-4">
-        <div class="heroEyebrow">{{ $t('theme.fundRecord') }}</div>
-        <div class="heroDesc">{{ $t('theme.fundRecordCopy') }}</div>
-      </div>
 
       <div class="sectionCard mt-4 contentCard">
         <div class="tabRail">

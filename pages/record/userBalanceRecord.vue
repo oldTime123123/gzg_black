@@ -17,18 +17,9 @@ const handleTabChange = (type: number) => {
     <SecondPageNavBar :title="$t('record.r36')" />
 
     <div class="pageWrap px-3 pb-6">
-      <div class="ledgerStage mt-4">
-        <div class="heroEyebrow">{{ $t('theme.balanceRecord') }}</div>
-        <div class="stageTitle">{{ $t('record.r36') }}</div>
-      </div>
+
 
       <div class="recordCenter mt-4">
-        <div class="centerTop">
-          <div>
-            <div class="centerTitle">{{ $t('theme.balanceRecord') }}</div>
-          </div>
-        </div>
-
         <div class="contentCard mt-4">
           <div class="tabRail tabRailWide">
             <button type="button" v-for="(tab, index) in recordTypeTabs" class="tabChip flex-1" :class="tab.type == actRecordType ? 'active' : ''" :key="index" :aria-pressed="tab.type == actRecordType" @click="handleTabChange(tab.type)">
