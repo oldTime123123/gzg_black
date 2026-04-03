@@ -30,10 +30,8 @@ export default defineNuxtRouteMiddleware((to, from) => {
       return;
     }
   pub.showLoading = true;
-    setTimeout(() => {
+setTimeout(() => {
       pub.showLoading = false;
     }, 5000);
-  }  {
-    pub.showLoading = false;
   }
 });
