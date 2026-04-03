@@ -17,11 +17,6 @@ const handleTabChange = (type: number) => {
     <SecondPageNavBar :title="$t('record.r36')" />
 
     <div class="pageWrap px-3 pb-6">
-      <div class="ledgerStage mt-4">
-        <div class="heroEyebrow">{{ $t('theme.balanceRecord') }}</div>
-        <div class="stageTitle">{{ $t('record.r36') }}</div>
-        <div class="stageDesc">{{ $t('theme.balanceRecordCopy') }}</div>
-      </div>
 
       <div class="recordCenter mt-4">
         <div class="centerTop">

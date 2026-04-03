@@ -29,10 +29,10 @@ export default defineNuxtRouteMiddleware((to, from) => {
       window.location.reload();
       return;
     }
+      pub.showLoading = true;
+
     setTimeout(() => {
       pub.showLoading = false;
-    }, 2000);
-  } else {
-    pub.showLoading = false;
+    }, 5000);
   }
 });

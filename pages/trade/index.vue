@@ -376,7 +376,6 @@ const collectHandle = () => {
             <div class="tradeTitleGroup">
               <div class="sectionTitle">{{ $t('trade.t53') }}</div>
             </div>
-            <div class="deskCaption">{{ $t('theme.marketBoardSubtext') }}</div>
           </div>
 
           <div class="typeRail mt-4">
@@ -397,7 +396,6 @@ const collectHandle = () => {
             <div v-if="actTradeType == 0" class="fieldCard">
               <div class="fieldHead">
                 <div class="fieldLabel">{{ $t('trade.t54') }}</div>
-                <div class="fieldValuePreview">{{ getSafeExchangeNumber(safePriceValue) }}</div>
               </div>
               <div class="stepperRow inputShell">
                 <button type="button" class="stepperBtn" :class="safePriceValue > 0 ? 'enabled' : ''" :disabled="safePriceValue <= 0" @click="subPriceVal">
@@ -420,7 +418,6 @@ const collectHandle = () => {
             <div class="fieldCard">
               <div class="fieldHead">
                 <div class="fieldLabel">{{ $t('trade.t55') }}</div>
-                <div class="fieldValuePreview">{{ safeNumValue }}</div>
               </div>
               <div class="stepperRow inputShell">
                 <button type="button" class="stepperBtn" :class="safeNumValue > 1 ? 'enabled' : ''" :disabled="safeNumValue <= 1" @click="subNumVal">
