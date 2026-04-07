@@ -33,10 +33,7 @@ onBeforeMount(() => {
         <second-page-nav-bar :title="$t('pay.p4')"></second-page-nav-bar>
 
         <div class="pageWrap px-3 pb-6">
-            <div class="heroCard mt-4">
-                <div class="heroEyebrow">{{ $t('theme.rechargeService') }}</div>
-                <div class="heroDesc">{{ $t('theme.depositChannelCopy') }}</div>
-            </div>
+
 
             <div class="serviceList renderBudget mt-4">
                 <button

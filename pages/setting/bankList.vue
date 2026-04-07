@@ -59,12 +59,6 @@ onMounted(() => {
     <SecondPageNavBar :title="$t('setting.s5')" />
 
     <div class="pageWrap px-3 pb-6">
-      <div class="directoryStage mt-4">
-        <div class="heroEyebrow">{{ $t('theme.linkedAccounts') }}</div>
-        <div class="stageTitle">{{ $t('setting.s5') }}</div>
-        <div class="stageDesc">{{ $t('theme.linkedAccountsCopy') }}</div>
-      </div>
-
       <div class="mt-4" v-if="showSkeleton">
         <div class="listSkeleton" v-for="(item, index) in 2" :key="index"></div>
       </div>
@@ -144,9 +138,6 @@ onMounted(() => {
   text-transform: uppercase;
 }
 
-.directoryStage {
-  padding: 2px 2px 8px;
-}
 
 .stageTitle {
   margin-top: 8px;

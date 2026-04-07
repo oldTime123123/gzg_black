@@ -126,10 +126,7 @@ const statusEnum = {
     <SecondPageNavBar :title="$t('trade.t26')" />
 
     <div class="pageWrap px-3 pb-6">
-      <div class="heroCard mt-4">
-        <div class="heroEyebrow">{{ $t('theme.tradingModule') }}</div>
-        <div class="heroDesc">{{ $t('theme.dailyRecordCopy') }}</div>
-      </div>
+
 
       <div class="sectionCard mt-4 contentCard">
         <div class="tabRail">

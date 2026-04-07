@@ -34,11 +34,7 @@ onBeforeMount(() => {
     <SecondPageNavBar :title="$t('pay.p4')" />
 
     <div class="pageWrap px-3 pb-6">
-      <div class="directoryStage mt-4">
-        <div class="heroEyebrow">{{ $t('theme.openContact') }}</div>
-        <div class="stageTitle">{{ $t('pay.p4') }}</div>
-        <div class="stageDesc">{{ $t('theme.openContact') }}</div>
-      </div>
+
 
       <div class="serviceGrid renderBudget mt-5">
         <button type="button" class="serviceCard" v-for="item in serviceList" :key="item.id || item.service_name" @click="jumpPage(item)">
@@ -78,9 +74,7 @@ onBeforeMount(() => {
   text-transform: uppercase;
 }
 
-.directoryStage {
-  padding: 2px 2px 10px;
-}
+
 
 .stageTitle {
   margin-top: 8px;

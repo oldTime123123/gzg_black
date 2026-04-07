@@ -153,7 +153,7 @@ onBeforeMount(() => {
 .heroTop{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .heroEyebrow{color:var(--brand-primary);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
 .ghostAction{appearance:none;display:inline-flex;align-items:center;gap:6px;padding:10px 12px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid var(--border-soft);color:var(--text-secondary);font-size:12px;cursor:pointer;transition:transform var(--motion-fast),border-color var(--motion-fast),background-color var(--motion-fast)}
-.heroValue{color:var(--text-primary);font-size:clamp(1.9rem,6.1vw,2.45rem);font-weight:800;line-height:1.06;word-break:break-word;overflow-wrap:anywhere;max-width:10ch}
+.heroValue{color:var(--text-primary);font-size:clamp(1.9rem,6.1vw,2.45rem);font-weight:800;line-height:1.06;}
 .heroLabel{color:var(--text-secondary);font-size:13px;line-height:1.45}
 .featureGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:14px;border-radius:20px;background:rgba(255,255,255,.018);border:1px solid rgba(255,255,255,.05)}
 .featureCard{padding:10px 8px;border-radius:16px;background:rgba(255,255,255,.02);text-align:center}

@@ -124,7 +124,7 @@ const getData = () => {
     size: 4,
   })
     .then((res) => {
-      lineDataList.value = res;
+      lineDataList.value = res.slice(0,6);
     })
     .finally(() => {
       showSeketLoading.value = false;
@@ -269,7 +269,7 @@ onMounted(() => {
               <div class="sectionCard sectionBlock moversBlock">
                 <div class="sectionHeading">
                   <div class="sectionTitle">{{ $t('index.i21') }}</div>
-                  <button type="button" class="sectionLink" @click="changePage('/tabbar/market?type=1')">
+                  <button type="button" class="sectionLink" @click="changePage('/tabbar/market')">
                     {{ $t('index.i23') }}
                     <Icon name="solar:alt-arrow-right-linear" size="16" />
                   </button>
