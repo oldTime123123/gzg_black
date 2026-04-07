@@ -36,7 +36,6 @@ const showLoadingText = computed(() => {
   <div class="bootPage">
     <ClientOnly>
       <div class="bootShell">
-        <div class="bootBadge">{{ $t('theme.brandBadge') }}</div>
         <div class="bootLogo">
           <img src="/ico.png" class="bootIcon">
         </div>
