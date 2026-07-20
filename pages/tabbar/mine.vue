@@ -148,8 +148,8 @@ onMounted(() => {
               {{ $t('mine.m13') }}
             </div>
             <div class="w-[88px] flex flex-row-reverse gap-2">
-              <div class="topAction" @click="changePage('/mine/language')">
-                <Icon name="lucide:languages" size="18" />
+              <div class="topAction" :aria-label="$t('mine.m21')" @click="changePage('/mine/language')">
+                <Icon name="lucide:globe" size="18" />
               </div>
               <div class="topAction" @click="changePage('/service')">
                 <Icon name="lucide:headset" size="18" />

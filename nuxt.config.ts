@@ -20,6 +20,7 @@ export default defineNuxtConfig({
   i18n: {
     strategy: "no_prefix",
     langDir: "./",
+    vueI18n: "./i18n.config.ts",
     defaultLocale: "ja",
     locales: [
       {
@@ -30,7 +31,6 @@ export default defineNuxtConfig({
         isCatchallLocale: true,
       },
       { code: "en", iso: "en-US", name: "English", file: "en.json" },
-      { code: "zh", iso: "zh-CN", name: "简体中文", file: "zh.json" },
       { code: "ko", iso: "ko-KR", name: "한국어", file: "ko.json" },
     ],
     langStorage: { key: "lang", sync: true },

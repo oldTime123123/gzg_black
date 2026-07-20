@@ -1,10 +1,18 @@
 <script setup lang="ts">
-const pub = usePublicStore();
-const { locales, setLocale, locale } = useI18n();
+type LanguageCode = 'en' | 'ja' | 'ko';
+type LanguageOption = {
+  lang: LanguageCode;
+  name: string;
+};
 
-onMounted(() => {
-  pub.showLoading = false;
-});
+const { setLocale, locale } = useI18n();
+const languageList = useState<LanguageOption[]>('languageList', () => []);
+
+const changeLanguage = async (lang: LanguageCode) => {
+  localStorage.setItem('lang', lang);
+  await setLocale(lang);
+};
+
 </script>
 
 <template>
@@ -14,18 +22,18 @@ onMounted(() => {
     <div class="pageWrap px-3 pb-6">
       <div class="sectionCard listCard mt-4">
         <div
-          v-for="lang in locales"
-          :key="lang.name"
+          v-for="lang in languageList"
+          :key="lang.lang"
           class="langItem"
-          :class="lang.code == locale ? 'isActive' : ''"
-          @click="setLocale(lang.code)"
+          :class="lang.lang == locale ? 'isActive' : ''"
+          @click="changeLanguage(lang.lang)"
         >
           <div class="langInfo">
             <div class="langName">{{ lang.name }}</div>
-            <div class="langCode">{{ lang.code.toUpperCase() }}</div>
+            <div class="langCode">{{ lang.lang.toUpperCase() }}</div>
           </div>
           <Icon
-            :name="lang.code == locale ? 'lucide:circle-check' : 'lucide:chevron-right'"
+            :name="lang.lang == locale ? 'lucide:circle-check' : 'lucide:chevron-right'"
             size="18"
             class="langIcon"
           />

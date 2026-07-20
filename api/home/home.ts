@@ -118,6 +118,7 @@ export function getUserAccountBalance() {
 export function langListApi() {
   return request({
     url: "/setting/lang",
+    cancelable: false,
   });
 }
 /**

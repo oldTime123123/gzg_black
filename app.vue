@@ -1,5 +1,6 @@
 <template>
   <div>
+    <LanguageBootLoading />
     <NuxtPage class="pageContent" />
     <Loading1 />
     <RealPop />
@@ -15,6 +16,7 @@
 </template>
 <script setup >
 import socket from "~/utils/socket.ts";
+import { langListApi } from "~/api/home/home";
 
 import { useHead, useSeoMeta, useRequestURL } from 'nuxt/app'
 import { computed, onMounted, onUnmounted } from 'vue'
@@ -65,6 +67,30 @@ useSeoMeta({
   robots: 'index,follow'
 })
 const { setLocale } = useI18n()
+const languageList = useState('languageList', () => [])
+const languageReady = useState('languageReady', () => false)
+
+const initLanguage = async () => {
+  try {
+    const cachedLanguageList = localStorage.getItem('languageList')
+
+    if (cachedLanguageList) {
+      languageList.value = JSON.parse(cachedLanguageList)
+    } else {
+      languageList.value = await langListApi()
+      localStorage.setItem('languageList', JSON.stringify(languageList.value))
+    }
+
+    const cachedLanguage = localStorage.getItem('lang')
+    if ((!cachedLanguage || cachedLanguage === 'zh') && languageList.value[0]?.lang) {
+      const defaultLanguage = languageList.value[0].lang
+      localStorage.setItem('lang', defaultLanguage)
+      await setLocale(defaultLanguage)
+    }
+  } finally {
+    languageReady.value = true
+  }
+}
 
 const loginStore = useLoginStore()
 onMounted(() => {
@@ -74,9 +100,7 @@ onMounted(() => {
     // if (loginStore.loading) {
     //   loginStore.loading = false
   // }
-  if (!pub.setLang) {
-      setLocale('ja')
-    }
+  initLanguage()
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.getRegistrations().then(function (registrations) {
       for (let registration of registrations) {

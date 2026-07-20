@@ -9,7 +9,7 @@ const commList = computed(() => {
   return [
     {
       name: t('index.i10'),
-      icon: 'lucide:badge-user',
+      icon: 'lucide:briefcase-business',
       url: '/trade/insiderTrade',
     },
     {
