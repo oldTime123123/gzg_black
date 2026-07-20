@@ -25,7 +25,7 @@ onMounted(() => {
             <div class="langCode">{{ lang.code.toUpperCase() }}</div>
           </div>
           <Icon
-            :name="lang.code == locale ? 'solar:check-circle-bold' : 'solar:alt-arrow-right-linear'"
+            :name="lang.code == locale ? 'lucide:circle-check' : 'lucide:chevron-right'"
             size="18"
             class="langIcon"
           />

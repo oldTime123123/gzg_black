@@ -71,7 +71,7 @@ onMounted(() => {
           <div class="bankCardMain" @click="changePage(`./editBank?bankId=${item.id}`)">
             <div class="bankTop">
               <div class="bankBadge">
-                <Icon name="solar:card-2-linear" size="18" />
+                <Icon name="lucide:credit-card" size="18" />
               </div>
               <div class="bankMeta">
                 <div class="bankName">{{ item.bank_name }}</div>
@@ -84,10 +84,10 @@ onMounted(() => {
 
           <div class="bankActions">
             <div class="smallAction" @click="changePage(`./editBank?bankId=${item.id}`)">
-              <Icon name="solar:pen-linear" size="18" />
+              <Icon name="lucide:pencil" size="18" />
             </div>
             <div class="smallAction danger" @click="openPop(item.id)">
-              <Icon name="solar:trash-bin-trash-linear" size="18" />
+              <Icon name="lucide:trash-2" size="18" />
             </div>
           </div>
         </div>
@@ -96,7 +96,7 @@ onMounted(() => {
       <div class="actionDock">
         <div class="contentBtn addBtn" @click="changePage('./editBank')">
           <span>{{ $t('setting.s6') }}</span>
-          <Icon name="material-symbols:add-circle-rounded" size="20" class="addBtnIcon" />
+          <Icon name="lucide:circle-plus" size="20" class="addBtnIcon" />
         </div>
       </div>
     </div>

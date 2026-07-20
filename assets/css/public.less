@@ -33,6 +33,18 @@
   --radius-m: 18px;
   --radius-l: 24px;
 
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+
+  --icon-sm: 16px;
+  --icon-md: 20px;
+  --icon-lg: 24px;
+  --touch-target: 44px;
+
   --shadow-card: 0 18px 48px rgba(0, 0, 0, 0.28);
   --shadow-float: 0 18px 60px rgba(0, 0, 0, 0.36);
 
@@ -109,6 +121,49 @@ body {
 .depositPage,.loginPage{
 // input 错误提示颜色 边框， 文字color
 --ui-error:#FFDA1C !important;
+}
+
+html,
+body,
+#__nuxt {
+  width: 100%;
+  max-width: 100%;
+}
+
+button,
+[role="button"],
+.cursor-pointer {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.numeric,
+.marketPrice,
+.quotePrice,
+.indexPrice,
+.productPrice,
+.valueText,
+.priceValue,
+.deltaText,
+.rateBadge,
+.changeRow,
+.changeBadge,
+.productBottom,
+.heroValue,
+.pnlRate,
+.pnlAmount {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+.marketPrice,
+.quotePrice,
+.indexPrice,
+.productPrice,
+.valueText,
+.priceValue {
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
 }
 }
 
@@ -219,9 +274,11 @@ body {
 
 /* ================ 页面主容器 ================ */
 .pageContent {
+  width: 100%;
   max-width: var(--pageWidth);
   margin: 0 auto;
   min-height: 100vh;
+  overflow-x: clip;
 }
 
 .pageShell {
@@ -229,6 +286,35 @@ body {
   min-height: 100vh;
   background: var(--surface-page);
   color: var(--text-primary);
+  width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+}
+
+.pageContainer,
+.sectionCard,
+.pageBoxEl,
+.chartShell,
+.indexChart {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.chartShell,
+.indexChart {
+  overflow: hidden;
+}
+
+.chartShell :where(.apexcharts-canvas, svg),
+.indexChart :where(.apexcharts-canvas, svg) {
+  max-width: 100% !important;
+}
+
+@media (max-width: 359px) {
+  .sectionCard,
+  .pageBoxEl {
+    padding: var(--space-sm);
+  }
 }
 
 .pageShell::before {

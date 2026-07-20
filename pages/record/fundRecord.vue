@@ -147,7 +147,7 @@ const showCancelConfirm = () => {
           <div class="dialogHead">
             <div class="dialogTitle">{{ $t('mine.m9') }}</div>
             <div class="closeBtn" @click="showPop = false">
-              <Icon name="solar:close-circle-linear" size="20" />
+              <Icon name="lucide:circle-x" size="20" />
             </div>
           </div>
           <div class="dialogBody">

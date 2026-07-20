@@ -116,7 +116,7 @@ onBeforeMount(() => {
           <div class="heroValue">{{ UseExchangeNumber(withdrawInfo.balance_max) }}</div>
         </div>
         <div class="heroIcon">
-          <Icon name="solar:card-send-linear" size="24" />
+          <Icon name="lucide:arrow-up-from-line" size="24" />
         </div>
       </div>
 
@@ -138,7 +138,7 @@ onBeforeMount(() => {
               @input="handleInput"
             >
               <template #left-icon>
-                <Icon name="solar:wallet-money-linear" size="18" class="fieldIcon" />
+                <Icon name="lucide:wallet-cards" size="18" class="fieldIcon" />
               </template>
             </van-field>
 
@@ -150,11 +150,11 @@ onBeforeMount(() => {
             <van-field :type="showPwd ? 'text' : 'password'" v-model="state.password" :placeholder="$t('pay.p16')"
               :border="false" input-align="left" class="authInput mt-2">
               <template #left-icon>
-                <Icon name="solar:lock-password-linear" size="18" class="fieldIcon" />
+                <Icon name="lucide:lock-keyhole" size="18" class="fieldIcon" />
               </template>
               <template #right-icon>
                 <div class="fieldAction" @click="showPwd = !showPwd">
-                  <Icon :name="showPwd ? 'solar:eye-linear' : 'solar:eye-closed-linear'" size="18" />
+                  <Icon :name="showPwd ? 'lucide:eye' : 'lucide:eye-off'" size="18" />
                 </div>
               </template>
             </van-field>
@@ -205,7 +205,7 @@ onBeforeMount(() => {
 
             <div v-else @click="changePage('/setting/bankList')" class="emptyBank ">
               <span>{{ $t('pay.p19') }}</span>
-              <Icon class="w-5 h-5" name="solar:alt-arrow-right-linear" />
+              <Icon class="w-5 h-5" name="lucide:chevron-right" />
             </div>
           </div>
         </div>

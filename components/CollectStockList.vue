@@ -58,13 +58,13 @@ const changeDataType = () => {
         {{ $t('comm.c4') }}
       </div>
     </div>
-    <div class="grid grid-cols-2 gap-4" v-else-if="showSkeleton">
+    <div class="collectStockList" v-else-if="showSkeleton">
         <div class="listSkeleton h-[100px] rounded-[18px] mb-2" v-for="(item, index) in 4" :key="index">
         </div>
     </div>
     <div >
       <van-list v-model:loading="loading" v-model:error="error" :finished="finished" @load="fetchItemsList">
-        <div class="grid grid-cols-2 gap-4">
+        <div class="collectStockList">
           <CollectStockItem v-for="(item, index) in items" :key="item.pid" :data="item" @deleteStock="deleteStock" />
         </div>
       </van-list>
@@ -72,12 +72,17 @@ const changeDataType = () => {
 
     <div class="contentBtn addBtn mt-3" @click="changeDataType">
       <span>{{ $t('comm.c5') }}</span>
-      <Icon name="material-symbols:add-circle-rounded" size="20" class="addBtnIcon" />
+      <Icon name="lucide:circle-plus" size="20" class="addBtnIcon" />
     </div>
   </div>
 </template>
 
 <style scoped>
+.collectStockList {
+  display: grid;
+  gap: 12px;
+}
+
 .emptyText {
   color: var(--text-secondary);
 }

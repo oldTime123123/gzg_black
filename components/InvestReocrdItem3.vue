@@ -38,7 +38,7 @@ const isRiseClass: any = {
                         <div class="valueText">
                             {{ UseExchangeNumber(data.product.price) }}
                         </div>
-                        <Icon :name="data.product?.is_rise > 1 ? 'solar:arrow-to-top-left-linear' : 'solar:arrow-to-down-left-linear'" class="trendIcon" />
+                        <Icon :name="data.product?.is_rise > 1 ? 'lucide:arrow-up-right' : 'lucide:arrow-down-right'" class="trendIcon" />
                     </div>
                 </div>
                 <div class="quoteDelta text-[11px]" :class="getNumberClass(true, data.product?.is_rise)">
@@ -120,7 +120,9 @@ const isRiseClass: any = {
     font-size: 20px;
     font-weight: 800;
     line-height: 1.2;
-    word-break: break-word;
+    white-space: nowrap;
+    word-break: normal;
+    font-variant-numeric: tabular-nums;
 }
 
 .quotePriceRow {

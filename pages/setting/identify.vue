@@ -129,10 +129,10 @@ onMounted(() => {
 });
 
 const userRealText = ref<any>({
-  0: { text: t('setting.s31'), icon: 'solar:clock-circle-linear', tone: 'pending' },
-  1: { text: t('setting.s32'), icon: 'solar:clock-circle-linear', tone: 'pending' },
-  2: { text: t('setting.s33'), icon: 'solar:verified-check-linear', tone: 'success' },
-  3: { text: t('setting.s34'), icon: 'solar:danger-triangle-linear', tone: 'danger' },
+  0: { text: t('setting.s31'), icon: 'lucide:clock-3', tone: 'pending' },
+  1: { text: t('setting.s32'), icon: 'lucide:clock-3', tone: 'pending' },
+  2: { text: t('setting.s33'), icon: 'lucide:badge-check', tone: 'success' },
+  3: { text: t('setting.s34'), icon: 'lucide:triangle-alert', tone: 'danger' },
 });
 </script>
 
@@ -173,7 +173,7 @@ const userRealText = ref<any>({
                 <template #default>
                   <div class="uploadSlot">
                     <div v-if="[0, 3].includes(userRealStatus)" class="uploadPlaceholder">
-                      <Icon name="solar:cloud-upload-linear" size="28" class="uploadIcon" />
+                      <Icon name="lucide:upload-cloud" size="28" class="uploadIcon" />
                       <div class="uploadText">{{ $t('setting.s41') }}</div>
                     </div>
                   </div>
@@ -185,7 +185,7 @@ const userRealText = ref<any>({
                 <template #default>
                   <div class="uploadSlot">
                     <div v-if="[0, 3].includes(userRealStatus)" class="uploadPlaceholder">
-                      <Icon name="solar:cloud-upload-linear" size="28" class="uploadIcon" />
+                      <Icon name="lucide:upload-cloud" size="28" class="uploadIcon" />
                       <div class="uploadText">{{ $t('setting.s42') }}</div>
                     </div>
                   </div>

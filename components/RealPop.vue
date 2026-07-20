@@ -2,11 +2,11 @@
   <div class="realModal" v-if="showModalPop" @click="pub.show209Modal(false)">
     <div class="realModalCard" @click.stop>
       <button type="button" class="realModalClose" @click="pub.show209Modal(false)">
-        <Icon name="solar:close-circle-linear" size="20" />
+        <Icon name="lucide:circle-x" size="20" />
       </button>
 
       <div class="realModalBadge">
-        <Icon name="solar:shield-user-linear" size="18" />
+        <Icon name="lucide:shield-user" size="18" />
         <span>{{ t('setting.s35') }}</span>
       </div>
 

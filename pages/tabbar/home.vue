@@ -9,32 +9,32 @@ const commList = computed(() => {
   return [
     {
       name: t('index.i10'),
-      icon: 'solar:user-id-linear',
+      icon: 'lucide:badge-user',
       url: '/trade/insiderTrade',
     },
     {
       name: t('index.i15'),
-      icon: 'solar:buildings-linear',
+      icon: 'lucide:building-2',
       url: '/trade/blockTrade',
     },
     {
       name: t('index.i13'),
-      icon: 'solar:scale-linear',
+      icon: 'lucide:scale',
       url: '/trade/leveragedTrade',
     },
     {
       name: t('index.i11'),
-      icon: 'solar:document-add-linear',
+      icon: 'lucide:file-plus-2',
       url: '/trade/spoRecord',
     },
     {
       name: t('index.i12'),
-      icon: 'solar:safe-2-linear',
+      icon: 'lucide:vault',
       url: '/fund',
     },
     {
       name: t('index.i16'),
-      icon: 'solar:wallet-2-linear',
+      icon: 'lucide:wallet',
       url: '/loan',
     },
   ];
@@ -175,7 +175,7 @@ onMounted(() => {
           <div class="homeTopBar px-3 py-3 tabbarPageTopNav" :class="isSticky ? 'topStickyEl' : ''">
             <div class="noticeBar">
               <div class="noticeIcon">
-                <Icon name="solar:bell-bing-linear" size="18" />
+                <Icon name="lucide:bell" size="18" />
               </div>
               <div class="noticeContent">
                 <van-notice-bar scrollable :text="noticeTxt" background="transparent" color="var(--text-primary)" />
@@ -184,10 +184,10 @@ onMounted(() => {
 
             <div class="topBarActions">
               <div class="topAction" @click="changePage('/service')">
-                <Icon name="solar:headphones-round-sound-linear" size="18" />
+                <Icon name="lucide:headset" size="18" />
               </div>
               <div class="topAction" @click="changePage('/setting/identify')">
-                <Icon name="solar:shield-check-linear" size="18" />
+                <Icon name="lucide:shield-check" size="18" />
               </div>
             </div>
           </div>
@@ -252,7 +252,7 @@ onMounted(() => {
                   <div class="sectionTitle">{{ $t('index.i21') }}</div>
                   <div class="sectionLink" @click="changePage('/tabbar/market?type=1')">
                     {{ $t('index.i22') }}
-                    <Icon name="solar:alt-arrow-right-linear" size="16" />
+                    <Icon name="lucide:chevron-right" size="16" />
                   </div>
                 </div>
 
@@ -270,12 +270,12 @@ onMounted(() => {
                       <div class="productPriceBlock">
                         <div class="productPrice">{{ item.price }}</div>
                         <div class="productBottom" :class="item.is_rise > 1 ? 'colorUp' : 'colorDown'">
-                          <span>{{ getNumberType(true, item.is_rise) + item.rise }}</span>
-                          <span class="productPercent">{{ getNumberType(true, item.is_rise) + item.rise_rate }}%</span>
                           <Icon
-                            :name="item.is_rise > 1 ? 'solar:arrow-to-top-left-linear' : 'solar:arrow-to-bottom-right-linear'"
+                            :name="item.is_rise > 1 ? 'lucide:arrow-up-right' : 'lucide:arrow-down-right'"
                             class="productTrendIcon"
                           />
+                          <span>{{ getNumberType(true, item.is_rise) + item.rise }}</span>
+                          <span class="productPercent">{{ getNumberType(true, item.is_rise) + item.rise_rate }}%</span>
                         </div>
                       </div>
                     </div>
@@ -295,7 +295,7 @@ onMounted(() => {
                   <div class="sectionTitle">{{ t('x.a8') }}</div>
                   <div class="sectionLink" @click="changePage('/tabbar/news')">
                     {{ $t('index.i23') }}
-                    <Icon name="solar:alt-arrow-right-linear" size="16" />
+                    <Icon name="lucide:chevron-right" size="16" />
                   </div>
                 </div>
 
@@ -587,7 +587,8 @@ onMounted(() => {
 }
 
 .productTop {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
@@ -613,7 +614,7 @@ onMounted(() => {
 }
 
 .productPriceBlock {
-  flex-shrink: 0;
+  min-width: 112px;
   text-align: right;
 }
 
@@ -621,6 +622,8 @@ onMounted(() => {
   color: var(--text-primary);
   font-size: 17px;
   font-weight: 800;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .productChart {
@@ -636,6 +639,8 @@ onMounted(() => {
   margin-top: 6px;
   font-size: 12px;
   font-weight: 700;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .productPercent {
@@ -646,6 +651,39 @@ onMounted(() => {
   width: 14px;
   height: 14px;
   flex-shrink: 0;
+}
+
+@media (max-width: 359px) {
+  .homeTopBar {
+    gap: 8px;
+  }
+
+  .topBarActions {
+    gap: 6px;
+  }
+
+  .topAction {
+    width: 38px;
+    height: 38px;
+  }
+
+  .actionCard {
+    gap: 8px;
+    padding: 12px 10px;
+  }
+
+  .iconFrame {
+    width: 40px;
+    height: 40px;
+  }
+
+  .productCard {
+    padding-inline: 12px;
+  }
+
+  .productPriceBlock {
+    min-width: 104px;
+  }
 }
 
 .newsCard {

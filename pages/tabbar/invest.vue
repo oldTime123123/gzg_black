@@ -3,7 +3,14 @@ import { computed, ref } from 'vue';
 import { getCircleOption } from '~/utils/indexLineStyle';
 import { getUserAccountBalance } from '~/api/home/home';
 
-const colors = ['#5FE0B3', '#67B7FF', '#F4B740', '#18C37E'];
+const portfolioColors = {
+  total: '#A78BFA',
+  available: '#5FE0B3',
+  position: '#67B7FF',
+  frozen: '#F4B740',
+  profit: '#F28BB2',
+};
+const colors = [portfolioColors.available, portfolioColors.position, portfolioColors.frozen];
 const series = ref([0, 0, 0, 0]);
 const { t } = useI18n();
 
@@ -32,27 +39,27 @@ const balanceBox = computed(() => {
   return [
     {
       amount: balanceList.value.totalAsset || 0,
-      color: '#67B7FF',
+      color: portfolioColors.total,
       name: t('index.i1'),
     },
     {
       amount: series.value[0] || 0,
-      color: colors[0],
+      color: portfolioColors.available,
       name: t('index.i2'),
     },
     {
       amount: series.value[1] || 0,
-      color: colors[1],
+      color: portfolioColors.position,
       name: t('index.i3'),
     },
     {
       amount: series.value[2] || 0,
-      color: colors[2],
+      color: portfolioColors.frozen,
       name: t('mine.m16'),
     },
     {
       amount: balanceList.value.inStockProfit || 0,
-      color: colors[3],
+      color: portfolioColors.profit,
       name: t('index.i4'),
     },
   ];
@@ -114,7 +121,7 @@ onBeforeMount(() => {
                 <div class="portfolioTitle">{{ t('index.i1') }}</div>
               </div>
               <div class="visibilityToggle" @click="showBalance = !showBalance">
-                <Icon :name="showBalance ? 'solar:eye-closed-linear' : 'solar:eye-linear'" size="16" />
+                <Icon :name="showBalance ? 'lucide:eye-off' : 'lucide:eye'" size="16" />
                 <span>{{ showBalance ? $t('theme.hideBalance') : $t('theme.showBalance') }}</span>
               </div>
             </div>
@@ -158,7 +165,7 @@ onBeforeMount(() => {
 
               <div class="contentBtn addBtn" v-if="actRecordType == 3" @click="changePage('/trade/spoRecord')">
                 <span>{{ $t('comm.c5') }}</span>
-                <Icon name="material-symbols:add-circle-rounded" size="20" class="addBtnIcon" />
+                <Icon name="lucide:circle-plus" size="20" class="addBtnIcon" />
               </div>
             </div>
 
@@ -298,6 +305,36 @@ onBeforeMount(() => {
   font-size: 13px;
   flex-shrink: 0;
   text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 359px) {
+  .portfolioHero {
+    padding: 16px 12px;
+  }
+
+  .portfolioHeader {
+    align-items: flex-start;
+  }
+
+  .visibilityToggle {
+    min-height: var(--touch-target);
+    padding-inline: 12px;
+  }
+
+  .metricItem {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .metricLabel {
+    gap: 8px;
+  }
+
+  .metricValue {
+    font-size: 12px;
+  }
 }
 
 .recordHeader {

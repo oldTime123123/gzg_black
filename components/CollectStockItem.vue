@@ -44,19 +44,23 @@ const goTrade = data => {
                 <div class="codeBadge">{{ data.stock.code }}</div>
             </div>
             <div>
-                <Icon name="tabler:star-filled" size="20" class="text-[var(--brand-primary)]" @click.stop="collectHandle" />
+                <Icon name="lucide:star" size="20" class="isCollected text-[var(--brand-primary)]" @click.stop="collectHandle" />
             </div>
         </div>
-        <div class="mt-3 priceBox">
-            <div class="priceTop" :class="data.stock.is_rise == 2 ? 'colorUp' : 'colorDown'">
+        <div class="mt-3 priceBox" :class="data.stock.is_rise == 2 ? 'colorUp' : 'colorDown'">
+            <div class="priceTop">
                 <span class="priceValue">{{ data.stock.price }}</span>
-                <Icon :name="data.stock.is_rise == 2 ? 'solar:alt-arrow-up-bold' : 'solar:alt-arrow-down-bold'" class="trendIcon" />
             </div>
-            <div v-if="data.stock.is_rise == 2" class="priceDelta colorUp2">
-                +{{ UseExchangeNumber(data.stock.rise) }}(+{{ UseExchangeNumber(data.stock.rise_rate) }}%)
-            </div>
-            <div v-else class="priceDelta colorDown2">
-                <span>-{{ UseExchangeNumber(data.stock.rise) }}(-{{ UseExchangeNumber(data.stock.rise_rate) }}%)</span>
+            <div class="priceMeta">
+              <div class="priceDelta">
+                <Icon :name="data.stock.is_rise == 2 ? 'lucide:arrow-up-right' : 'lucide:arrow-down-right'" class="trendIcon" />
+                <span v-if="data.stock.is_rise == 2">+{{ UseExchangeNumber(data.stock.rise) }}</span>
+                <span v-else>-{{ UseExchangeNumber(data.stock.rise) }}</span>
+              </div>
+              <div class="rateBadge">
+                <span v-if="data.stock.is_rise == 2">+{{ UseExchangeNumber(data.stock.rise_rate) }}%</span>
+                <span v-else>-{{ UseExchangeNumber(data.stock.rise_rate) }}%</span>
+              </div>
             </div>
 
         </div>
@@ -68,11 +72,9 @@ const goTrade = data => {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--border-soft);
     box-shadow: var(--shadow-card);
-    min-height: 214px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 16px;
+    min-height: 136px;
+    display: grid;
+    gap: 12px;
 
     .headerRow {
         display: flex;
@@ -86,7 +88,6 @@ const goTrade = data => {
         font-weight: 700;
         font-size: 15px;
         line-height: 1.5;
-        min-height: 68px;
         overflow: hidden;
         display: -webkit-box;
         -webkit-line-clamp: 2;
@@ -96,7 +97,9 @@ const goTrade = data => {
 
     .priceBox {
         display: grid;
-        gap: 10px;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 12px;
         padding-top: 14px;
         border-top: 1px solid var(--border-soft);
     }
@@ -127,35 +130,39 @@ const goTrade = data => {
     .priceValue {
         color: currentColor;
         min-width: 0;
-        font-size: 24px;
+        font-size: clamp(20px, 6.2vw, 24px);
         font-weight: 800;
         line-height: 1.1;
-        word-break: break-word;
+        white-space: nowrap;
+        word-break: normal;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .priceMeta {
+        display: grid;
+        justify-items: end;
+        gap: 5px;
+        font-size: 12px;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
     }
 
     .priceDelta {
-        justify-self: start;
-        width: max-content;
-        max-width: 100%;
-        font-size: 12px;
-        line-height: 1.35;
-        font-weight: 700;
-        word-break: break-word;
-        text-align: left;
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 4px;
     }
 
-    .colorUp2 {
-        background: rgba(240, 68, 82, 0.12);
-        color: var(--color-up);
+    .rateBadge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 26px;
         border-radius: 999px;
-        padding: 6px 10px;
-    }
-
-    .colorDown2 {
-        background: rgba(24, 195, 126, 0.12);
-        color: var(--color-down);
-        border-radius: 999px;
-        padding: 6px 10px;
+        padding: 0 9px;
+        background: rgba(255, 255, 255, 0.045);
     }
 
     .trendIcon {
@@ -163,6 +170,24 @@ const goTrade = data => {
         height: 16px;
         flex-shrink: 0;
         color: currentColor;
+    }
+
+    .isCollected {
+        fill: currentColor;
+    }
+}
+
+@media (max-width: 359px) {
+    .collectStockItemEl {
+        padding: 12px !important;
+    }
+
+    .priceBox {
+        gap: 8px !important;
+    }
+
+    .priceMeta {
+        font-size: 11px !important;
     }
 }
 </style>

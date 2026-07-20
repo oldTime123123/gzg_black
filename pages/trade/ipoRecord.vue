@@ -122,7 +122,7 @@ onMounted(() => {
     <ClientOnly>
       <SecondPageNavBar :title="$t('trade.t78')">
         <div class="navActionIcon" @click="rightClickHandle">
-          <Icon name="solar:bill-list-linear" size="18" />
+          <Icon name="lucide:clipboard-list" size="18" />
         </div>
       </SecondPageNavBar>
 
@@ -264,7 +264,7 @@ onMounted(() => {
           <div class="dialogCard" @click.stop>
             <div class="dialogHead">
               <div class="closeBtn" @click="showPop = false">
-                <Icon name="solar:close-circle-linear" size="20" />
+                <Icon name="lucide:circle-x" size="20" />
               </div>
               <div class="dialogTitle">{{ selectData.product?.pro_name }}</div>
               <div class="dialogCode">({{ selectData.product?.pro_code }})</div>

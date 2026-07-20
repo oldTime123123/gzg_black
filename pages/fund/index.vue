@@ -41,7 +41,7 @@ onBeforeMount(() => {
   <div class="pageShell">
     <SecondPageNavBar :title="$t('index.i12')">
       <div class="navActionIcon" @click="rightClickHandle">
-        <Icon name="solar:bill-list-linear" size="18" />
+        <Icon name="lucide:clipboard-list" size="18" />
       </div>
     </SecondPageNavBar>
 

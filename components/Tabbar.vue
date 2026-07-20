@@ -11,32 +11,32 @@ const tabs = computed(() => {
         {
             name: t('comm.c77'),
             path: '/tabbar/home',
-            icon: 'solar:home-2-linear',
-            activeIcon: 'solar:home-2-bold',
+            icon: 'lucide:house',
+            activeIcon: 'lucide:house',
         },
         {
             name: t('comm.c78'),
             path: '/tabbar/market',
-            icon: 'solar:chart-2-linear',
-            activeIcon: 'solar:chart-2-bold',
+            icon: 'lucide:chart-candlestick',
+            activeIcon: 'lucide:chart-candlestick',
         },
         {
             name: t('comm.c79'),
             path: '/tabbar/invest',
-            icon: 'solar:wallet-money-linear',
-            activeIcon: 'solar:wallet-money-bold',
+            icon: 'lucide:wallet-cards',
+            activeIcon: 'lucide:wallet-cards',
         },
         {
             name: t('comm.c80'),
             path: '/tabbar/news',
-            icon: 'solar:document-text-linear',
-            activeIcon: 'solar:document-text-bold',
+            icon: 'lucide:newspaper',
+            activeIcon: 'lucide:newspaper',
         },
         {
             name: t('comm.c81'),
             path: '/tabbar/mine',
-            icon: 'solar:user-circle-linear',
-            activeIcon: 'solar:user-circle-bold',
+            icon: 'lucide:circle-user-round',
+            activeIcon: 'lucide:circle-user-round',
         }
     ]
 })
@@ -170,11 +170,15 @@ router.afterEach(() => {
     align-items: center;
     justify-content: center;
     color: var(--text-secondary);
-    transition: all 0.2s ease;
+    transition: color 0.2s ease, background-color 0.2s ease;
 
     &.is-active {
         background: rgba(95, 224, 179, 0.12);
         color: var(--brand-primary);
+
+        .tabbar-icon {
+            stroke-width: 2.4;
+        }
     }
 }
 

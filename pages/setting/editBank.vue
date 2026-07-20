@@ -104,7 +104,7 @@ onMounted(() => {
     <div class="pageWrap px-3 pb-6">
       <div class="heroCard">
         <div class="heroIcon">
-          <Icon name="solar:card-edit-linear" size="24" />
+          <Icon name="lucide:credit-card" size="24" />
         </div>
         <div class="heroCopy">
           <div class="sectionSubtext">{{ $t('theme.bankDetails') }}</div>

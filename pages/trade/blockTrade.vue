@@ -198,7 +198,7 @@ const statusEnum = {
         <div class="dialogCard" @click.stop>
           <div class="dialogHead">
             <div class="closeBtn" @click="showPop = false">
-              <Icon name="solar:close-circle-linear" size="20" />
+              <Icon name="lucide:circle-x" size="20" />
             </div>
             <div class="dialogTitle">{{ selectPopObj.stock?.pro_name }}</div>
             <div class="dialogCode">{{ "(" + selectPopObj.stock?.pro_code + ")" }}</div>
@@ -226,7 +226,7 @@ const statusEnum = {
               <van-field :type="showPwd ? 'text' : 'password'" v-model="fundPwd" class="authInput mt-2" :placeholder="$t('trade.t36')" :border="false" input-align="left">
                 <template #right-icon>
                   <div class="fieldAction" @click="showPwd = !showPwd">
-                    <Icon :name="showPwd ? 'solar:eye-linear' : 'solar:eye-closed-linear'" size="18" />
+                    <Icon :name="showPwd ? 'lucide:eye' : 'lucide:eye-off'" size="18" />
                   </div>
                 </template>
               </van-field>

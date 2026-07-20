@@ -73,7 +73,7 @@ const changeDataType = (type: number) => {
               </div>
               <div class="indexChange" :class="item.is_rise == 2 ? 'colorUp' : 'colorDown'">
                 <div class="changeRow">
-                  <Icon :name="item.is_rise == 2 ? 'solar:arrow-to-top-left-linear' : 'solar:arrow-to-down-left-linear'" class="trendIcon" />
+                  <Icon :name="item.is_rise == 2 ? 'lucide:arrow-up-right' : 'lucide:arrow-down-right'" class="trendIcon" />
                   {{ getNumberType(true, item.is_rise) + UseExchangeNumber(item.chart?.rise) }}
                 </div>
                 <div class="changeBadge">
@@ -155,7 +155,8 @@ const changeDataType = (type: number) => {
 }
 
 .indexHeader {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: flex-start;
   justify-content: space-between;
   gap: 14px;
@@ -169,12 +170,16 @@ const changeDataType = (type: number) => {
 .indexPrice {
   margin-top: 6px;
   color: var(--text-primary);
-  font-size: 28px;
+  font-size: clamp(22px, 7vw, 28px);
   font-weight: 700;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .indexChange {
   text-align: right;
+  min-width: 0;
+  white-space: nowrap;
 }
 
 .changeRow {
@@ -184,6 +189,8 @@ const changeDataType = (type: number) => {
   gap: 4px;
   font-size: 13px;
   font-weight: 600;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .trendIcon {
@@ -201,10 +208,15 @@ const changeDataType = (type: number) => {
   background: rgba(255, 255, 255, 0.06);
   color: inherit;
   font-size: 12px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .indexChart {
   margin-top: 12px;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .tabRail {
@@ -229,6 +241,29 @@ const changeDataType = (type: number) => {
   &.active {
     background: rgba(95, 224, 179, 0.12);
     color: var(--brand-primary);
+  }
+}
+
+@media (max-width: 359px) {
+  .heroPanel {
+    padding: 18px 14px;
+  }
+
+  .indexCard {
+    padding: 14px 12px;
+  }
+
+  .indexHeader {
+    gap: 8px;
+  }
+
+  .changeBadge {
+    min-width: 76px;
+    padding-inline: 8px;
+  }
+
+  .marketPanel {
+    padding-inline: 10px !important;
   }
 }
 </style>

@@ -10,7 +10,7 @@
         <div class="pointer-events-none absolute inset-x-0 top-0 h-28 bg-[radial-gradient(circle_at_top,rgba(95,224,179,0.18),transparent_62%)]"></div>
         <div class="border-b border-white/8 px-5 pb-4 pt-5">
           <div class="inline-flex items-center gap-2 rounded-full bg-[#12c37e]/12 px-3 py-2 text-xs font-bold text-[var(--brand-primary)]">
-            <Icon name="solar:bell-bing-linear" size="18" />
+            <Icon name="lucide:bell" size="18" />
             <span>{{ t('x.a4') }}</span>
           </div>
           <div class="mt-4 pr-8 text-[24px] font-extrabold leading-[1.25] text-[var(--text-primary)]">
@@ -24,7 +24,7 @@
             class="absolute right-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-[var(--text-secondary)]"
             @click="pub.showIPONoticePop = false"
           >
-            <Icon name="solar:close-circle-linear" size="20" />
+            <Icon name="lucide:circle-x" size="20" />
           </button>
         </div>
 

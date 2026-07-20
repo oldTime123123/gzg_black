@@ -33,8 +33,8 @@ const goDetails = () => {
             <Icon
               :name="
                 data.product?.is_rise > 1
-                  ? 'solar:arrow-to-top-left-linear'
-                  : 'solar:arrow-to-down-left-linear'
+                  ? 'lucide:arrow-up-right'
+                  : 'lucide:arrow-down-right'
               "
               class="trendIcon"
             />
@@ -82,7 +82,7 @@ const goDetails = () => {
 
       <div class="expandToggle" v-if="!data.showMore" @click="data.showMore = true">
         {{ $t("comm.c29") }}
-        <Icon name="solar:alt-arrow-down-bold" size="20" />
+        <Icon name="lucide:chevron-down" size="20" />
       </div>
 
       <div class="space-y-2" v-else>
@@ -104,7 +104,7 @@ const goDetails = () => {
         </div>
         <div class="expandToggle" @click="data.showMore = false">
           {{ $t("theme.collapse") }}
-          <Icon name="solar:alt-arrow-up-bold" size="20" />
+          <Icon name="lucide:chevron-up" size="20" />
         </div>
       </div>
 
@@ -182,7 +182,9 @@ const goDetails = () => {
   font-size: 20px;
   font-weight: 800;
   line-height: 1.2;
-  word-break: break-word;
+  white-space: nowrap;
+  word-break: normal;
+  font-variant-numeric: tabular-nums;
 }
 
 .quoteDelta {

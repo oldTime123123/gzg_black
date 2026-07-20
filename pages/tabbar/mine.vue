@@ -18,32 +18,32 @@ const myItemList = computed(() => {
   return [
     {
       name: t('mine.m3'),
-      icon: 'solar:card-2-linear',
+      icon: 'lucide:credit-card',
       url: '/setting/bankList',
     },
     {
       name: t('mine.m4'),
-      icon: 'solar:shield-user-linear',
+      icon: 'lucide:shield-user',
       url: '/setting/identify',
     },
     {
       name: t('mine.m5'),
-      icon: 'solar:key-linear',
+      icon: 'lucide:key-round',
       url: '/setting/password?type=1',
     },
     {
       name: t('mine.m6'),
-      icon: 'solar:headphones-round-sound-linear',
+      icon: 'lucide:headset',
       url: '/service',
     },
     {
       name: t('mine.m7'),
-      icon: 'solar:bill-list-linear',
+      icon: 'lucide:clipboard-list',
       url: '/record/userBalanceRecord',
     },
     {
       name: t('mine.m8'),
-      icon: 'solar:lock-password-linear',
+      icon: 'lucide:lock-keyhole',
       url: '/setting/password?type=0',
     },
   ];
@@ -149,10 +149,10 @@ onMounted(() => {
             </div>
             <div class="w-[88px] flex flex-row-reverse gap-2">
               <div class="topAction" @click="changePage('/mine/language')">
-                <Icon name="solar:global-linear" size="18" />
+                <Icon name="lucide:languages" size="18" />
               </div>
               <div class="topAction" @click="changePage('/service')">
-                <Icon name="solar:headphones-round-sound-linear" size="18" />
+                <Icon name="lucide:headset" size="18" />
               </div>
             </div>
           </div>
@@ -182,7 +182,7 @@ onMounted(() => {
             </div>
 
             <div class="visibilityToggle" @click="showID = !showID">
-              <Icon :name="!showID ? 'solar:eye-closed-linear' : 'solar:eye-linear'" size="16" />
+              <Icon :name="!showID ? 'lucide:eye-off' : 'lucide:eye'" size="16" />
               <span>{{ showID ? $t('theme.hideBalance') : $t('theme.showBalance') }}</span>
             </div>
           </div>
@@ -197,7 +197,7 @@ onMounted(() => {
             <div class="grid grid-cols-2 cursor-pointer gap-3 mt-4">
               <div class="actionButton actionDeposit" @click="goDeposit('/pay/deposit')">
                 <div class="iconFrame">
-                  <Icon name="solar:card-recive-linear" size="22" />
+                  <Icon name="lucide:arrow-down-to-line" size="22" />
                 </div>
                 <div class="actionCopy">
                   <div class="actionLabel">
@@ -209,7 +209,7 @@ onMounted(() => {
 
               <div class="actionButton actionWithdraw" @click="changePage('/pay/withdraw')">
                 <div class="iconFrame">
-                  <Icon name="solar:card-send-linear" size="22" />
+                  <Icon name="lucide:arrow-up-from-line" size="22" />
                 </div>
                 <div class="actionCopy">
                   <div class="actionLabel">
@@ -237,7 +237,7 @@ onMounted(() => {
                   <div class="menuName">{{ item.name }}</div>
                   <div class="menuHint">{{ $t('theme.openAndManage') }}</div>
                 </div>
-                <Icon name="solar:alt-arrow-right-linear" size="18" class="menuArrow" />
+                <Icon name="lucide:chevron-right" size="18" class="menuArrow" />
               </div>
             </div>
           </div>

@@ -61,12 +61,12 @@ onMounted(() => {
         <div class="searchHero mt-4">
           <div class="searchBox">
             <div class="searchIcon" @click="searchHandle">
-              <Icon name="solar:magnifer-linear" size="18" />
+              <Icon name="lucide:search" size="18" />
             </div>
             <div class="searchField">
               <input type="text" v-model="searchVal" :placeholder="$t('search.s2')" @keydown.enter="searchHandle">
             </div>
-            <Icon name="pajamas:clear" class="clearIcon" v-if="searchVal" width="18" height="18" @click="searchVal = ''" />
+            <Icon name="lucide:circle-x" class="clearIcon" v-if="searchVal" width="18" height="18" @click="searchVal = ''" />
           </div>
 
           <div class="historyCard mt-4">
@@ -82,7 +82,7 @@ onMounted(() => {
                 @click="clickItemHandle(item)"
               >
                 <span>{{ item }}</span>
-                <Icon name="mingcute:close-fill" class="delIcon" @click.stop="delSearchHandle(item)" />
+                <Icon name="lucide:x" class="delIcon" @click.stop="delSearchHandle(item)" />
               </div>
             </div>
           </div>
@@ -104,12 +104,12 @@ onMounted(() => {
                 <div class="priceTop" :class="item.is_rise > 1 ? 'isUp' : 'isDown'">
                   <Icon
                     v-if="item.is_rise > 1"
-                    name="solar:arrow-to-top-left-linear"
+                    name="lucide:arrow-up-right"
                     class="trendIcon"
                   />
                   <Icon
                     v-else
-                    name="solar:arrow-to-down-left-linear"
+                    name="lucide:arrow-down-right"
                     class="trendIcon"
                   />
                   {{ UseExchangeNumber(item.price) }}
@@ -283,6 +283,9 @@ onMounted(() => {
 .resultPrice {
   text-align: right;
   font-size: 12px;
+  min-width: 86px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .priceTop {
@@ -322,5 +325,22 @@ onMounted(() => {
 .priceDelta.down {
   background: rgba(24, 195, 126, 0.12);
   color: var(--color-down);
+}
+
+@media (max-width: 359px) {
+  .searchHero,
+  .resultCard {
+    padding: 12px;
+  }
+
+  .resultItem {
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .rankBadge {
+    width: 36px;
+    height: 36px;
+  }
 }
 </style>

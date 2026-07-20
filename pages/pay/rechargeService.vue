@@ -44,7 +44,7 @@ onBeforeMount(() => {
                             </div>
                         </div>
                     </div>
-                    <Icon class="serviceArrow" name="solar:arrow-right-linear" size="18" />
+                    <Icon class="serviceArrow" name="lucide:arrow-right" size="18" />
                 </div>
             </div>
         </div>

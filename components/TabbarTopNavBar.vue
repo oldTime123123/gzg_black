@@ -17,13 +17,13 @@ const changePage = (url: any) => {
                 <div class="searchBox pr-4 rounded-3xl flex items-center cursor-zoom-in" @click="changePage('/search')">
                     <div class="leftBoxEl flex items-center justify-center">
                         <div class="iconFrame iconFrame--small">
-                            <Icon name="solar:magnifer-linear" size="18" />
+                            <Icon name="lucide:search" size="18" />
                         </div>
                     </div>
                     <div class="flex-1 text-sm searchPlaceholder">
                         {{ $t('comm.c82') }}
                     </div>
-                    <Icon name="solar:arrow-right-linear" size="18" class="searchTail" />
+                    <Icon name="lucide:arrow-right" size="18" class="searchTail" />
                 </div>
             </div>
         </van-sticky>

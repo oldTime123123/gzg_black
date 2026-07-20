@@ -32,7 +32,7 @@ onMounted(() => {
           <div class="heroDesc">{{ $t('theme.depositChannelCopy') }}</div>
         </div>
         <div class="heroIcon">
-          <Icon name="solar:card-recive-linear" size="24" />
+          <Icon name="lucide:arrow-down-to-line" size="24" />
         </div>
       </div>
 
@@ -50,7 +50,7 @@ onMounted(() => {
               <div class="optionName">{{ item.name }}</div>
             </div>
             <Icon
-              :name="selectPayInd == index ? 'solar:check-circle-bold' : 'solar:alt-arrow-right-linear'"
+              :name="selectPayInd == index ? 'lucide:circle-check' : 'lucide:chevron-right'"
               size="20"
               class="optionArrow"
             />

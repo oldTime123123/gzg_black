@@ -41,13 +41,13 @@ onBeforeMount(() => {
               </div>
             </div>
             <div class="iconFrame iconFrame--small">
-              <Icon name="solar:chat-round-linear" size="18" />
+              <Icon name="lucide:message-circle" size="18" />
             </div>
           </div>
 
           <div class="serviceBottom">
             <span>{{ $t('theme.openContact') }}</span>
-            <Icon name="solar:alt-arrow-right-linear" size="18" />
+            <Icon name="lucide:chevron-right" size="18" />
           </div>
         </div>
       </div>

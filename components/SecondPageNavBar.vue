@@ -35,7 +35,7 @@ const changePage = (url: any) => {
                 :class="isFixed || !props.hasNoBg ?'navSolid':''">
                 <div class="w-[40px] flex items-center">
                     <div class="navAction cursor-pointer" @click="changePage('back')">
-                        <Icon name="solar:alt-arrow-left-linear" size="20" />
+                        <Icon name="lucide:chevron-left" size="20" />
                     </div>
                 </div>
                 <div class="flex-1 text-center text-xl font-bold truncate navTitle">

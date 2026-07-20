@@ -92,11 +92,11 @@ onMounted(() => {
               :placeholder="$t('setting.s55')" :border="false" input-align="left" class="authInput mt-2"
               :rules="[{ validator: valibotValidator('val1') }]">
               <template #left-icon>
-                <Icon name="solar:shield-keyhole-linear" size="18" class="fieldIcon" />
+                <Icon name="lucide:key-round" size="18" class="fieldIcon" />
               </template>
               <template #right-icon>
                 <div class="fieldAction" @click="passwordState.showPwd1 = !passwordState.showPwd1">
-                  <Icon :name="passwordState.showPwd1 ? 'solar:eye-linear' : 'solar:eye-closed-linear'" size="18" />
+                  <Icon :name="passwordState.showPwd1 ? 'lucide:eye' : 'lucide:eye-off'" size="18" />
                 </div>
               </template>
             </van-field>
@@ -108,11 +108,11 @@ onMounted(() => {
               :placeholder="$t('setting.s57')" :border="false" input-align="left" class="authInput mt-2"
               :rules="[{ validator: valibotValidator('val2') }]">
               <template #left-icon>
-                <Icon name="solar:lock-password-linear" size="18" class="fieldIcon" />
+                <Icon name="lucide:lock-keyhole" size="18" class="fieldIcon" />
               </template>
               <template #right-icon>
                 <div class="fieldAction" @click="passwordState.showPwd2 = !passwordState.showPwd2">
-                  <Icon :name="passwordState.showPwd2 ? 'solar:eye-linear' : 'solar:eye-closed-linear'" size="18" />
+                  <Icon :name="passwordState.showPwd2 ? 'lucide:eye' : 'lucide:eye-off'" size="18" />
                 </div>
               </template>
             </van-field>
@@ -124,11 +124,11 @@ onMounted(() => {
               :placeholder="$t('setting.s59')" :border="false" input-align="left" class="authInput mt-2"
               :rules="[{ validator: valibotValidator('val3') }]">
               <template #left-icon>
-                <Icon name="solar:shield-check-linear" size="18" class="fieldIcon" />
+                <Icon name="lucide:shield-check" size="18" class="fieldIcon" />
               </template>
               <template #right-icon>
                 <div class="fieldAction" @click="passwordState.showPwd3 = !passwordState.showPwd3">
-                  <Icon :name="passwordState.showPwd3 ? 'solar:eye-linear' : 'solar:eye-closed-linear'" size="18" />
+                  <Icon :name="passwordState.showPwd3 ? 'lucide:eye' : 'lucide:eye-off'" size="18" />
                 </div>
               </template>
             </van-field>

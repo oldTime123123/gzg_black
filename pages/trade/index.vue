@@ -264,7 +264,7 @@ const collectHandle = () => {
     <ClientOnly>
       <SecondPageNavBar :title="selectCurrentStock.pro_name">
         <Icon
-          name="tabler:star-filled"
+          name="lucide:star"
           size="22"
           :class="isCollect ? 'text-[var(--brand-primary)]' : 'text-[var(--text-muted)]'"
           @click="collectHandle"
@@ -346,7 +346,7 @@ const collectHandle = () => {
               </div>
               <div class="stepperRow inputShell">
                 <div class="stepperBtn" :class="safePriceValue > 0 ? 'enabled' : ''" @click="subPriceVal">
-                  <Icon name="solar:minus-square-linear" size="20" />
+                  <Icon name="lucide:square-minus" size="20" />
                 </div>
                 <input
                   type="text"
@@ -357,7 +357,7 @@ const collectHandle = () => {
                   @blur="handlePriceBlur"
                 />
                 <div class="stepperBtn enabled" @click="addPriceVal">
-                  <Icon name="solar:add-square-linear" size="20" />
+                  <Icon name="lucide:square-plus" size="20" />
                 </div>
               </div>
             </div>
@@ -368,7 +368,7 @@ const collectHandle = () => {
               </div>
               <div class="stepperRow inputShell">
                 <div class="stepperBtn" :class="safeNumValue > 1 ? 'enabled' : ''" @click="subNumVal">
-                  <Icon name="solar:minus-square-linear" size="20" />
+                  <Icon name="lucide:square-minus" size="20" />
                 </div>
                 <input
                   type="text"
@@ -379,7 +379,7 @@ const collectHandle = () => {
                   @blur="handleNumBlur"
                 />
                 <div class="stepperBtn enabled" @click="addNumVal">
-                  <Icon name="solar:add-square-linear" size="20" />
+                  <Icon name="lucide:square-plus" size="20" />
                 </div>
               </div>
             </div>

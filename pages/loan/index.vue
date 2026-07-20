@@ -6,9 +6,9 @@ const { t } = useI18n();
 const pub = usePublicStore();
 
 const loanCom = computed(() => [
-  { name: t('loan.l1'), icon: 'solar:shield-check-linear' },
-  { name: t('loan.l2'), icon: 'solar:wallet-money-linear' },
-  { name: t('loan.l3'), icon: 'solar:chart-square-linear' },
+  { name: t('loan.l1'), icon: 'lucide:shield-check' },
+  { name: t('loan.l2'), icon: 'lucide:wallet-cards' },
+  { name: t('loan.l3'), icon: 'lucide:chart-no-axes-combined' },
 ]);
 
 const loanInfo = ref<any>({
@@ -75,7 +75,7 @@ onBeforeMount(() => {
           </div>
           <div class="ghostAction" @click="changePage('/record/loanRecord')">
             <span>{{ $t('loan.l5') }}</span>
-            <Icon name="solar:arrow-right-linear" size="16" />
+            <Icon name="lucide:arrow-right" size="16" />
           </div>
         </div>
 
@@ -99,14 +99,14 @@ onBeforeMount(() => {
       <div class="sectionCard mt-4 repayCard" @click="goBackLoan">
         <div class="repayLeft">
           <div class="repayIcon">
-            <Icon name="solar:card-recive-linear" size="18" />
+            <Icon name="lucide:arrow-down-to-line" size="18" />
           </div>
           <div>
             <div class="repayTitle">{{ $t('loan.l8') }}</div>
             <div class="repayDesc">{{ $t('loan.l9') }}</div>
           </div>
         </div>
-        <Icon class="repayArrow" name="solar:arrow-right-linear" size="18" />
+        <Icon class="repayArrow" name="lucide:arrow-right" size="18" />
       </div>
     </div>
 
@@ -116,7 +116,7 @@ onBeforeMount(() => {
           <div class="dialogHead">
             <div class="dialogTitle">{{ $t('loan.l16') }}</div>
             <div class="closeBtn" @click="showPop = false">
-              <Icon name="solar:close-circle-linear" size="20" />
+              <Icon name="lucide:circle-x" size="20" />
             </div>
           </div>
           <div class="dialogBody">

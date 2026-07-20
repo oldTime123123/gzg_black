@@ -51,7 +51,7 @@ const confirmClosePositionHandle = () => {
           <div class="quotePriceRow" :class="data.product?.is_rise > 1 ? 'colorUp' : 'colorDown'">
             <div class="valueText">{{ UseExchangeNumber(data.product.price) }}</div>
             <Icon
-              :name="data.product?.is_rise > 1 ? 'solar:arrow-to-top-left-linear' : 'solar:arrow-to-down-left-linear'"
+              :name="data.product?.is_rise > 1 ? 'lucide:arrow-up-right' : 'lucide:arrow-down-right'"
               class="trendIcon"
             />
           </div>
@@ -87,7 +87,7 @@ const confirmClosePositionHandle = () => {
 
       <div class="expandToggle" v-if="!data.showMore" @click="data.showMore = true">
         {{ $t("comm.c44") }}
-        <Icon name="solar:alt-arrow-down-bold" size="20" />
+        <Icon name="lucide:chevron-down" size="20" />
       </div>
       <div class="space-y-3" v-else>
         <div class="detailRow">
@@ -108,7 +108,7 @@ const confirmClosePositionHandle = () => {
         </div>
         <div class="expandToggle" @click="data.showMore = false">
           {{ $t("theme.collapse") }}
-          <Icon name="solar:alt-arrow-up-bold" size="20" />
+          <Icon name="lucide:chevron-up" size="20" />
         </div>
       </div>
       <div class="grid grid-cols-2 gap-2">
@@ -224,7 +224,9 @@ const confirmClosePositionHandle = () => {
   font-size: 20px;
   font-weight: 800;
   line-height: 1.2;
-  word-break: break-word;
+  white-space: nowrap;
+  word-break: normal;
+  font-variant-numeric: tabular-nums;
 }
 
 .quoteDelta {

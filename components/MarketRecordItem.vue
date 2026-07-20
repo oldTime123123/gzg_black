@@ -33,19 +33,19 @@ const goTrade = item => {
                 <div class="codeBadge">{{ data.pro_code }}</div>
             </div>
             <button class="bookmarkBtn" type="button" @click.stop="collectHandle">
-                <Icon name="tabler:star-filled" size="18"
-                    :class="data.isCollect ? ' text-[var(--brand-primary)]' : 'text-[var(--text-muted)]'" />
+                <Icon name="lucide:star" size="18"
+                    :class="data.isCollect ? 'isCollected text-[var(--brand-primary)]' : 'text-[var(--text-muted)]'" />
             </button>
         </div>
 
         <div class="quoteRow" :class="data.is_rise == 2 ? 'colorUp' : 'colorDown'">
             <div class="quoteMain">
                 <div class="valueText">{{ data.price }}</div>
-                <Icon :name="data.is_rise == 2 ? 'solar:alt-arrow-up-bold' : 'solar:alt-arrow-down-bold'"
-                    class="trendIcon" />
             </div>
             <div class="quoteMeta">
                 <div class="deltaText">
+                    <Icon :name="data.is_rise == 2 ? 'lucide:arrow-up-right' : 'lucide:arrow-down-right'"
+                        class="trendIcon" />
                     <span v-if="data.is_rise == 2">+{{ UseExchangeNumber(data.rise) }}</span>
                     <span v-else>-{{ UseExchangeNumber(data.rise) }}</span>
                 </div>
@@ -116,8 +116,13 @@ const goTrade = item => {
     flex-shrink: 0;
 }
 
+.isCollected {
+    fill: currentColor;
+}
+
 .quoteRow {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
@@ -134,12 +139,14 @@ const goTrade = item => {
 }
 
 .valueText {
-    font-size: 24px;
+    font-size: clamp(20px, 6.2vw, 24px);
     font-weight: 800;
     color: currentColor;
     line-height: 1;
     letter-spacing: -0.02em;
-    word-break: break-word;
+    white-space: nowrap;
+    word-break: normal;
+    font-variant-numeric: tabular-nums;
 }
 
 .quoteMeta {
@@ -151,7 +158,9 @@ const goTrade = item => {
     font-size: 12px;
     font-weight: 700;
     line-height: 1.35;
-    word-break: break-word;
+    white-space: nowrap;
+    word-break: normal;
+    font-variant-numeric: tabular-nums;
 }
 
 .trendIcon {
@@ -164,6 +173,10 @@ const goTrade = item => {
 }
 
 .deltaText {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
     white-space: nowrap;
 }
 
@@ -177,5 +190,23 @@ const goTrade = item => {
     background: rgba(255, 255, 255, 0.045);
     color: inherit;
     white-space: nowrap;
+}
+
+@media (max-width: 359px) {
+    .recordItemEl {
+        padding: 12px !important;
+    }
+
+    .quoteRow {
+        gap: 8px;
+    }
+
+    .quoteMeta {
+        font-size: 11px;
+    }
+
+    .rateBadge {
+        padding-inline: 7px;
+    }
 }
 </style>
