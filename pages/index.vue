@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 const pub = usePublicStore();
 const router = useRouter();
-const loginStore = useLoginStore();
 
 onBeforeMount(() => {
   if (window.location.search.includes("?t=")) {
@@ -20,16 +19,12 @@ onMounted(() => {
       router.push('/tabbar/home');
     }, 2000);
   } else {
-    loginStore.showLoadingText = "";
     setTimeout(() => {
       router.push('/auth/beforeLogin');
     }, 2000);
   }
 });
 
-const showLoadingText = computed(() => {
-  return loginStore.loadingText;
-});
 </script>
 
 <template>
@@ -39,8 +34,8 @@ const showLoadingText = computed(() => {
         <div class="bootLogo">
           <img src="/ico.png" class="bootIcon">
         </div>
-        <div class="bootTitle">{{ showLoadingText || $t('theme.appName') }}</div>
-        <div class="bootSub">{{ $t('comm.c66') }}</div>
+        <div class="bootTitle">{{ $t('theme.appName') }}</div>
+        <div class="bootSub" role="status">{{ $t('theme.loading') }}</div>
         <div class="bootSpinner"></div>
       </div>
     </ClientOnly>

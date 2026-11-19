@@ -16,7 +16,7 @@ import { exchangeKLineDta } from "../../utils";
 import { registerIndicator } from "klinecharts";
 
 const { t } = useI18n();
-const klineStyles = getKlineStyles("none");
+const klineStyles = getKlineStyles(t, "none");
 
 import treePath from '~/assets/images/tree.png';
 

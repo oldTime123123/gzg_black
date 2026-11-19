@@ -17,7 +17,7 @@ const changeTime = (dateString) => {
   return `${month}/${day}/${year} ${formattedHours}:${minutes} ${ampm}`;
 };
 
-export const getKlineStyles = (type) => {
+export const getKlineStyles = (t: (key: string) => string, type?: string) => {
   return {
     mainIndicators: {
       show: true,
@@ -55,23 +55,23 @@ export const getKlineStyles = (type) => {
 
             return [
               {
-                title: "time",
+                title: t("chart.time"),
                 value: changeTime(timestamp),
               },
               {
-                title: "始",
+                title: t("chart.open"),
                 value: open,
               },
               {
-                title: "終",
+                title: t("chart.close"),
                 value: close,
               },
               {
-                title: "高",
+                title: t("chart.high"),
                 value: high,
               },
               {
-                title: "安",
+                title: t("chart.low"),
                 value: low,
               },
             ];

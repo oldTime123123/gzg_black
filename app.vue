@@ -19,7 +19,11 @@ import socket from "~/utils/socket.ts";
 import { langListApi } from "~/api/home/home";
 
 import { useHead, useSeoMeta, useRequestURL } from 'nuxt/app'
-import { computed, onMounted, onUnmounted } from 'vue'
+import { onMounted, watch } from 'vue'
+import { Locale } from 'vant'
+import enUS from 'vant/es/locale/lang/en-US.mjs'
+import jaJP from 'vant/es/locale/lang/ja-JP.mjs'
+import koKR from 'vant/es/locale/lang/ko-KR.mjs'
 const pub = usePublicStore()
 
 const url = useRequestURL()
@@ -66,12 +70,31 @@ useSeoMeta({
   twitterDescription: description,
   robots: 'index,follow'
 })
-const { setLocale } = useI18n()
+const { setLocale, locale, locales } = useI18n()
+const vantLocales = {
+  en: ['en-US', enUS],
+  ja: ['ja-JP', jaJP],
+  ko: ['ko-KR', koKR],
+}
+
+watch(locale, (code) => {
+  const [language, messages] = vantLocales[code] ?? vantLocales.ja
+  Locale.use(language, messages)
+}, { immediate: true })
 const languageList = useState('languageList', () => [])
 const languageReady = useState('languageReady', () => false)
 
 const initLanguage = async () => {
   try {
+    const cachedLanguage = localStorage.getItem('lang')
+    const savedLocale = locales.value.find(({ code }) => code === cachedLanguage)
+    const selectedLocale = savedLocale?.code ?? 'ja'
+
+    if (locale.value !== selectedLocale) {
+      await setLocale(selectedLocale)
+    }
+    localStorage.setItem('lang', selectedLocale)
+
     const cachedLanguageList = localStorage.getItem('languageList')
 
     if (cachedLanguageList) {
@@ -79,13 +102,6 @@ const initLanguage = async () => {
     } else {
       languageList.value = await langListApi()
       localStorage.setItem('languageList', JSON.stringify(languageList.value))
-    }
-
-    const cachedLanguage = localStorage.getItem('lang')
-    if ((!cachedLanguage || cachedLanguage === 'zh') && languageList.value[0]?.lang) {
-      const defaultLanguage = languageList.value[0].lang
-      localStorage.setItem('lang', defaultLanguage)
-      await setLocale(defaultLanguage)
     }
   } finally {
     languageReady.value = true

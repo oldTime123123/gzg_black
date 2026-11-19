@@ -21,7 +21,7 @@ const { t } = useI18n();
 
 import { getKlineStyles } from '~/utils/lineChartStyle';
 import KlineLoading from './KlineLoading.vue';
-const klineStyles = getKlineStyles()
+const klineStyles = getKlineStyles(t)
 
 const showSkeletonLoading = ref(true)
 const emit = defineEmits()

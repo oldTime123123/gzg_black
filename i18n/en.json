@@ -1,4 +1,11 @@
 {
+    "chart": {
+        "time": "Time",
+        "open": "Open",
+        "close": "Close",
+        "high": "High",
+        "low": "Low"
+    },
     "xx": {
         "a1": "Timeout",
         "a2": "Cancel  to Favorites Successfully",
